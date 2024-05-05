@@ -36,3 +36,43 @@
     transform: rotate(360deg);
   }
 }
+.drop-zone {
+  width: 1200px;
+  height: 700px;
+  border: 2px dashed #ccc;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  display:block;
+
+}
+
+.dragging {
+  background-color: #f0f0f0;
+}
+
+#drag-item {
+  width: 100px;
+  height: 50px;
+  background-color: #007bff;
+  color: #fff;
+  margin: 10px;
+  /* display: flex; */
+  /* justify-content: center;
+  align-items: center; */
+  cursor: pointer;
+}
+
+.pallet{
+width: 300px;
+background-color: green;
+margin-right: 20px;
+}
+
+.zone{
+
+}
+.page{
+  display: flex;
+  float: left;
+}
