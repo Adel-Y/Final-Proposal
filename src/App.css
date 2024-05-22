@@ -39,11 +39,8 @@
 .drop-zone {
   width: 1200px;
   height: 700px;
-  border: 2px dashed #ccc;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-  display:block;
+  padding: 10px;
+  display: grid
 
 }
 
@@ -51,7 +48,7 @@
   background-color: #f0f0f0;
 }
 
-#drag-item {
+.drag-item {
   width: 100px;
   height: 50px;
   background-color: #007bff;
@@ -63,9 +60,18 @@
   cursor: pointer;
 }
 
+.entity{
+  width: 100px;
+  height: 50px;
+  background-color: #007bff;
+  color: #fff;
+  margin: 10px;
+  cursor: pointer;
+}
+
 .pallet{
 width: 300px;
-background-color: green;
+background-color: lightgray;
 margin-right: 20px;
 }
 

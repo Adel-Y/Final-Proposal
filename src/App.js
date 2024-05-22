@@ -1,113 +1,40 @@
-import logo from './logo.svg';
+
 import './App.css';
-import { useState } from 'react';
-
-
-
-function DraggableItem(){
-
-  const [dragging, setDragging] = useState(false);
-
-  function handleDragStart(e) {
-    e.dataTransfer.setData('text/plain', e.target.id);
-    setDragging(true);
-  };
-
-  function handleDragOver(e) {
-    e.preventDefault();
-  };
-
-  function handleDrop(e){
-    e.preventDefault();
-    const data = e.dataTransfer.getData('text/plain');
-    const draggedItem = document.getElementById(data);
-    const dropZone = e.target;
-    dropZone.appendChild(draggedItem);
-    setDragging(true);
-  };
-
-  return (
-    <>
-             <div
-              id="drag-item"
-              draggable
-              onDragStart={handleDragStart}
-
-            >
-              Drag Me
-            </div>
-            
-    </>
-  );
-
-}
-
-function DropZone(){
-
-  const [dragging, setDragging] = useState(false);
-  function handleDragStart(e) {
-    e.dataTransfer.setData('text/plain', e.target.id);
-    setDragging(true);
-  };
-
-  function handleDragOver(e) {
-    e.preventDefault();
-  };
-
-  function handleDrop(e){
-    e.preventDefault();
-    const data = e.dataTransfer.getData('text/plain');
-    const draggedItem = document.getElementById(data);
-    const dropZone = e.target;
-    dropZone.appendChild(draggedItem);
-    setDragging(true);
-  };
-
-  return (
-    <>
-
-
-          <div className='zone'>
-            <div
-              className={'drop-zone'}
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-            >
-              Drop Here
-            </div>
-
-          </div>
-
-
-    </>
-  );
-
-}
-
-
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import DragItem from './DragItem';
+import DropZone from './DropZone';
+import { ItemTypes } from './Itemtypes.js'
 
  function App(){
+
   return(
   <>
+ 
+  <body>
+   <DndProvider backend={HTML5Backend}>
     <div className='page'>
 
-          <div className='pallet'>
-
-          <DraggableItem/>
-          <DraggableItem/>
-
+          <div className='pallet'>    
+                            <h2>Drag Items</h2>
+                            <DragItem  name={ItemTypes.ENTITY}/>
+                            <DragItem  name={ItemTypes.RELATIONSHIP}/>
+                            <DragItem  name={ItemTypes.WEAK_RELATIONSHIP}/>
           </div>
 
           <br></br>
-
-
           <div className='zone'>
 
+             <h2>Drop Zone</h2>
               <DropZone/>
 
           </div>
 
     </div>
+    </DndProvider>
+    </body>
+
+
     </>
 
 );
