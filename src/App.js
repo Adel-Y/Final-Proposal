@@ -7,19 +7,21 @@ import DropZone from './DropZone';
 import { ItemTypes } from './Itemtypes.js'
 
  function App(){
-
+     function idGenerator(){
+         return (new Date().getTime() * Math.random())
+     }
   return(
   <>
  
-  <body>
+
    <DndProvider backend={HTML5Backend}>
     <div className='page'>
 
           <div className='pallet'>    
                             <h2>Drag Items</h2>
-                            <DragItem  name={ItemTypes.ENTITY}/>
-                            <DragItem  name={ItemTypes.RELATIONSHIP}/>
-                            <DragItem  name={ItemTypes.WEAK_RELATIONSHIP}/>
+                            <DragItem  name={ItemTypes.ENTITY} />
+                            <DragItem  name={ItemTypes.RELATIONSHIP} />
+                            <DragItem  name={ItemTypes.WEAK_RELATIONSHIP} />
           </div>
 
           <br></br>
@@ -32,7 +34,7 @@ import { ItemTypes } from './Itemtypes.js'
 
     </div>
     </DndProvider>
-    </body>
+
 
 
     </>

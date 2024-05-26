@@ -1,59 +1,66 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useDrop } from 'react-dnd';
 import { useState } from 'react';
 import { useDrag } from 'react-dnd';
-import DraggableItem from './Entity'
+import DisplayItem from "./DisplayItem";
 const DropZone = () => {
+
+
+
     const [{ isOver }, drop] = useDrop(() => ({
-        accept: 'ER_item',
+        accept: ['ER_item','DS_item'],
         drop: (item) => handleDrop(item),
         collect: (monitor) => ({
-            isOver: monitor.isOver(),
+            isOver: !!monitor.isOver(),
         }),
     }));
 
 
-    const [droppedItems, setDroppedItems] = useState([]);
+    let [droppedItems, setDroppedItems] = useState([]);
+    useEffect(()=> console.log(droppedItems),[droppedItems]);
+
+
+    function idGenerator(){
+        return (new Date().getTime() * Math.random())
+    }
+
+
+
 
     const handleDrop = (item) => {
-          setDroppedItems((prevItems) => [...prevItems, item]);
+        if(item.type==='ER_item') {
+            setDroppedItems((prevItems) => [...prevItems, {id:idGenerator(),name: item.name,type:item.type}]);
+        }
+        console.log(item.id);
       };
-    
-      const handleRemoveItem = (index) => {
-          const updatedItems = [...droppedItems];
-          updatedItems.splice(index, 1);
-          setDroppedItems(updatedItems);
-      };
+    const RemoveItem = (item) => {
+        const updatedItems = [];
+
+        for (let i=0;i<droppedItems.length;i++){
+            if (droppedItems[i].id !== item.id) {
+                updatedItems.push(droppedItems[i]);
+            }
+        }
+        setDroppedItems(updatedItems);
+    };
+
+    function tester() {
+
+        console.log('Kos Omma Ahwe');
+    }
 
 
     return (
         <div
             ref={drop}
-            className='drop-zone'
+            id='drop-zone'
             style={{
                 border: `1px dashed ${isOver ? 'green' : 'black'}`,
             }}>
-                            {droppedItems.map((item, index) => (
-                                <div
-                                    key={index}
-                                    draggable
+                            {droppedItems.map((item) => (
+                                    <DisplayItem name={item.name} key={idGenerator()} handleClick={()=> RemoveItem(item)}/>
 
-                                    style={{
-                                        border: '1px solid #ccc',
-                                        padding: '30px',
-                                        borderRadius: '5px',
-                                        marginTop: '10px',
-                                        backgroundColor: 'lightblue',
-                                         display: 'flex',
-                                         justifyContent: 'space-between',
-                                         alignItems: 'center',
-                                    }}>
-                                    <p>{item.name}</p>
-                                    <button onClick={
-                                        () => handleRemoveItem(index)}>
-                                        Remove
-                                    </button>
-                                </div>
+
                             ))}
             Drop here
         </div>
