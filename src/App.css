@@ -41,22 +41,27 @@
   height: 700px;
   padding: 10px;
   /*display: grid;*/
-  position: relative;
+  /*position: relative;*/
+  margin: auto;
 
 }
 
 
-.draggable{
+#draggable{
   border: 1px solid #ccc;
   padding: 30px;
   borderRadius: 5px;
-  marginTop: 10px;
-  backgroundColor: #007bff;
-  /*display: flex;*/
-  /*justifyContent: space-between;*/
-  /*alignItems: center;*/
+  /*marginTop: 10px;*/
+  background-color: #007bff;
+  color: white;
   width: 100px;
   height: 50px;
+  position: absolute;
+  cursor: move;
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
+  user-select: none;
 }
 
 

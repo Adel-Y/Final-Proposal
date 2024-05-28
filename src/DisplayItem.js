@@ -1,42 +1,53 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import DraggableItem from './Entity'
+import {useEffect} from 'react';
+import {getEmptyImage} from "react-dnd-html5-backend";
+const DisplayItem = ({name, id ,handleClick, x, y,timestamp}) => {
 
-const DisplayItem = ({name, id ,handleClick}) => {
-
-    const [{ isDragging }, drag] = useDrag(() => ({
+    const [{ isDragging,isDropped }, drag, preview] = useDrag(() => ({
         type: 'DS_item',
-        item: { name ,type:'DS_item'},
+        item: {id: id, name ,type:'DS_item' , x , y,timestamp},
+        end(item,monitor){
+            let dropResult = monitor.getItem()
+            //console.log(dropResult)
+            },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
+            isDropped: monitor.didDrop()
         }),
-    }));
-    function tester() {
+    })
 
-        console.log('Kos Omma Ahwe');
-    }
+    );
+
+    useEffect(() => {
+        preview(getEmptyImage(), { captureDraggingState: true })
+    }, [])
+
+    // function tester() {
+    //
+    //     console.log('Kos Omma Ahwe');
+    // }
 
     return (
-
+<>
         <div
-            // key= {id.toString()+'hi'}
             ref={drag}
-            style={{
-                opacity: isDragging ? 0.5 : 1,
-                cursor: 'move',
-                border: '1px solid #ccc',
-                padding: '10px',
-                borderRadius: '5px',
-                margin: '5px',
-                width: '100px',
-                height: '50px',
-                backgroundColor: 'lightblue',
-            }}>
+            id="draggable"
+
+            style={
+            {
+                left: (x) +'px',
+                top: y+'px'
+            }
+            }
+        >
             {name}
             <button onClick={handleClick}>
                 Remove
             </button>
         </div>
+
+            </>
     );
 };
 

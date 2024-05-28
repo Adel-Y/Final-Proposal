@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import DraggableItem from './Entity'
+
 
 const DragItem = ({name}) => {
     const [{ isDragging }, drag] = useDrag(() => ({
