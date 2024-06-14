@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import { useDrop } from 'react-dnd';
 import { useState } from 'react';
 import DisplayItem from "./DisplayItem";
+import {ItemTypes} from "./Itemtypes";
 
 
 
@@ -23,6 +24,8 @@ const DropZone = () => {
             }
             let temp = monitor.getItem()
             console.log(temp)
+            console.log(ItemTypes.ENTITY)
+
             if(temp.type==='DS_item' ) {
 
 
@@ -106,10 +109,8 @@ const DropZone = () => {
 
 
             ))}
+            {!(droppedItems.length==0)? null : <p className="box-text">Drop here</p> }
 
-            <p style={{
-                // make this not visible
-            }}>Drop here</p>
 
         </div>
 
