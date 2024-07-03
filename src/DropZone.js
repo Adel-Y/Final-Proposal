@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 import { useState } from 'react';
 import DisplayItem from "./DisplayItem";
 import {ItemTypes} from "./Itemtypes";
-import Linking from "./Linking";
+import Linking from "./Data Structures/Linking";
 
 
 

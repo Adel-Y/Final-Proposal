@@ -9,7 +9,7 @@ import DisplayItem from "./DisplayItem";
 import React from "react";
 import Navbar from "./Navbar";
 import Resize from "./Resize";
-import Linking from "./Linking";
+import Linking from "./Data Structures/Linking";
 
  function App(){
     const types = ItemTypes

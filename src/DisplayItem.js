@@ -3,12 +3,12 @@ import { useDrag } from 'react-dnd';
 import {useEffect} from 'react';
 import {getEmptyImage} from "react-dnd-html5-backend";
 import {ItemTypes} from "./Itemtypes";
-import Entity from "./Entity";
-import Linking from "./Linking";
-import Relationship from "./Relationship";
-import WeakRelationship from "./WeakRelationship";
-import WeakEntity from "./WeakEntity";
-import Attribute from "./Attribute";
+import Entity from "./Data Structures/Entity";
+import Linking from "./Data Structures/Linking";
+import Relationship from "./Data Structures/Relationship";
+import WeakRelationship from "./Data Structures/WeakRelationship";
+import WeakEntity from "./Data Structures/WeakEntity";
+import Attribute from "./Data Structures/Attribute";
 const DisplayItem = ({name, id ,handleClick, x, y,timestamp, ItemType}) => {
 
     const [{ isDragging,isDropped }, drag, preview] = useDrag(() => ({
@@ -83,28 +83,6 @@ const DisplayItem = ({name, id ,handleClick, x, y,timestamp, ItemType}) => {
 
     {deriveItem()}
     </div>
-        {/*<div*/}
-        {/*    ref={drag}*/}
-
-        {/*    className= {deriveStyle()}*/}
-
-        {/*    style={*/}
-        {/*    {*/}
-        {/*        opacity: isDragging ? 0.5 : 1,*/}
-        {/*        left: x +'px',*/}
-        {/*        top: y+'px'*/}
-        {/*    }*/}
-        {/*    }*/}
-        {/*>*/}
-
-
-        {/*    <span className={deriveStyle(name)+'-button'} onClick={handleClick}>*/}
-        {/*        x*/}
-        {/*    </span>*/}
-
-        {/*   <p className={deriveStyle(name)+'-text'}>{name}</p>*/}
-
-        {/*</div>*/}
 
             </>
     );
