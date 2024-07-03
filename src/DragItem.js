@@ -3,17 +3,17 @@ import { useDrag } from 'react-dnd';
 import {ItemTypes} from "./Itemtypes";
 
 
-const DragItem = ({name}) => {
+const DragItem = ({ItemType}) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'ER_item',
-        item: { name ,type:'ER_item'},
+        item: { ItemType ,type:'ER_item'},
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
     }));
     function deriveStyle(){
 
-        switch (name){
+        switch (ItemType){
             case ItemTypes.ENTITY:
                 console.log()
                 return  'entity'
@@ -29,6 +29,8 @@ const DragItem = ({name}) => {
 
             case ItemTypes.ATTRIBUTE:
                 return 'attribute';
+            case ItemTypes.LINK:
+                return 'link';
 
         }
     }
@@ -37,17 +39,8 @@ const DragItem = ({name}) => {
         <div
             ref={drag}
             className={deriveStyle()+'-drag-item'}
-            // style={{
-            //     opacity: isDragging ? 0.5 : 1,
-            //     cursor: 'grab',
-            //     border: '1px solid #ccc',
-            //     padding: '10px',
-            //     borderRadius: '5px',
-            //     margin: '5px',
-            //     backgroundColor: 'lightblue',
-            // }}
         >
-            <p   className={deriveStyle()+'-drag-item-text'}>{name}</p>
+            <p   className={deriveStyle()+'-drag-item-text'}>{ItemType}</p>
         </div>
     );
 };

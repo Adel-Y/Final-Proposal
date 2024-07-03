@@ -8,6 +8,8 @@ import { ItemTypes } from './Itemtypes.js'
 import DisplayItem from "./DisplayItem";
 import React from "react";
 import Navbar from "./Navbar";
+import Resize from "./Resize";
+import Linking from "./Linking";
 
  function App(){
     const types = ItemTypes
@@ -27,11 +29,12 @@ import Navbar from "./Navbar";
                             <h2>Drag Items</h2>
 
 
-                            <DragItem  name={ItemTypes.ENTITY} />
-                            <DragItem  name={ItemTypes.WEAK_ENTITY} />
-                            <DragItem  name={ItemTypes.RELATIONSHIP} />
-                            <DragItem  name={ItemTypes.WEAK_RELATIONSHIP} />
-                            <DragItem  name={ItemTypes.ATTRIBUTE} />
+                            <DragItem   ItemType={ItemTypes.ENTITY} />
+                            <DragItem   ItemType={ItemTypes.WEAK_ENTITY} />
+                            <DragItem   ItemType={ItemTypes.RELATIONSHIP} />
+                            <DragItem   ItemType={ItemTypes.WEAK_RELATIONSHIP} />
+                            <DragItem   ItemType={ItemTypes.ATTRIBUTE} />
+                            <DragItem    ItemType={ItemTypes.LINK}/>
           </div>
 
 
@@ -39,6 +42,7 @@ import Navbar from "./Navbar";
 
              <h2>Drop Zone</h2>
               <DropZone/>
+              {/*<Resize/>*/}
 
           </div>
 

@@ -3,5 +3,6 @@ export const ItemTypes = {
     RELATIONSHIP:"Relationship",
     WEAK_ENTITY :"Weak Entity",
     WEAK_RELATIONSHIP : "Weak Relationship",
-    ATTRIBUTE: "Attribute"
+    ATTRIBUTE: "Attribute",
+    LINK: "Link"
 }

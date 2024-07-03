@@ -3,14 +3,20 @@ import { useDrag } from 'react-dnd';
 import {useEffect} from 'react';
 import {getEmptyImage} from "react-dnd-html5-backend";
 import {ItemTypes} from "./Itemtypes";
-const DisplayItem = ({name, id ,handleClick, x, y,timestamp}) => {
+import Entity from "./Entity";
+import Linking from "./Linking";
+import Relationship from "./Relationship";
+import WeakRelationship from "./WeakRelationship";
+import WeakEntity from "./WeakEntity";
+import Attribute from "./Attribute";
+const DisplayItem = ({name, id ,handleClick, x, y,timestamp, ItemType}) => {
 
     const [{ isDragging,isDropped }, drag, preview] = useDrag(() => ({
         type: 'DS_item',
         item: {id: id, name ,type:'DS_item' , x , y,timestamp},
         end(item,monitor){
             let dropResult = monitor.getItem()
-            console.log(deriveStyle())
+            // console.log(deriveStyle())
             //console.log(dropResult)
             },
         collect: (monitor) => ({
@@ -32,24 +38,28 @@ const DisplayItem = ({name, id ,handleClick, x, y,timestamp}) => {
 
 
 
-        function deriveStyle(){
+        function deriveItem(){
 
-        switch (name){
+        switch (ItemType){
+
             case ItemTypes.ENTITY:
                 console.log()
-                return  'entity'
+                console.log(name)
+                return  <Entity name={name} handleClick={handleClick} x={x} y={y}/>;
 
             case ItemTypes.WEAK_ENTITY:
-                return 'weak-entity';
+                return <WeakEntity name={name} handleClick={handleClick} x={x} y={y}/>;
 
             case ItemTypes.RELATIONSHIP:
-                return 'relationship';
+                return <Relationship name={name} handleClick={handleClick} x={x} y={y}/>;
 
             case ItemTypes.WEAK_RELATIONSHIP:
-                return'weak-relationship';
+                return  <WeakRelationship name={name} handleClick={handleClick} x={x} y={y}/>;
 
             case ItemTypes.ATTRIBUTE:
-                return 'attribute';
+                return <Attribute name={name} handleClick={handleClick} x={x} y={y}/>;
+            case ItemTypes.LINK:
+                return <Linking name={name} handleClick={handleClick} x={x} y={y}/>;
 
         }
         }
@@ -59,28 +69,42 @@ const DisplayItem = ({name, id ,handleClick, x, y,timestamp}) => {
 
     return (
 <>
-        <div
-            ref={drag}
-
-            className= {deriveStyle()}
-
-            style={
+    <div ref={drag}
+        style={
             {
                 opacity: isDragging ? 0.5 : 1,
                 left: x +'px',
-                top: y+'px'
+                top: y+'px',
+                position: 'absolute',
+                cursor: 'grab',
+                userSelect: 'none',
             }
-            }
-        >
+        }>
+
+    {deriveItem()}
+    </div>
+        {/*<div*/}
+        {/*    ref={drag}*/}
+
+        {/*    className= {deriveStyle()}*/}
+
+        {/*    style={*/}
+        {/*    {*/}
+        {/*        opacity: isDragging ? 0.5 : 1,*/}
+        {/*        left: x +'px',*/}
+        {/*        top: y+'px'*/}
+        {/*    }*/}
+        {/*    }*/}
+        {/*>*/}
 
 
-            <span className={deriveStyle(name)+'-button'} onClick={handleClick}>
-                x
-            </span>
+        {/*    <span className={deriveStyle(name)+'-button'} onClick={handleClick}>*/}
+        {/*        x*/}
+        {/*    </span>*/}
 
-           <p className={deriveStyle(name)+'-text'}>{name}</p>
+        {/*   <p className={deriveStyle(name)+'-text'}>{name}</p>*/}
 
-        </div>
+        {/*</div>*/}
 
             </>
     );
