@@ -8,11 +8,15 @@ import { ItemTypes } from './Itemtypes.js'
 import DisplayItem from "./DisplayItem";
 import React from "react";
 import Navbar from "./Navbar";
-import Resize from "./Resize";
-import Linking from "./Data Structures/Linking";
+import Flow from "./Flow";
+import {TextUpdaterNode} from "./TextUpdaterNode";
 
  function App(){
-    const types = ItemTypes
+
+
+
+
+
   return(
 
 
@@ -22,34 +26,37 @@ import Linking from "./Data Structures/Linking";
 {/*<Navbar/>*/}
 
 
-   <DndProvider backend={HTML5Backend}>
+   {/*<DndProvider backend={HTML5Backend}>*/}
     <div className='page'>
 
-          <div className='pallet'>    
+          <div className='pallet'>
                             <h2>Drag Items</h2>
 
 
-                            <DragItem   ItemType={ItemTypes.ENTITY} />
-                            <DragItem   ItemType={ItemTypes.WEAK_ENTITY} />
-                            <DragItem   ItemType={ItemTypes.RELATIONSHIP} />
-                            <DragItem   ItemType={ItemTypes.WEAK_RELATIONSHIP} />
-                            <DragItem   ItemType={ItemTypes.ATTRIBUTE} />
-                            <DragItem    ItemType={ItemTypes.LINK}/>
+                            {/*<DragItem   ItemType={ItemTypes.ENTITY} />*/}
+                            {/*<DragItem   ItemType={ItemTypes.WEAK_ENTITY} />*/}
+                            {/*<DragItem   ItemType={ItemTypes.RELATIONSHIP} />*/}
+                            {/*<DragItem   ItemType={ItemTypes.WEAK_RELATIONSHIP} />*/}
+                            {/*<DragItem   ItemType={ItemTypes.ATTRIBUTE} />*/}
+                            {/*<DragItem    ItemType={ItemTypes.LINK}/>*/}
           </div>
-
-
+        <div>
+        <h2>Drop Zone</h2>
           <div className='zone'>
 
-             <h2>Drop Zone</h2>
-              <DropZone/>
-              {/*<Resize/>*/}
+
+              <Flow/>
+
+
 
           </div>
-
+        </div>
     </div>
-    </DndProvider>
+    {/*</DndProvider>*/}
 
 
+
+      {/*<TextUpdaterNode/>*/}
 
     </>
 
