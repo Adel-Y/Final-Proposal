@@ -10,6 +10,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import Flow from "./Flow";
 import {TextUpdaterNode} from "./TextUpdaterNode";
+import Pallet from "./Pallet";
 
  function App(){
 
@@ -26,20 +27,21 @@ import {TextUpdaterNode} from "./TextUpdaterNode";
 {/*<Navbar/>*/}
 
 
-   {/*<DndProvider backend={HTML5Backend}>*/}
+
     <div className='page'>
 
-          <div className='pallet'>
-                            <h2>Drag Items</h2>
+          {/*<div className='pallet'>*/}
+          {/*                  <h2>Drag Items</h2>*/}
 
 
-                            {/*<DragItem   ItemType={ItemTypes.ENTITY} />*/}
-                            {/*<DragItem   ItemType={ItemTypes.WEAK_ENTITY} />*/}
-                            {/*<DragItem   ItemType={ItemTypes.RELATIONSHIP} />*/}
-                            {/*<DragItem   ItemType={ItemTypes.WEAK_RELATIONSHIP} />*/}
-                            {/*<DragItem   ItemType={ItemTypes.ATTRIBUTE} />*/}
-                            {/*<DragItem    ItemType={ItemTypes.LINK}/>*/}
-          </div>
+          {/*                  /!*<DragItem   ItemType={ItemTypes.ENTITY} />*!/*/}
+          {/*                  /!*<DragItem   ItemType={ItemTypes.WEAK_ENTITY} />*!/*/}
+          {/*                  /!*<DragItem   ItemType={ItemTypes.RELATIONSHIP} />*!/*/}
+          {/*                  /!*<DragItem   ItemType={ItemTypes.WEAK_RELATIONSHIP} />*!/*/}
+          {/*                  /!*<DragItem   ItemType={ItemTypes.ATTRIBUTE} />*!/*/}
+          {/*                  /!*<DragItem    ItemType={ItemTypes.LINK}/>*!/*/}
+          {/*</div>*/}
+        <Pallet/>
         <div>
         <h2>Drop Zone</h2>
           <div className='zone'>
@@ -52,11 +54,11 @@ import {TextUpdaterNode} from "./TextUpdaterNode";
           </div>
         </div>
     </div>
-    {/*</DndProvider>*/}
 
 
 
-      {/*<TextUpdaterNode/>*/}
+
+
 
     </>
 

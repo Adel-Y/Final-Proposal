@@ -1,14 +1,14 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useRef} from 'react';
 import ReactFlow, {
     Background, Controls, applyEdgeChanges, applyNodeChanges,
-    addEdge, Handle, Position, MiniMap, useNodesState, useEdgesState
+    addEdge, Handle, Position, MiniMap, useNodesState, useEdgesState, useReactFlow, ReactFlowProvider
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useState, useCallback } from 'react';
 import TextUpdaterNode from "./TextUpdaterNode";
 import CustomEdge from "./CustomEdge";
+import './index.css';
 
-const handleStyle = { left: 10 };
 
 
 
@@ -16,61 +16,93 @@ const nodeTypes = { 'textUpdater': TextUpdaterNode };
 const edgeTypes = { 'custom-edge': CustomEdge };
 
 const initialNodes = [
-    { id: 'a', position: { x: 0, y: 0 }, data: { label: 'Node A' } },
-    { id: 'b', position: { x: 0, y: 100 }, data: { label: 'Node B' } },
-    { id: 'c', position: { x: 0, y: 200 }, data: { label: 'Node C' } },
+    {
+        id: '1',
+        type: 'input',
+        data: { label: 'input node' },
+        position: { x: 250, y: 5 },
+    },
 ];
 
-const initialEdges = [
-    { id: 'a->b', type: 'custom-edge', source: 'a', target: 'b' },
-    { id: 'b->c', type: 'custom-edge', source: 'b', target: 'c' },
-];
+let id = 0;
+const getId = () => `dndnode_${id++}`;
 
-const Flow = () => {
+const DnDFlow = () => {
 
-
+    const reactFlowWrapper = useRef(null);
 
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-    // const onNodesChange = useCallback(
-    //     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    //     [],
-    // );
-    // const onEdgesChange = useCallback(
-    //     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    //     [],
-    // );
+    const { screenToFlowPosition } = useReactFlow();
 
     const onConnect = useCallback(
-        (connection) => {
-            const edge = { ...connection, type: 'custom-edge' };
-            setEdges((eds) => addEdge(edge, eds));
-        },
-        [setEdges],
+        (params) => setEdges((eds) => addEdge(params, eds)),
+        [],
     );
+
+    const onDragOver = useCallback((event) => {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+    }, []);
+
+    const onDrop = useCallback(
+        (event) => {
+            event.preventDefault();
+
+            const type = event.dataTransfer.getData('application/reactflow');
+
+            // check if the dropped element is valid
+            if (typeof type === 'undefined' || !type) {
+                return;
+            }
+
+            // project was renamed to screenToFlowPosition
+            // and you don't need to subtract the reactFlowBounds.left/top anymore
+            // details: https://reactflow.dev/whats-new/2023-11-10
+            const position = screenToFlowPosition({
+                x: event.clientX,
+                y: event.clientY,
+            });
+            const newNode = {
+                id: getId(),
+                type,
+                position,
+                data: { label: `${type} node` },
+            };
+
+            setNodes((nds) => nds.concat(newNode));
+            console.log(nodes)
+        },
+        [screenToFlowPosition],
+    );
+
     return (
-        <>
-            <div style={{ height: '100%' }}>
+        <div className="dndflow">
+            <div className="reactflow-wrapper" ref={reactFlowWrapper}>
                 <ReactFlow
-                    nodeTypes={nodeTypes}
-                    edgeTypes={edgeTypes}
                     nodes={nodes}
-                    onNodesChange={onNodesChange}
                     edges={edges}
+                    onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
-                    fitView
                     onConnect={onConnect}
+                    onDrop={onDrop}
+                    onDragOver={onDragOver}
+                    fitView
                 >
-                    <Background />
-                    <Controls />
+                    <Background/>
                     <MiniMap/>
+                    <Controls />
                 </ReactFlow>
             </div>
 
-        </>
+        </div>
     );
 };
 
-export default Flow;
+export default () => (
+    <ReactFlowProvider>
+        <DnDFlow />
+    </ReactFlowProvider>
+);
