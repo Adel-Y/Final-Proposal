@@ -57,8 +57,7 @@ html, body, #root {
 
 }
 
-
-.entity{
+.entity-background{
   border: 1px solid #ccc;
   borderRadius: 5px;
   background-color: lightyellow;
@@ -66,6 +65,20 @@ html, body, #root {
   width: 120px;
   height: 70px;
   position: relative;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*user-select: none;*/
+
+}
+.entity{
+  /*border: 1px solid #ccc;*/
+
+  background-color: lightyellow;
+  color: black;
+  width: 100px;
+  height: 50px;
   cursor: grab;
   /*user-select: none;*/
 
@@ -81,7 +94,6 @@ border-radius: 100%;
 }
 .entity-text{
   text-align: center;
-  margin: 25px;
 
 }
 
@@ -145,14 +157,15 @@ border-radius: 100%;
   box-shadow: inset 0px 0px 1px 3px black;
 }
 
-.relationship{
+
+.relationship-background{
   border: 1px solid #ccc;
   borderRadius: 5px;
   background-color: lightgreen;
   color: black;
   width: 70px;
   height: 70px;
-  position: absolute;
+  position: relative;
   cursor: grab;
   user-select: none;
   transform: rotate(45deg);
@@ -162,15 +175,21 @@ border-radius: 100%;
 
 }
 
-.relationship-button{
-  border-radius: 100%;
-  position: absolute;
-  top: -5px;
-  left: 2px;
-  margin: auto;
-  cursor: pointer;
-  transform: rotate(-45deg);
+.relationship{
+  /*border: 1px solid #ccc;*/
+  /*borderRadius: 5px;*/
+  background-color: lightgreen;
+  color: black;
+  width: 50px;
+  height: 50px;
+  cursor: grab;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
+
 .relationship-text{
   font-size: 12px;
   position: absolute;
@@ -498,3 +517,7 @@ border-radius: 100%;
 }
 
 
+.handle{
+  width: 20px;
+  height: 20px;
+}

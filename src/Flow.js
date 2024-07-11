@@ -22,6 +22,7 @@ import './index.css';
 import Entity from "./Data Structures/Entity";
 import Sidebar from "./Sidebar";
 import entity from "./Data Structures/Entity";
+import Relationship from "./Data Structures/Relationship";
 
 
 
@@ -50,6 +51,7 @@ const DnDFlow = () => {
     const nodeTypes = useMemo(
         () => ({
             Entity: Entity,
+            Relationship: Relationship
         }),
         [],
     );
@@ -110,6 +112,8 @@ const DnDFlow = () => {
     const onConnect = useCallback(
         (params) => setEdges((eds) => addEdge(params, eds)),
         [],
+
+        console.log(edges)
     );
 
 
