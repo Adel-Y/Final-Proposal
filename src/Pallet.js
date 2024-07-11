@@ -1,15 +1,21 @@
 import React from 'react';
 import './App.css'
 import 'reactflow/dist/style.css';
+import Entity from "./Data Structures/Entity";
+import {ReactFlowProvider} from "reactflow";
 const Pallet= () => {
     const onDragStart = (event, nodeType) => {
-        event.dataTransfer.setData('application/reactflow', nodeType);
+        event.dataTransfer.setData('itemDropped', nodeType);
         event.dataTransfer.effectAllowed = 'move';
     };
 
     return (
-        <aside className='pallet'>
-            <h2>Drag Items</h2>
+        <ReactFlowProvider>
+        <div className='pallet'>
+            <h4>Drag Items</h4>
+
+            <Entity onDragStart={(event) => onDragStart(event, 'Entity')} />
+
             <div className="dndnode input" onDragStart={(event) => onDragStart(event, 'input')} draggable>
                 Input Node
             </div>
@@ -19,7 +25,8 @@ const Pallet= () => {
             <div className="dndnode output" onDragStart={(event) => onDragStart(event, 'output')} draggable>
                 Output Node
             </div>
-        </aside>
+        </div>
+        </ReactFlowProvider>
     );
 };
 

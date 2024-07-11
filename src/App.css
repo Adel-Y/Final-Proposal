@@ -65,9 +65,9 @@ html, body, #root {
   color: black;
   width: 120px;
   height: 70px;
-  position: absolute;
+  position: relative;
   cursor: grab;
-  user-select: none;
+  /*user-select: none;*/
 
 }
 
@@ -352,8 +352,8 @@ border-radius: 100%;
   margin-right: 20px;
   display: grid;
 
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust the min width of the items */
-  gap: 12px; /* Space between items */
+  /*grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); !* Adjust the min width of the items *!*/
+  /*gap: 12px; !* Space between items *!*/
   padding: 20px; /* Padding around the pallet */
   /*background-color: #f9f9f9; !* Light background color for the pallet *!*/
   border-radius: 8px; /* Rounded corners */
@@ -457,3 +457,44 @@ border-radius: 100%;
     max-width: 250px;
   }
 }
+
+/* src/App.css */
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+/* src/Sidebar.css */
+.sidebar {
+  width: 250px;
+  height: 100%;
+  background-color: #f4f4f4;
+  position: fixed;
+  top: 0;
+  right: -350px;
+  transition: right 0.3s ease;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+  padding: 20px;
+  margin-top: 50px;
+}
+
+.sidebar.open {
+  right: 0px;
+}
+
+.sd-button {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+
