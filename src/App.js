@@ -12,7 +12,7 @@ import Pallet from "./Pallet";
 
   <>
 
-    {/*<Navbar/>*/}
+    <Navbar/>
 
     <div className='page'>
         <Pallet/>

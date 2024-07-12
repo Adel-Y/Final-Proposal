@@ -15,7 +15,7 @@ const Sidebar = ({ node, updateNode }) => {
 
 
     const [nodeData, setNodeData] = useState([]);
-    // console.log(node[1])
+    console.log(node[0])
 
 
     useEffect(() => {
@@ -27,27 +27,26 @@ const Sidebar = ({ node, updateNode }) => {
         }
     });
 
-    // useEffect(() => {
-    //
-    //     if(selectedNode){
-    //
-    //         // console.log(node[0])
-    //             console.log('entered')
-    //
-    //
-    //             setNodeData(node[0]?.data)
-    //
-    //                 console.log(nodeData)
-    //
-    //
-    //
-    //     }
-    //     else{
-    //         setNodeData([])
-    //     }
-    //
-    // });
+    const renderSwitch=()=> {
+        switch(node[0]?.type) {
+            case 'Entity':
+                return <div>
+                <label>
+                    Name:
+                    <input name="entity-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
+                </label>
+                    <br></br>
+                    <label>
+                        Weak Entity:
+                        <input type="checkbox" onChange={(e)=>console.log("the box ticked")}/>
+                    </label>
 
+                </div>
+                ;
+            default:
+                return 'foo';
+        }
+    }
     const updateName = (name) => {
 
         const newDat =
@@ -73,10 +72,7 @@ const Sidebar = ({ node, updateNode }) => {
             <h2>Update Node: {node[0]?.id}</h2>
             <div>
 
-                <label >
-                    Name:
-                    <input name="entity-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
-                </label>
+                {renderSwitch()}
 
             </div>
             <button className="sd-button" onClick={handleUpdate}>Update</button>

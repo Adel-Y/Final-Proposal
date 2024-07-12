@@ -1,4 +1,4 @@
-import React, {useMemo, useRef} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import ReactFlow, {
     Background,
     Controls,
@@ -12,11 +12,10 @@ import ReactFlow, {
     useEdgesState,
     useReactFlow,
     ReactFlowProvider,
-    useOnSelectionChange
+    useOnSelectionChange, StraightEdge
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useState, useCallback } from 'react';
-import TextUpdaterNode from "./TextUpdaterNode";
 import CustomEdge from "./CustomEdge";
 import './index.css';
 import Entity from "./Data Structures/Entity";
@@ -27,8 +26,8 @@ import Relationship from "./Data Structures/Relationship";
 
 
 
-//const nodeTypes = { 'textUpdater': TextUpdaterNode, 'entity-node': Entity };
-const edgeTypes = { 'custom-edge': CustomEdge };
+
+// const edgeTypes = { 'custom-edge': CustomEdge };
 
 const initialNodes = [];
 
@@ -42,11 +41,16 @@ const initialNodes = [];
 // ];
 
 let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getId = () => `id_${id++}`;
 
 const DnDFlow = () => {
 
-
+    const edgeTypes = useMemo(
+        () => ({
+            'custom-edge': CustomEdge,
+        }),
+        [],
+    );
 
     const nodeTypes = useMemo(
         () => ({
@@ -106,16 +110,15 @@ const DnDFlow = () => {
     }
 
 
-
-
-
     const onConnect = useCallback(
-        (params) => setEdges((eds) => addEdge(params, eds)),
-        [],
+        (connection) => {
+            const edge = { ...connection, type: 'custom-edge' };
+            setEdges((eds) => addEdge(edge, eds));
 
-        console.log(edges)
+        },
+        [setEdges],
     );
-
+    useEffect(()=> console.log(edges),[edges]);
 
 
 
@@ -142,6 +145,7 @@ const DnDFlow = () => {
                 x: event.clientX,
                 y: event.clientY,
             });
+
             const newNode = {
                 id: getId(),
                 type,
@@ -165,6 +169,7 @@ const DnDFlow = () => {
                     nodes={nodes}
                     edges={edges}
                     nodeTypes={nodeTypes}
+                    edgeTypes={edgeTypes}
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
