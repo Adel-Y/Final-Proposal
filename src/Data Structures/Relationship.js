@@ -63,7 +63,7 @@ const Relationship = ({ data, isConnectable,onDragStart}) => {
                 }  type="target" position={Position.Right} id="d" isConnectable={isConnectable} />
                 <div onDragStart={onDragStart}
                      draggable
-                     className= 'relationship'
+                     className= {`relationship ${data?.weak ? 'weak' : ''}`}
 
                 >
 

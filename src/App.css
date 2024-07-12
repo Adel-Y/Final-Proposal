@@ -84,6 +84,10 @@ html, body, #root {
 
 }
 
+.weak{
+  border: 1px solid black;
+}
+
 .entity-button{
 border-radius: 100%;
   position: absolute;
@@ -180,8 +184,8 @@ border-radius: 100%;
   /*borderRadius: 5px;*/
   background-color: lightgreen;
   color: black;
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   cursor: grab;
   user-select: none;
   display: flex;

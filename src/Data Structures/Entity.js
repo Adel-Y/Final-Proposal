@@ -57,7 +57,7 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
             }  type="source" position={Position.Right} id="d" isConnectable={isConnectable} />
             <div onDragStart={onDragStart}
                 draggable
-                className= 'entity'
+                className= {`entity ${data?.weak ? 'weak' : ''}`}
 
             >
 

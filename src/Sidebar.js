@@ -1,5 +1,5 @@
 // src/Sidebar.js
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import './App.css';
 import {useReactFlow} from "reactflow";
 
@@ -7,15 +7,27 @@ import {useReactFlow} from "reactflow";
 const Sidebar = ({ node, updateNode }) => {
     const [name, setName] = useState('');
 
+    const [color, setColor] = useState('');
+
 
     const [selectedNode, setSelectedNode] = useState(false);
 
 
     const {setNodes} = useReactFlow()
 
+    const [isWeak,setIsWeak]=useState(false)
+
 
     const [nodeData, setNodeData] = useState([]);
+
+
+    useCallback(()=>{
+        setNodeData(node[0]?.data)
+        console.log('set')
+    },[node])
+    // setNodeData(node[0]?.data)
     console.log(node[0])
+    console.log(nodeData)
 
 
     useEffect(() => {
@@ -26,6 +38,17 @@ const Sidebar = ({ node, updateNode }) => {
 
         }
     });
+
+    const setNodeWeak =()=>{
+        setIsWeak(!isWeak)
+
+    }
+
+    const changeColor =(value) =>{
+        setColor(value)
+    }
+
+
 
     const renderSwitch=()=> {
         switch(node[0]?.type) {
@@ -38,21 +61,59 @@ const Sidebar = ({ node, updateNode }) => {
                     <br></br>
                     <label>
                         Weak Entity:
-                        <input type="checkbox" onChange={(e)=>console.log("the box ticked")}/>
+                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.weak ? true : false} onClick={(e)=>  setNodeWeak()} />
+                    </label>
+                    <br></br>
+                    <label>
+                        Color:
+                        <input type="color" defaultValue={node[0]?.data.color}   onChange={(e)=> changeColor(e.target.value)}/>
                     </label>
 
                 </div>
                 ;
+            case 'Relationship':
+                return <div>
+                    <label>
+                        Name:
+                        <input name="entity-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
+                    </label>
+                    <br></br>
+                    <label>
+                        Weak Entity:
+                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.weak ? true : false} onClick={(e)=>  setNodeWeak()} />
+                    </label>
+                    <br></br>
+                    <label>
+                        Color:
+                        <input type="color" defaultValue={node[0]?.data.color}   onChange={(e)=> changeColor(e.target.value)}/>
+                    </label>
+                    <br></br>
+
+                    <label>
+                        Connected To:
+                        <ul>
+                            <li>Entity one: <p>name</p></li>
+                            <li>Entity two: <p>name</p></li>
+                        </ul>
+                    </label>
+                    <br></br>
+
+                    <label>Cardinality: </label>
+
+                </div>
+                    ;
             default:
                 return 'foo';
         }
     }
-    const updateName = (name) => {
+    const updateData = () => {
 
         const newDat =
             {
                 label: node[0]?.data.label,
-                name: name
+                name: name,
+                weak: isWeak,
+                color : color
             }
 
             return newDat;
@@ -63,20 +124,23 @@ const Sidebar = ({ node, updateNode }) => {
 
     const handleUpdate = () => {
         if (node) {
-            updateNode(node, updateName(name) );
+            updateNode(node, updateData() );
         }
     };
 
     return (
         <div className={`sidebar ${selectedNode ? 'open' : ''}`}>
             <h2>Update Node: {node[0]?.id}</h2>
+            {/*<form action={handleUpdate()}>*/}
             <div>
 
                 {renderSwitch()}
 
             </div>
             <button className="sd-button" onClick={handleUpdate}>Update</button>
+            {/*</form>*/}
         </div>
+
     );
 };
 

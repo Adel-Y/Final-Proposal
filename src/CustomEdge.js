@@ -17,7 +17,11 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
         targetY,
     });
     const handleEdgeClick = () => {
-        setIsLabelVisible(!isLabelVisible);
+        setIsLabelVisible(true);
+    };
+
+    const handleEdgeBlur = () => {
+        setIsLabelVisible(false);
     };
     return (
         <>
@@ -27,9 +31,30 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
                 fill="none"
                 stroke="transparent"
                 strokeWidth={25}
-                onClick={handleEdgeClick}
-                className="interaction-path"
-            />
+                onMouseOver={handleEdgeClick}
+                onMouseLeave={handleEdgeBlur}
+                onMouse
+                className="interaction-path" on
+            >            {isLabelVisible && (
+                <EdgeLabelRenderer>
+                    <button
+                        style={{
+                            position: 'absolute',
+                            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+                            pointerEvents: 'all',
+                        }}
+                        className="nodrag nopan"
+                        onClick={() => {
+                            setEdges((es) => es.filter((e) => e.id !== id));
+                        }}
+                    >
+                        delete
+                    </button>
+                </EdgeLabelRenderer>
+            )
+            }
+            </path>
+
             <path
                 id={id}
                 className="custom-edge-path"
@@ -37,24 +62,7 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
                 // markerEnd={markerEnd}
             />
 
-            {isLabelVisible && (
-                <EdgeLabelRenderer>
-                <button
-                    style={{
-                        position: 'absolute',
-                        transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-                        pointerEvents: 'all',
-                    }}
-                    className="nodrag nopan"
-                    onClick={() => {
-                        setEdges((es) => es.filter((e) => e.id !== id));
-                    }}
-                >
-                    delete
-                </button>
-            </EdgeLabelRenderer>
-            )
-            }
+
 
         </>
     );

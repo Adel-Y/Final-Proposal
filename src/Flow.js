@@ -150,7 +150,7 @@ const DnDFlow = () => {
                 id: getId(),
                 type,
                 position,
-                data: { label: `${type} node` , name:`${type}`},
+                data: { label: `${type} node` , name:`${type}`, 'weak': false , color: '#FFFFFF'},
             };
             event.dataTransfer.setData('test', newNode.data);
 
