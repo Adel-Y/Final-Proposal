@@ -72,14 +72,19 @@ const DnDFlow = () => {
 
 
 
-    const [selectedNodes, setSelectedNodes] = useState([]);
+    const [selectedElements, setSelectedElements] = useState([]);
     const [selectedEdges, setSelectedEdges] = useState([]);
 
     // the passed handler has to be memoized, otherwise the hook will not work correctly
     const onChange = useCallback(({ nodes, edges }) => {
-        setSelectedNodes(nodes.map((node) => node));
+
+        if(nodes.length !==0) {
+            setSelectedElements(nodes.map((node) => node));
+        }
        // console.log(selectedNodes)
-        setSelectedEdges(edges.map((edge) => edge.id));
+        else {
+            setSelectedElements(edges.map((edge) => edge));
+        }
     }, [])
     // console.log(selectedNodes)
     useOnSelectionChange({
@@ -90,29 +95,55 @@ const DnDFlow = () => {
 
     function updateNode(victim, data) {
 
-        setNodes((nds) =>
-            nds.map((node) => {
+        if(victim[0].type ==='custom-edge') {
+            console.log('entrata')
+            setEdges((eds) =>
+                eds.map((edge) => {
 
-                if (node.id === victim[0].id) {
-                    console.log('I entered')
-                    // it's important that you create a new node object
-                    // in order to notify react flow about the change
-                    return {
-                        ...node,
-                        data: data,
-                    };
-                }
+                    if (edge.id === victim[0].id) {
+                        console.log('I entered')
+                        // it's important that you create a new node object
+                        // in order to notify react flow about the change
+                        return {
+                            ...edge,
+                            data: data,
+                        };
+                    }
 
-                return node;
-            }),
-        );
+                    return edge;
+                }),
+            );
+
+
+        }
+        else{
+            console.log('Ya zahraa')
+            setNodes((nds) =>
+                nds.map((node) => {
+
+                    if (node.id === victim[0].id) {
+                        console.log('I entered')
+                        // it's important that you create a new node object
+                        // in order to notify react flow about the change
+                        return {
+                            ...node,
+                            data: data,
+                        };
+                    }
+
+                    return node;
+                }),
+            );
+
+        }
+
 
     }
 
 
     const onConnect = useCallback(
         (connection) => {
-            const edge = { ...connection, type: 'custom-edge' };
+            const edge = { ...connection, type: 'custom-edge', data: {cardinality : 'one-to-many'} };
             setEdges((eds) => addEdge(edge, eds));
 
         },
@@ -126,6 +157,15 @@ const DnDFlow = () => {
         event.preventDefault();
         event.dataTransfer.dropEffect = 'move';
     }, []);
+
+    const colorChooser =(type)=>{
+        switch (type){
+            case 'Entity':
+                return 'lightyellow';
+            case 'Relationship':
+                return 'lightgreen'
+    }
+    }
 
     const onDrop = useCallback(
         (event) => {
@@ -150,7 +190,7 @@ const DnDFlow = () => {
                 id: getId(),
                 type,
                 position,
-                data: { label: `${type} node` , name:`${type}`, 'weak': false , color: '#FFFFFF'},
+                data: { label: `${type} node` , name:`${type}`, 'weak': false , color: colorChooser(type)},
             };
             event.dataTransfer.setData('test', newNode.data);
 
@@ -182,7 +222,7 @@ const DnDFlow = () => {
                     <Controls />
                 </ReactFlow>
 
-                <Sidebar node={selectedNodes} updateNode={updateNode}/>
+                <Sidebar node={selectedElements} edge={selectedEdges} updateNode={updateNode}/>
 
             </div>
 

@@ -20,6 +20,8 @@ const Sidebar = ({ node, updateNode }) => {
 
     const [nodeData, setNodeData] = useState([]);
 
+    const [edgeCardinality, setEdgeCardinality]=useState('');
+
 
     useCallback(()=>{
         setNodeData(node[0]?.data)
@@ -31,13 +33,14 @@ const Sidebar = ({ node, updateNode }) => {
 
 
     useEffect(() => {
-        if (node.length === 0) {
+        if (node.length === 0 ) {
             setSelectedNode(false)
         } else {
             setSelectedNode(true)
 
         }
     });
+
 
     const setNodeWeak =()=>{
         setIsWeak(!isWeak)
@@ -48,7 +51,9 @@ const Sidebar = ({ node, updateNode }) => {
         setColor(value)
     }
 
-
+    const updateCardinality =(value)=>{
+        setEdgeCardinality(value)
+    }
 
     const renderSwitch=()=> {
         switch(node[0]?.type) {
@@ -68,6 +73,14 @@ const Sidebar = ({ node, updateNode }) => {
                         Color:
                         <input type="color" defaultValue={node[0]?.data.color}   onChange={(e)=> changeColor(e.target.value)}/>
                     </label>
+                    <br></br>
+
+                    <label>Attribute List:
+                        <ul>
+                            <li>Attribute one: <p>name and type</p></li>
+                            <li>Attribute two: <p>name and type</p></li>
+                        </ul>
+                    </label>
 
                 </div>
                 ;
@@ -79,7 +92,7 @@ const Sidebar = ({ node, updateNode }) => {
                     </label>
                     <br></br>
                     <label>
-                        Weak Entity:
+                        Weak Relationship:
                         <input type="checkbox" value='hello' defaultChecked={node[0]?.data.weak ? true : false} onClick={(e)=>  setNodeWeak()} />
                     </label>
                     <br></br>
@@ -102,27 +115,52 @@ const Sidebar = ({ node, updateNode }) => {
 
                 </div>
                     ;
+
+            case 'custom-edge':
+                return <div>
+                    <label>Cardinality:
+                        <select defaultValue={node[0]?.data.cardinality} onChange={(e)=>updateCardinality(e.target.value)}>
+                            <option value='one-to-one'>(1,1)</option>
+                            <option value='one-to-many'>(1,N)</option>
+                            <option value='many-to-one'>(N,1)</option>
+                            <option value='many-to-many'>(M,N)</option>
+                        </select>
+                    </label>
+                </div>
+                ;
             default:
                 return 'foo';
         }
     }
     const updateData = () => {
+        if(node[0]?.type==='custom-edge') {
+                console.log('Entrata')
+            const newDat =
+                {
+                    cardinality: edgeCardinality,
+                }
+            return newDat;
+        }
+        else{
+            console.log('Ya Zahraa')
+            const newDat =
+                {
+                    label: node[0]?.data.label,
+                    name: name,
+                    weak: isWeak,
+                    color: color
+                }
 
-        const newDat =
-            {
-                label: node[0]?.data.label,
-                name: name,
-                weak: isWeak,
-                color : color
-            }
 
             return newDat;
+        }
 
     }
 
 
 
     const handleUpdate = () => {
+
         if (node) {
             updateNode(node, updateData() );
         }

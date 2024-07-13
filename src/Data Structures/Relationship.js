@@ -22,7 +22,9 @@ const Relationship = ({ data, isConnectable,onDragStart}) => {
                 <button >style</button>
             </NodeToolbar>
 
-            <div className='relationship-background'>
+            <div className='relationship-background'  style={{
+                backgroundColor: data?.color
+            }}>
 
                 <Handle style={
                     {
@@ -64,6 +66,9 @@ const Relationship = ({ data, isConnectable,onDragStart}) => {
                 <div onDragStart={onDragStart}
                      draggable
                      className= {`relationship ${data?.weak ? 'weak' : ''}`}
+                     style={{
+                         backgroundColor: data?.color
+                     }}
 
                 >
 

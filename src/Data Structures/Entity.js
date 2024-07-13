@@ -20,7 +20,9 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
 
                 <button >style</button>
             </NodeToolbar>
-        <div className='entity-background'>
+        <div className='entity-background' style={{
+            backgroundColor: data?.color
+        }}>
 
             <Handle style={
                 {
@@ -58,7 +60,9 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
             <div onDragStart={onDragStart}
                 draggable
                 className= {`entity ${data?.weak ? 'weak' : ''}`}
-
+                 style={{
+                     backgroundColor: data?.color
+                 }}
             >
 
 

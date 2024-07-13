@@ -6,7 +6,7 @@ import {
 } from 'reactflow';
 import {useState} from "react";
 
-export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
+export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, data }) {
     const [isLabelVisible, setIsLabelVisible] = useState(false);
 
     const { setEdges } = useReactFlow();
@@ -35,13 +35,18 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
                 onMouseLeave={handleEdgeBlur}
                 onMouse
                 className="interaction-path" on
-            >            {isLabelVisible && (
+            >
+                {/*<EdgeLabelRenderer>*/}
+                {/*    <p className="nodrag nopan">Hello</p>*/}
+                {/*</EdgeLabelRenderer>*/}
+                {isLabelVisible && (
                 <EdgeLabelRenderer>
                     <button
                         style={{
                             position: 'absolute',
                             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
                             pointerEvents: 'all',
+                            cursor:'pointer'
                         }}
                         className="nodrag nopan"
                         onClick={() => {
