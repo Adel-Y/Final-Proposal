@@ -23,22 +23,8 @@ import Sidebar from "./Sidebar";
 import entity from "./Data Structures/Entity";
 import Relationship from "./Data Structures/Relationship";
 
-
-
-
-
-// const edgeTypes = { 'custom-edge': CustomEdge };
-
 const initialNodes = [];
 
-// const initialNodes = [
-//     {
-//         id: '1',
-//         type: 'input',
-//         data: { label: 'input node' },
-//         position: { x: 250, y: 5 },
-//     },
-// ];
 
 let id = 0;
 const getId = () => `id_${id++}`;
@@ -96,7 +82,7 @@ const DnDFlow = () => {
     function updateNode(victim, data) {
 
         if(victim[0].type ==='custom-edge') {
-            console.log('entrata')
+
             setEdges((eds) =>
                 eds.map((edge) => {
 
@@ -117,7 +103,7 @@ const DnDFlow = () => {
 
         }
         else{
-            console.log('Ya zahraa')
+
             setNodes((nds) =>
                 nds.map((node) => {
 

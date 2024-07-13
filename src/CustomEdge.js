@@ -23,6 +23,20 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
     const handleEdgeBlur = () => {
         setIsLabelVisible(false);
     };
+
+    const cardinalityRenderer =()=>{
+        switch (data?.cardinality){
+            case 'one-to-one':
+                return '(1,1)';
+            case 'one-to-many':
+                return '(1,N)';
+            case 'many-to-one':
+                return '(N,1)';
+            case 'many-to-many':
+                return '(M,N)';
+        }
+    }
+
     return (
         <>
             <path
@@ -36,28 +50,32 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
                 onMouse
                 className="interaction-path" on
             >
-                {/*<EdgeLabelRenderer>*/}
-                {/*    <p className="nodrag nopan">Hello</p>*/}
-                {/*</EdgeLabelRenderer>*/}
-                {isLabelVisible && (
+
+
                 <EdgeLabelRenderer>
+                    <div                         style={{
+                        position: 'absolute',
+                        transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+                        pointerEvents: 'all',
+                        cursor:'pointer'
+                    }} className="nodrag nopan">
+                        {isLabelVisible && (
                     <button
-                        style={{
-                            position: 'absolute',
-                            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-                            pointerEvents: 'all',
-                            cursor:'pointer'
-                        }}
-                        className="nodrag nopan"
+                            style={{
+                                cursor:'pointer'
+                            }}
                         onClick={() => {
                             setEdges((es) => es.filter((e) => e.id !== id));
                         }}
                     >
                         delete
                     </button>
-                </EdgeLabelRenderer>
-            )
-            }
+
+                        )
+                        }
+                    </div>
+                </EdgeLabelRenderer>)
+
             </path>
 
             <path
@@ -66,7 +84,19 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
                 d={edgePath}
                 // markerEnd={markerEnd}
             />
+            <EdgeLabelRenderer>
+                <div                         style={{
+                    position: 'absolute',
+                    transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+                    pointerEvents: 'all',
+                    cursor:'pointer'
+                }} className="nodrag nopan">
+                    <div style={{
+                        marginTop:'-30px'
+                    }}><span> {cardinalityRenderer()}</span></div>
 
+                </div>
+            </EdgeLabelRenderer>
 
 
         </>

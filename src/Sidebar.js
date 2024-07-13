@@ -134,7 +134,7 @@ const Sidebar = ({ node, updateNode }) => {
     }
     const updateData = () => {
         if(node[0]?.type==='custom-edge') {
-                console.log('Entrata')
+
             const newDat =
                 {
                     cardinality: edgeCardinality,
@@ -142,7 +142,7 @@ const Sidebar = ({ node, updateNode }) => {
             return newDat;
         }
         else{
-            console.log('Ya Zahraa')
+
             const newDat =
                 {
                     label: node[0]?.data.label,
