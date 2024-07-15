@@ -1,4 +1,5 @@
 import React, {useEffect, useMemo, useRef} from 'react';
+import { useNodesData } from '@xyflow/react';
 import ReactFlow, {
     Background,
     Controls,
@@ -22,18 +23,20 @@ import Entity from "./Data Structures/Entity";
 import Sidebar from "./Sidebar";
 import entity from "./Data Structures/Entity";
 import Relationship from "./Data Structures/Relationship";
+import Attribute from "./Data Structures/Attribute";
 
 const initialNodes = [];
 
 
 let id = 0;
-const getId = () => `id_${id++}`;
+const getId = () => `id-${id++}`;
 
 const DnDFlow = () => {
 
     const edgeTypes = useMemo(
         () => ({
             'custom-edge': CustomEdge,
+            'straight':StraightEdge
         }),
         [],
     );
@@ -41,7 +44,8 @@ const DnDFlow = () => {
     const nodeTypes = useMemo(
         () => ({
             Entity: Entity,
-            Relationship: Relationship
+            Relationship: Relationship,
+            Attribute: Attribute
         }),
         [],
     );
@@ -52,6 +56,9 @@ const DnDFlow = () => {
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
     const { screenToFlowPosition } = useReactFlow();
+
+
+    const [selectedAttribute, setSelectedAttribute]= useState([]);
 
 
 
@@ -127,15 +134,34 @@ const DnDFlow = () => {
     }
 
 
-    const onConnect = useCallback(
-        (connection) => {
-            const edge = { ...connection, type: 'custom-edge', data: {cardinality : 'one-to-many'} };
-            setEdges((eds) => addEdge(edge, eds));
 
-        },
-        [setEdges],
-    );
-    useEffect(()=> console.log(edges),[edges]);
+
+    const onConnect =
+        // useCallback(
+        (connection) => {
+            const { source, target } = connection;
+            console.log(source)
+            console.log(target)
+            console.log(connection)
+
+            const sourceNode = nodes.find(node => node.id === source);
+
+            console.log(sourceNode)
+
+            if(sourceNode.type==='Attribute'){
+                const edge = { ...connection, type: 'straight', data: {cardinality : 'one-to-many'} };
+                setEdges((eds) => addEdge(edge, eds));
+            }
+            else {
+                const edge = {...connection, type: 'custom-edge', data: {cardinality: 'one-to-many'}};
+                setEdges((eds) => addEdge(edge, eds));
+            }
+
+        }
+    //     ,
+    //     [setEdges],
+    // );
+    useEffect(()=> console.log(nodes),[nodes]);
 
 
 
@@ -149,7 +175,9 @@ const DnDFlow = () => {
             case 'Entity':
                 return 'lightyellow';
             case 'Relationship':
-                return 'lightgreen'
+                return 'lightgreen';
+            case 'Attribute':
+                return 'lightsalmon'
     }
     }
 

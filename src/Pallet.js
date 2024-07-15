@@ -4,6 +4,7 @@ import 'reactflow/dist/style.css';
 import Entity from "./Data Structures/Entity";
 import {ReactFlowProvider} from "reactflow";
 import Relationship from "./Data Structures/Relationship";
+import Attribute from "./Data Structures/Attribute";
 const Pallet= () => {
     const onDragStart = (event, nodeType) => {
         event.dataTransfer.setData('itemDropped', nodeType);
@@ -18,6 +19,8 @@ const Pallet= () => {
             <Entity onDragStart={(event) => onDragStart(event, 'Entity')} />
 
             <Relationship onDragStart={(event) => onDragStart(event, 'Relationship')} />
+
+            <Attribute onDragStart={(event)=>onDragStart(event,'Attribute')} />
 
             <div className="dndnode input" onDragStart={(event) => onDragStart(event, 'input')} draggable>
                 Input Node

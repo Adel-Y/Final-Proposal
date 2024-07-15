@@ -26,14 +26,14 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
 
     const cardinalityRenderer =()=>{
         switch (data?.cardinality){
+            case 'zero-to-one':
+                return '(0,1)';
             case 'one-to-one':
                 return '(1,1)';
+            case 'zero-to-many':
+                return '(0,N)';
             case 'one-to-many':
                 return '(1,N)';
-            case 'many-to-one':
-                return '(N,1)';
-            case 'many-to-many':
-                return '(M,N)';
         }
     }
 

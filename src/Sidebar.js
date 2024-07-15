@@ -120,10 +120,10 @@ const Sidebar = ({ node, updateNode }) => {
                 return <div>
                     <label>Cardinality:
                         <select defaultValue={node[0]?.data.cardinality} onChange={(e)=>updateCardinality(e.target.value)}>
+                            <option value='zero-to-one'>(0,1)</option>
                             <option value='one-to-one'>(1,1)</option>
+                            <option value='zero-to-many'>(0,N)</option>
                             <option value='one-to-many'>(1,N)</option>
-                            <option value='many-to-one'>(N,1)</option>
-                            <option value='many-to-many'>(M,N)</option>
                         </select>
                     </label>
                 </div>

@@ -1,20 +1,74 @@
-import React from 'react';
+import React, {useCallback,useState,useEffect} from 'react';
+import {Handle, Position, NodeToolbar, useNodesState, Panel, useReactFlow, useNodeId, addEdge} from "reactflow";
 
-const Attribute = ({name,handleClick}) => {
+const Attribute = ({ data, isConnectable,onDragStart}) => {
 
-    const ItemType = 'Attribute'
+
+    const id =useNodeId()
+
+    const { setNodes } = useReactFlow();
 
     return (
         <>
-            <div
-                className= 'attribute'
-            >
+            <NodeToolbar >
 
-            <span className={'attribute-button'} onClick={handleClick}>
-                x
-            </span>
 
-                <p className={'attribute-text'}>{ItemType}</p>
+                <button onClick={() => {
+                    setNodes((es) => es.filter((e) => e.id !==id ));}}>
+                    delete</button>
+
+
+                <button >style</button>
+            </NodeToolbar>
+            <div className='attribute-background' style={{
+                backgroundColor: data?.color
+            }}>
+
+                <Handle style={
+                    {
+                        width : '7px',
+                        height: '7px'
+                    }
+                }
+                        type="source" position={Position.Top} id="c" isConnectable={isConnectable} />
+
+                <Handle style={
+                    {
+                        width : '7px',
+                        height: '7px'
+                    }
+                }
+                        type="source"
+                        position={Position.Left}
+                        id="a"
+                        isConnectable={isConnectable}
+                />
+
+                <Handle style={
+                    {
+                        width : '7px',
+                        height: '7px'
+                    }
+                }  type="source" position={Position.Bottom} id="b" isConnectable={isConnectable} />
+
+                <Handle style={
+                    {
+                        width : '7px',
+                        height: '7px'
+                    }
+                }  type="source" position={Position.Right} id="d" isConnectable={isConnectable} />
+                <div onDragStart={onDragStart}
+                     draggable
+                     className= {`attribute ${data?.weak ? 'weak' : ''}`}
+                     style={{
+                         backgroundColor: data?.color
+                     }}
+                >
+
+
+                    <p className={'attribute-text'}>{data?  data?.name: "Attribute"}</p>
+
+                </div>
 
             </div>
 
