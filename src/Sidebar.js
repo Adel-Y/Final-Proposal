@@ -161,6 +161,42 @@ const Sidebar = ({ node, updateNode }) => {
                     </label>
                 </div>
                     ;
+            case 'Hierarchy':
+
+            return <div>
+                <label>Is Connected to Entities:
+                    <p>Entity 1</p>
+                    <p>Entity 2</p>
+                </label>
+
+                <label>Descend From:
+                    <p>Interface</p>
+                </label>
+            </div>
+                ;
+            case 'Interface':
+                return <div>
+                    <label>
+                        Name:
+                        <input name="entity-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
+                    </label>
+                    <br></br>
+
+                    <br></br>
+                    <label>
+                        Color:
+                        <input type="color" defaultValue={node[0]?.color}   onChange={(e)=> changeColor(e.target.value)}/>
+                    </label>
+                    <br></br>
+
+                    <label>Attribute List:
+                        <ul>
+                            <li>Attribute one: <p>name and type</p></li>
+                            <li>Attribute two: <p>name and type</p></li>
+                        </ul>
+                    </label>
+                </div>
+                ;
             default:
                 return 'foo';
         }
