@@ -25,6 +25,7 @@ import Sidebar from "./Sidebar";
 import Relationship from "./Data Structures/Relationship";
 import Attribute from "./Data Structures/Attribute";
 import Hierarchy from "./Data Structures/Hierarchy";
+import Interface from "./Data Structures/Interface";
 
 const initialNodes = [];
 
@@ -49,7 +50,8 @@ const DnDFlow = () => {
             Entity: Entity,
             Relationship: Relationship,
             Attribute: Attribute,
-            Hierarchy: Hierarchy
+            Hierarchy: Hierarchy,
+            Interface: Interface
         }),
         [],
     );
@@ -161,6 +163,10 @@ const DnDFlow = () => {
             }
             if(sourceNode.type==='Hierarchy'){
                 const edge = { ...connection, type: 'hierarchy-edge', data: {cardinality : 'one-to-many'} };
+                setEdges((eds) => addEdge(edge, eds));
+            }
+            if(sourceNode.type==='Interface'){
+                const edge = { ...connection, type: 'straight', data: {cardinality : 'one-to-many'} };
                 setEdges((eds) => addEdge(edge, eds));
             }
             else {
