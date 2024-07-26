@@ -58,6 +58,7 @@ const DnDFlow = () => {
     const reactFlowWrapper = useRef(null);
 
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+    const [otherNodes, setOtherNodes, onOtherNodesChange] = useNodesState(initialNodes);
 
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
@@ -194,7 +195,10 @@ const DnDFlow = () => {
             case 'Relationship':
                 return 'lightgreen';
             case 'Attribute':
-                return 'lightsalmon'
+                return 'lightsalmon';
+            case 'Interface':
+                return 'deepskyblue';
+
     }
     }
 
@@ -216,31 +220,79 @@ const DnDFlow = () => {
                 x: event.clientX,
                 y: event.clientY,
             });
-                switch(type){
 
-                    case 'entity':
-                        ;
-                    case 'relationship':
-                            ;
-                    case 'attribute':
+            let newNode = {};
+              //  switch(type){
 
-                        ;
-                    case 'hierarchy':
-                        ;
-                    case 'interface':
-                        ;
+                    if(type === 'Entity') {
+                        newNode = {
+                            id: getId(),
+                            type,
+                            position,
+                            data: {
+                                label: `${type} node`,
+                                name: `${type}`,
+                                weak: false,
+                                color: colorChooser(type)
+                            },
+                        };
+                    };
+                    if(type === 'Relationship') {
+                        newNode = {
+                            id: getId(),
+                            type,
+                            position,
+                            data: {
+                                label: `${type} node`,
+                                name: `${type}`,
+                                weak: false,
+                                color: colorChooser(type)
+                            },
+                        };
+                    };
+                    if(type === 'Attribute') {
+                        newNode = {
+                            id: getId(),
+                            type,
+                            position,
+                            data: {
+                                label: `${type} node`,
+                                name: `${type}`,
+                                primaryKey: false,
+                                attributeType: 'regular',
+                                color: colorChooser(type)
+                            },
+                        };
+                    };
+                    if(type === 'Hierarchy') {
+                        newNode = {
+                            id: getId(),
+                            type,
+                            position,
+                            data: {
+                                label: `${type} node`,
+                                name: `${type}`,
 
-                }
+                            },
+                        };
+                    };
+                    if(type === 'Interface') {
+                        newNode = {
+                            id: getId(),
+                            type,
+                            position,
+                            data: {
+                                label: `${type} node`,
+                                name: `${type}`,
+                                color: colorChooser(type)
+                            },
+                        };
+                    };
 
-            const newNode = {
-                id: getId(),
-                type,
-                position,
-                data: { label: `${type} node` , name:`${type}`, 'weak': false, color:colorChooser(type)},
-            };
-            // event.dataTransfer.setData('test', newNode.data);
+               // }
 
-            setNodes((nds) => nds.concat(newNode));
+
+            setNodes( (nds)=>nds.concat(newNode));
             console.log(nodes)
             console.log(event.dataTransfer.getData('itemDropped'))
         },
