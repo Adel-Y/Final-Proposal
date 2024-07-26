@@ -13,17 +13,18 @@ import ReactFlow, {
     useEdgesState,
     useReactFlow,
     ReactFlowProvider,
-    useOnSelectionChange, StraightEdge
+    useOnSelectionChange, StraightEdge, StepEdge
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useState, useCallback } from 'react';
 import CustomEdge from "./CustomEdge";
+import HierarchialEdge from "./HierarchialEdge";
 import './index.css';
 import Entity from "./Data Structures/Entity";
 import Sidebar from "./Sidebar";
-import entity from "./Data Structures/Entity";
 import Relationship from "./Data Structures/Relationship";
 import Attribute from "./Data Structures/Attribute";
+import Hierarchy from "./Data Structures/Hierarchy";
 
 const initialNodes = [];
 
@@ -36,7 +37,9 @@ const DnDFlow = () => {
     const edgeTypes = useMemo(
         () => ({
             'custom-edge': CustomEdge,
-            'straight':StraightEdge
+            'straight':StraightEdge,
+            'hierarchy-edge': HierarchialEdge,
+            'stair-edge': StepEdge
         }),
         [],
     );
@@ -45,7 +48,8 @@ const DnDFlow = () => {
         () => ({
             Entity: Entity,
             Relationship: Relationship,
-            Attribute: Attribute
+            Attribute: Attribute,
+            Hierarchy: Hierarchy
         }),
         [],
     );
@@ -86,7 +90,8 @@ const DnDFlow = () => {
     });
 
 
-    function updateNode(victim, data) {
+    function updateNode(victim, data,color) {
+        console.log(color)
 
         if(victim[0].type ==='custom-edge') {
 
@@ -99,7 +104,7 @@ const DnDFlow = () => {
                         // in order to notify react flow about the change
                         return {
                             ...edge,
-                            data: data,
+                            data: {cardinality: data.cardinality},
                         };
                     }
 
@@ -120,7 +125,9 @@ const DnDFlow = () => {
                         // in order to notify react flow about the change
                         return {
                             ...node,
+                            // style: {backgroundColor: data.color},
                             data: data,
+
                         };
                     }
 
@@ -150,6 +157,10 @@ const DnDFlow = () => {
 
             if(sourceNode.type==='Attribute'){
                 const edge = { ...connection, type: 'straight', data: {cardinality : 'one-to-many'} };
+                setEdges((eds) => addEdge(edge, eds));
+            }
+            if(sourceNode.type==='Hierarchy'){
+                const edge = { ...connection, type: 'hierarchy-edge', data: {cardinality : 'one-to-many'} };
                 setEdges((eds) => addEdge(edge, eds));
             }
             else {
@@ -199,14 +210,29 @@ const DnDFlow = () => {
                 x: event.clientX,
                 y: event.clientY,
             });
+                switch(type){
+
+                    case 'entity':
+                        ;
+                    case 'relationship':
+                            ;
+                    case 'attribute':
+
+                        ;
+                    case 'hierarchy':
+                        ;
+                    case 'interface':
+                        ;
+
+                }
 
             const newNode = {
                 id: getId(),
                 type,
                 position,
-                data: { label: `${type} node` , name:`${type}`, 'weak': false , color: colorChooser(type)},
+                data: { label: `${type} node` , name:`${type}`, 'weak': false, color:colorChooser(type)},
             };
-            event.dataTransfer.setData('test', newNode.data);
+            // event.dataTransfer.setData('test', newNode.data);
 
             setNodes((nds) => nds.concat(newNode));
             console.log(nodes)

@@ -61,7 +61,7 @@ const Attribute = ({ data, isConnectable,onDragStart}) => {
                      draggable
                      className= {`attribute ${data?.weak ? 'weak' : ''}`}
                      style={{
-                         backgroundColor: data?.color
+                         backgroundColor:data?.color
                      }}
                 >
 

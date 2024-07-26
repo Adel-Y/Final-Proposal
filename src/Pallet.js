@@ -5,6 +5,7 @@ import Entity from "./Data Structures/Entity";
 import {ReactFlowProvider} from "reactflow";
 import Relationship from "./Data Structures/Relationship";
 import Attribute from "./Data Structures/Attribute";
+import Hierarchy from "./Data Structures/Hierarchy";
 const Pallet= () => {
     const onDragStart = (event, nodeType) => {
         event.dataTransfer.setData('itemDropped', nodeType);
@@ -21,6 +22,8 @@ const Pallet= () => {
             <Relationship onDragStart={(event) => onDragStart(event, 'Relationship')} />
 
             <Attribute onDragStart={(event)=>onDragStart(event,'Attribute')} />
+
+            <Hierarchy onDragStart={(event)=>onDragStart(event,'Hierarchy')} />
 
             <div className="dndnode input" onDragStart={(event) => onDragStart(event, 'input')} draggable>
                 Input Node

@@ -71,7 +71,7 @@ const Sidebar = ({ node, updateNode }) => {
                     <br></br>
                     <label>
                         Color:
-                        <input type="color" defaultValue={node[0]?.data.color}   onChange={(e)=> changeColor(e.target.value)}/>
+                        <input type="color" defaultValue={node[0]?.color}   onChange={(e)=> changeColor(e.target.value)}/>
                     </label>
                     <br></br>
 
@@ -98,7 +98,7 @@ const Sidebar = ({ node, updateNode }) => {
                     <br></br>
                     <label>
                         Color:
-                        <input type="color" defaultValue={node[0]?.data.color}   onChange={(e)=> changeColor(e.target.value)}/>
+                        <input type="color" defaultValue={node[0]?.color}   onChange={(e)=> changeColor(e.target.value)}/>
                     </label>
                     <br></br>
 
@@ -128,6 +128,39 @@ const Sidebar = ({ node, updateNode }) => {
                     </label>
                 </div>
                 ;
+
+            case 'Attribute':
+                return <div>
+                    <label>
+                        Name:
+                        <input name="attribute-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
+                    </label>
+                    <br></br>
+                    <label>
+                        Primary Key:
+                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.weak ? true : false}  />
+                    </label>
+                    <br></br>
+                    <label>
+                        Color:
+                        <input type="color" defaultValue={node[0]?.color}   onChange={(e)=> changeColor(e.target.value)}/>
+                    </label>
+                    <br></br>
+
+                    <label>Related to:
+                            <p>Entity 1</p>
+                    </label>
+
+                    <label>Attribute Type:
+                        <select  >
+                            <option value='single-value'>Single Value</option>
+                            <option value='multi-value'>Multi-Value</option>
+                            <option value='derived-attribute'>Derived Attribute</option>
+                            <option value='composite'>Composite</option>
+                        </select>
+                    </label>
+                </div>
+                    ;
             default:
                 return 'foo';
         }
@@ -135,24 +168,25 @@ const Sidebar = ({ node, updateNode }) => {
     const updateData = () => {
         if(node[0]?.type==='custom-edge') {
 
-            const newDat =
+            const data =
                 {
                     cardinality: edgeCardinality,
                 }
-            return newDat;
+            return data;
         }
         else{
 
-            const newDat =
+            const data =
                 {
                     label: node[0]?.data.label,
                     name: name,
                     weak: isWeak,
                     color: color
                 }
+                // console.log({data:data,color:color})
 
 
-            return newDat;
+            return data;
         }
 
     }
@@ -162,7 +196,7 @@ const Sidebar = ({ node, updateNode }) => {
     const handleUpdate = () => {
 
         if (node) {
-            updateNode(node, updateData() );
+            updateNode(node, updateData());
         }
     };
 

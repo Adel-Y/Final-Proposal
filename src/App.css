@@ -181,12 +181,12 @@ border-radius: 100%;
 }
 
 .attribute{
-  border: 1px solid #ccc;
+  /*border: 1px solid #ccc;*/
   borderRadius: 5px;
   background-color: lightsalmon;
   color: black;
   width: 90px;
-  height: 35px;
+  height: 32px;
   border-radius: 60px;
   position: relative;
   cursor: grab;
@@ -369,4 +369,19 @@ border-radius: 100%;
   stroke: #222;
   stroke-width: 2px;
   cursor: pointer;
+}
+
+.hierarchial-edge-path {
+  stroke: #222;
+  stroke-width: 2px;
+  cursor: pointer;
+  width: 1px;
+  height: 1px;
+}
+.hierarchy {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-top: 50px solid blue;
 }
