@@ -6,6 +6,13 @@ const Attribute = ({ data, isConnectable,onDragStart}) => {
 
     const id =useNodeId()
 
+    const attributeClass = `attribute ${
+        data?.attributeType === 'multi-value' ? 'multi-value' :
+            data?.attributeType === 'derived-attribute' ? 'derived-attribute' :
+                data?.attributeType === 'composite' ? 'composite-attribute' :
+                    ''
+    }`.trim();
+
     const { setNodes } = useReactFlow();
 
     return (
@@ -59,14 +66,12 @@ const Attribute = ({ data, isConnectable,onDragStart}) => {
                 }  type="source" position={Position.Right} id="d" isConnectable={isConnectable} />
                 <div onDragStart={onDragStart}
                      draggable
-                     className= {`attribute ${data?.weak ? 'weak' : ''}`}
-                     style={{
-                         backgroundColor:data?.color
-                     }}
+                     className= {attributeClass}
+
                 >
 
 
-                    <p className={'attribute-text'}>{data?  data?.name: "Attribute"}</p>
+                    <p className={`attribute-text ${data?.primaryKey ? 'primaryKey' : ''}`}>{data?  data?.name: "Attribute"}</p>
 
                 </div>
 
