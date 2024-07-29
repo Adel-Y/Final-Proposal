@@ -32,17 +32,7 @@ const Hierarchy = ({ data, isConnectable,onDragStart}) => {
                 }
                         type="target" position={Position.Top} id="c" isConnectable={isConnectable} />
 
-                {/*<Handle style={*/}
-                {/*    {*/}
-                {/*        width : '7px',*/}
-                {/*        height: '7px'*/}
-                {/*    }*/}
-                {/*}*/}
-                {/*        type="source"*/}
-                {/*        position={Position.Left}*/}
-                {/*        id="a"*/}
-                {/*        isConnectable={isConnectable}*/}
-                {/*/>*/}
+
 
                 <Handle style={
                     {
@@ -51,12 +41,7 @@ const Hierarchy = ({ data, isConnectable,onDragStart}) => {
                     }
                 }  type="source" position={Position.Bottom} id="b" isConnectable={isConnectable} />
 
-                {/*<Handle style={*/}
-                {/*    {*/}
-                {/*        width : '7px',*/}
-                {/*        height: '7px'*/}
-                {/*    }*/}
-                {/*}  type="source" position={Position.Right} id="d" isConnectable={isConnectable} />*/}
+
                 <div onDragStart={onDragStart}
                      draggable
                      className= {`hierarchy ${data?.weak ? 'weak' : ''}`}

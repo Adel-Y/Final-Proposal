@@ -26,7 +26,7 @@ const Pallet= () => {
 
             <Interface onDragStart={(event)=>onDragStart(event,'Interface')} />
 
-            <Hierarchy onDragStart={(event)=>onDragStart(event,'Hierarchy')} />
+            {/*<Hierarchy onDragStart={(event)=>onDragStart(event,'Hierarchy')} />*/}
 
             {/*<div className="dndnode input" onDragStart={(event) => onDragStart(event, 'input')} draggable>*/}
             {/*    Input Node*/}

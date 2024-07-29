@@ -259,7 +259,8 @@ const DnDFlow = () => {
                                 label: `${type} node`,
                                 name: `${type}`,
                                 primaryKey: false,
-                                attributeType: 'regular',
+                                attributeType: 'single-value',
+                                dataType: 'VARCHAR',
                                 color: colorChooser(type)
                             },
                         };

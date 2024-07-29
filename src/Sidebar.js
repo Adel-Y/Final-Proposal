@@ -17,6 +17,12 @@ const Sidebar = ({ node, updateNode }) => {
 
     const [isWeak,setIsWeak]=useState(false)
 
+    const [isPrimaryKey,setPrimaryKey]=useState(false)
+
+    const [attributeType,setAttributeType]=useState('')
+
+    const [dataType,setDataType]=useState('')
+
 
     const [nodeData, setNodeData] = useState([]);
 
@@ -46,13 +52,25 @@ const Sidebar = ({ node, updateNode }) => {
         setIsWeak(!isWeak)
 
     }
+    const primaryKey =()=>{
+        setPrimaryKey(!isPrimaryKey)
 
+    }
     const changeColor =(value) =>{
         setColor(value)
     }
 
     const updateCardinality =(value)=>{
         setEdgeCardinality(value)
+    }
+
+    const updateAttributeType =(value)=>{
+        setAttributeType(value)
+    }
+
+
+    const updateDataType =(value)=>{
+        setDataType(value)
     }
 
     const renderSwitch=()=> {
@@ -138,7 +156,62 @@ const Sidebar = ({ node, updateNode }) => {
                     <br></br>
                     <label>
                         Primary Key:
-                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.weak ? true : false}  />
+                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.primaryKey ? true : false} onClick={(e)=>  primaryKey() }/>
+                    </label>
+                    <br></br>
+
+                    <label>Attribute Type:
+                        <select defaultValue={node[0]?.data.attributeType} onChange={(e)=>updateAttributeType(e.target.value)}  >
+                            <option value='single-value'>Single Value</option>
+                            <option value='multi-value'>Multi-Value</option>
+                            <option value='derived-attribute'>Derived Attribute</option>
+                            <option value='composite'>Composite</option>
+                        </select>
+                    </label>
+                    <br></br>
+                    <label>Data Type:
+                        <select defaultValue={node[0]?.data.dataType} onChange={(e)=>updateDataType(e.target.value)}  >
+                            <optgroup label="Numeric Data Types">
+                                <option value="BIGINT">BIGINT</option>
+                                <option value="BIT">BIT</option>
+                                <option value="DECIMAL">DECIMAL</option>
+                                <option value="DOUBLE">DOUBLE</option>
+                                <option value="FLOAT">FLOAT</option>
+                                <option value="INT">INT</option>
+                                <option value="INTEGER">INTEGER</option>
+                                <option value="MEDIUMINT">MEDIUMINT</option>
+                                <option value="NUMERIC">NUMERIC</option>
+                                <option value="REAL">REAL</option>
+                                <option value="SMALLINT">SMALLINT</option>
+                                <option value="TINYINT">TINYINT</option>
+                            </optgroup>
+                            <optgroup label="String Data Types">
+                                <option value="BINARY">BINARY</option>
+                                <option value="BLOB">BLOB</option>
+                                <option value="CHAR">CHAR</option>
+                                <option value="CLOB">CLOB</option>
+                                <option value="ENUM">ENUM</option>
+                                <option value="LONGTEXT">LONGTEXT</option>
+                                <option value="MEDIUMBLOB">MEDIUMBLOB</option>
+                                <option value="MEDIUMTEXT">MEDIUMTEXT</option>
+                                <option value="NCHAR">NCHAR</option>
+                                <option value="NVARCHAR">NVARCHAR</option>
+                                <option value="SET">SET</option>
+                                <option value="TEXT">TEXT</option>
+                                <option value="TINYBLOB">TINYBLOB</option>
+                                <option value="TINYTEXT">TINYTEXT</option>
+                                <option value="VARBINARY">VARBINARY</option>
+                                <option value="VARCHAR">VARCHAR</option>
+                                <option value="XML">XML</option>
+                            </optgroup>
+                            <optgroup label="Date Data Types">
+                                <option value="DATE">DATE</option>
+                                <option value="DATETIME">DATETIME</option>
+                                <option value="INTERVAL">INTERVAL</option>
+                                <option value="TIME">TIME</option>
+                                <option value="TIMESTAMP">TIMESTAMP</option>
+                            </optgroup>
+                        </select>
                     </label>
                     <br></br>
                     <label>
@@ -146,19 +219,11 @@ const Sidebar = ({ node, updateNode }) => {
                         <input type="color" defaultValue={node[0]?.color}   onChange={(e)=> changeColor(e.target.value)}/>
                     </label>
                     <br></br>
-
                     <label>Related to:
                             <p>Entity 1</p>
                     </label>
 
-                    <label>Attribute Type:
-                        <select  >
-                            <option value='single-value'>Single Value</option>
-                            <option value='multi-value'>Multi-Value</option>
-                            <option value='derived-attribute'>Derived Attribute</option>
-                            <option value='composite'>Composite</option>
-                        </select>
-                    </label>
+
                 </div>
                     ;
             case 'Hierarchy':
@@ -212,14 +277,54 @@ const Sidebar = ({ node, updateNode }) => {
         }
         else{
 
-            const data =
-                {
+            let data =
+                { }
+            if(node[0]?.type=== 'Entity') {
+                data = {
+                            label: node[0]?.data.label,
+                            name: name,
+                            weak: isWeak,
+                            color: color
+                };
+            };
+            if(node[0]?.type === 'Relationship') {
+                data = {
                     label: node[0]?.data.label,
                     name: name,
                     weak: isWeak,
                     color: color
-                }
-                // console.log({data:data,color:color})
+                };
+            };
+            if(node[0]?.type === 'Attribute') {
+                data = {
+                    label: node[0]?.data.label,
+                    name: name,
+                    primaryKey: isPrimaryKey,
+                    attributeType: attributeType,
+                    dataType: dataType,
+                    color: color
+                };
+            };
+            if(node[0]?.type === 'Hierarchy') {
+                data = {
+                    label: node[0]?.data.label,
+                    name: name,
+                };
+            };
+            if(node[0]?.type === 'Interface') {
+                data = {
+                    label: node[0]?.data.label,
+                    name: name,
+                };
+            };
+            // const data =
+            //     {
+            //         label: node[0]?.data.label,
+            //         name: name,
+            //         weak: isWeak,
+            //         color: color
+            //     }
+            //     // console.log({data:data,color:color})
 
 
             return data;
