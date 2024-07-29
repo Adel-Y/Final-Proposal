@@ -13,7 +13,7 @@ import ReactFlow, {
     useEdgesState,
     useReactFlow,
     ReactFlowProvider,
-    useOnSelectionChange, StraightEdge, StepEdge
+    useOnSelectionChange, StraightEdge, StepEdge, ControlButton, Panel, BackgroundVariant
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useState, useCallback } from 'react';
@@ -65,7 +65,7 @@ const DnDFlow = () => {
     const { screenToFlowPosition } = useReactFlow();
 
 
-    const [selectedAttribute, setSelectedAttribute]= useState([]);
+    const [selectedBackground, setSelectedBackground]= useState(BackgroundVariant.Dots);
 
 
 
@@ -222,7 +222,7 @@ const DnDFlow = () => {
             });
 
             let newNode = {};
-              //  switch(type){
+
 
                     if(type === 'Entity') {
                         newNode = {
@@ -289,7 +289,7 @@ const DnDFlow = () => {
                         };
                     };
 
-               // }
+
 
 
             setNodes( (nds)=>nds.concat(newNode));
@@ -299,8 +299,15 @@ const DnDFlow = () => {
         [screenToFlowPosition],
     );
 
+    const setBackground =(type)=>{
+
+                setSelectedBackground(type)
+
+
+    }
 
     return (
+        <>
         <div className="dndflow">
             <div className="reactflow-wrapper" ref={reactFlowWrapper}>
                 <ReactFlow
@@ -315,8 +322,16 @@ const DnDFlow = () => {
                     onDragOver={onDragOver}
 
                 >
-                    <Background/>
+                    <Background variant={selectedBackground}/>
                     <MiniMap/>
+                    <Panel position="top-left">
+                       <div>
+                           <button onClick={()=> setBackground(BackgroundVariant.Dots)}>Dots</button>
+                           <button onClick={()=>setBackground(BackgroundVariant.Lines)}>Lines</button>
+                           <button onClick={()=>setBackground(BackgroundVariant.Cross)}>Cross</button>
+                       </div>
+                    </Panel>
+                    {/*<ControlButton/>*/}
                     <Controls />
                 </ReactFlow>
 
@@ -325,6 +340,7 @@ const DnDFlow = () => {
             </div>
 
         </div>
+        </>
     );
 };
 
