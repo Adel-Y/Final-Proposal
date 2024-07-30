@@ -67,7 +67,7 @@ const Interface = ({ data, isConnectable,onDragStart}) => {
                 >
 
 
-                    <p className={'entity-text'}>{data?  data?.name: "Interface"}</p>
+                    <p className={'entity-text fontTheme'}>{data?  data?.name: "Interface"}</p>
 
                 </div>
 

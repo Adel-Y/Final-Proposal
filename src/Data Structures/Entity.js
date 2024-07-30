@@ -66,7 +66,7 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
             >
 
 
-                <p className={'entity-text'}>{data?  data?.name: "Entity"}</p>
+                <p className={'entity-text fontTheme'}>{data?  data?.name: "Entity"}</p>
 
             </div>
 

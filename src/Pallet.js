@@ -16,7 +16,7 @@ const Pallet= () => {
     return (
         <ReactFlowProvider>
         <div className='pallet'>
-            <h4>Drag Items</h4>
+            <h4 className='fontTheme'>Drag Items</h4>
 
             <Entity onDragStart={(event) => onDragStart(event, 'Entity')} />
 

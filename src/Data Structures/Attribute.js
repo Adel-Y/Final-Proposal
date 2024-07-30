@@ -125,7 +125,7 @@ const Attribute = ({ data, isConnectable,onDragStart}) => {
                 >
 
 
-                    <p className={`attribute-text ${data?.primaryKey ? 'primaryKey' : ''}`}>{data?  data?.name: "Attribute"}</p>
+                    <p className={`attribute-text ${data?.primaryKey ? 'primaryKey' : ''} fontTheme`}>{data?  data?.name: "Attribute"}</p>
 
                 </div>
 

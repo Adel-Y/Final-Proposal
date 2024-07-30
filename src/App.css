@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+
 .App {
   text-align: center;
 }
@@ -80,6 +83,9 @@ html, body, #root {
   width: 100px;
   height: 50px;
   cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   /*user-select: none;*/
 
 }
@@ -108,14 +114,14 @@ html, body, #root {
 /* to be added soon*/
 }
 
-.entity-button{
-border-radius: 100%;
-  position: absolute;
-  top: -5px;
-  right: 5px;
-  margin: auto;
-  cursor: pointer;
-}
+/*.entity-button{*/
+/*border-radius: 100%;*/
+/*  position: absolute;*/
+/*  top: -5px;*/
+/*  right: 5px;*/
+/*  margin: auto;*/
+/*  cursor: pointer;*/
+/*}*/
 .entity-text{
   text-align: center;
 
@@ -371,6 +377,7 @@ border-radius: 100%;
 .sd-button {
   background-color: black;
   border: none;
+  border-radius: 20px;
   color: white;
   padding: 10px 20px;
   cursor: pointer;
@@ -430,6 +437,32 @@ border-radius: 100%;
   width: 100px;
   height: 50px;
   cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   /*user-select: none;*/
 
+}
+
+.sidebar-elements{
+  margin: 6px;
+  display:grid;
+ /*font-family: "Poppins";*/
+
+}
+
+.sidebar-elements input{
+border-radius: 6px;
+  margin-left: 4px;
+
+}
+
+.sidebar-elements select{
+  border-radius: 6px;
+  margin-left: 6px;
+
+}
+
+.fontTheme{
+  font-family: "Poppins";
 }

@@ -82,7 +82,7 @@ const Sidebar = ({ node, updateNode }) => {
     const renderSwitch=()=> {
         switch(node[0]?.type) {
             case 'Entity':
-                return <div>
+                return <div className='sidebar-elements'>
                 <label>
                     Name:
                     <input name="entity-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
@@ -109,7 +109,7 @@ const Sidebar = ({ node, updateNode }) => {
                 </div>
                 ;
             case 'Relationship':
-                return <div>
+                return <div className='sidebar-elements'>
                     <label>
                         Name:
                         <input name="entity-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
@@ -141,7 +141,7 @@ const Sidebar = ({ node, updateNode }) => {
                     ;
 
             case 'custom-edge':
-                return <div>
+                return <div className='sidebar-elements'>
                     <label>Cardinality:
                         <select defaultValue={node[0]?.data.cardinality} onChange={(e)=>updateCardinality(e.target.value)}>
                             <option value='zero-to-one'>(0,1)</option>
@@ -154,7 +154,7 @@ const Sidebar = ({ node, updateNode }) => {
                 ;
 
             case 'Attribute':
-                return <div>
+                return <div className='sidebar-elements'>
                     <label>
                         Name:
                         <input name="attribute-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
@@ -240,7 +240,7 @@ const Sidebar = ({ node, updateNode }) => {
                     ;
             case 'Hierarchy':
 
-            return <div>
+            return <div className='sidebar-elements'>
                 <label>Is Connected to Entities:
                     <p>Entity 1</p>
                     <p>Entity 2</p>
@@ -252,7 +252,7 @@ const Sidebar = ({ node, updateNode }) => {
             </div>
                 ;
             case 'Interface':
-                return <div>
+                return <div className='sidebar-elements'>
                     <label>
                         Name:
                         <input name="entity-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
@@ -348,7 +348,7 @@ const Sidebar = ({ node, updateNode }) => {
     };
 
     return (
-        <div className={`sidebar ${selectedNode ? 'open' : ''}`}>
+        <div className={`sidebar ${selectedNode ? 'open' : ''} fontTheme`}>
             <h2>Update Node: {node[0]?.id}</h2>
             {/*<form action={handleUpdate()}>*/}
             <div>

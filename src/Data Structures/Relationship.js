@@ -73,7 +73,7 @@ const Relationship = ({ data, isConnectable,onDragStart}) => {
                 >
 
 
-                    <p className={'relationship-text'}>{data?  data?.name: "Relationship"}</p>
+                    <p className={'relationship-text fontTheme'}>{data?  data?.name: "Relationship"}</p>
 
                 </div>
 

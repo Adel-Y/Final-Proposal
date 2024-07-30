@@ -20,7 +20,8 @@ margin-left: 10px;
     display: inline-block;
     padding: 12px 14px;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 15px;
+    font-family: 'Poppins';
 }
 
 li a, .dropbtn {
@@ -29,6 +30,8 @@ li a, .dropbtn {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-size: 15px;
+    font-family: 'Poppins';
 }
 
 li a:hover, .dropdown:hover .dropbtn {

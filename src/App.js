@@ -17,7 +17,7 @@ import Pallet from "./Pallet";
     <div className='page'>
         <Pallet/>
         <div>
-        <h4>Drop Zone</h4>
+        <h4 className='fontTheme'>Drop Zone</h4>
           <div className='zone'>
               <Flow/>
           </div>
