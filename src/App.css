@@ -92,12 +92,16 @@ html, body, #root {
   text-decoration: underline;
 }
 
-.multi-value{
+.single-value{
   border: 1px solid black;
 }
 
+.multi-value{
+  border: 6px solid black;
+}
+
 .derived-attribute{
-  border: 1px dashed black;
+  border: 2px dashed black;
 }
 
 .composite-attribute{
@@ -118,19 +122,19 @@ border-radius: 100%;
 }
 
 
-.entity-drag-item {
-  background-color: lightyellow; /* Background color for the items */
-  color: black; /* Text color */
-  padding: 6px; /* Padding inside the items */
-  width: 120px;
-  height: 70px;
-  border-radius: 5px; /* Rounded corners */
-  display: flex;
-  justify-content: center; /* Center align the text horizontally */
-  align-items: center; /* Center align the text vertically */
-  text-align: center;
-  /*transition: transform 0.2s; !* Smooth transformation on hover *!*/
-}
+/*.entity-drag-item {*/
+/*  background-color: lightyellow; !* Background color for the items *!*/
+/*  color: black; !* Text color *!*/
+/*  padding: 6px; !* Padding inside the items *!*/
+/*  width: 120px;*/
+/*  height: 70px;*/
+/*  border-radius: 5px; !* Rounded corners *!*/
+/*  display: flex;*/
+/*  justify-content: center; !* Center align the text horizontally *!*/
+/*  align-items: center; !* Center align the text vertically *!*/
+/*  text-align: center;*/
+/*  !*transition: transform 0.2s; !* Smooth transformation on hover *!*!*/
+/*}*/
 
 
 
@@ -179,7 +183,7 @@ border-radius: 100%;
 }
 
 .attribute-background{
-  border: 1px solid #ccc;
+  /*border: 1px solid black;*/
   borderRadius: 5px;
   background-color: lightsalmon;
   color: black;
@@ -201,7 +205,7 @@ border-radius: 100%;
   borderRadius: 5px;
   background-color: lightsalmon;
   color: black;
-  width: 90px;
+  width: 80px;
   height: 32px;
   border-radius: 60px;
   position: relative;
@@ -400,6 +404,7 @@ border-radius: 100%;
   border-left: 25px solid transparent;
   border-right: 25px solid transparent;
   border-top: 50px solid indigo;
+  position: unset;
 }
 
 .interface-background{

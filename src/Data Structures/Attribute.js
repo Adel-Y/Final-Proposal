@@ -6,8 +6,15 @@ const Attribute = ({ data, isConnectable,onDragStart}) => {
 
     const id =useNodeId()
 
-    const attributeClass = `attribute ${
+    const innerAttributeClass = `attribute ${
         data?.attributeType === 'multi-value' ? 'multi-value' :
+           // data?.attributeType === 'derived-attribute' ? 'derived-attribute' :
+           //      data?.attributeType === 'composite' ? 'composite-attribute' :
+                    ''
+    }`.trim();
+
+    const outerAttributeClass = `attribute-background ${
+         data?.attributeType === 'single-value' ? 'single-value' :
             data?.attributeType === 'derived-attribute' ? 'derived-attribute' :
                 data?.attributeType === 'composite' ? 'composite-attribute' :
                     ''
@@ -27,7 +34,7 @@ const Attribute = ({ data, isConnectable,onDragStart}) => {
 
                 <button >style</button>
             </NodeToolbar>
-            <div className='attribute-background' style={{
+            <div className={outerAttributeClass} style={{
                 backgroundColor: data?.color
             }}>
 
@@ -64,9 +71,56 @@ const Attribute = ({ data, isConnectable,onDragStart}) => {
                         height: '7px'
                     }
                 }  type="source" position={Position.Right} id="d" isConnectable={isConnectable} />
+
+                {data?.attributeType === 'composite' && ( <div>
+
+                    <Handle style={
+                        {
+                            width : '7px',
+                            height: '7px',
+                            marginLeft: '35px',
+                            backgroundColor: 'darkred'
+                        }
+                    }  type="target" position={Position.Bottom} id="e" isConnectable={isConnectable} />
+                    <Handle style={
+                {
+                    width : '7px',
+                    height: '7px',
+                    marginLeft: '-35px',
+                    backgroundColor: 'darkred'
+                }
+                }  type="target" position={Position.Bottom} id="f" isConnectable={isConnectable} />
+
+            <Handle style={
+                {
+                    width : '7px',
+                    height: '7px',
+                    marginLeft: '-35px',
+                    backgroundColor: 'darkred'
+                }
+            }  type="target" position={Position.Top} id="g" isConnectable={isConnectable} />
+
+            <Handle style={
+                {
+                    width : '7px',
+                    height: '7px',
+                    marginLeft: '35px',
+                    backgroundColor: 'darkred'
+                }
+            }  type="target" position={Position.Top} id="h" isConnectable={isConnectable} />
+
+
+                    </div>
+                )
+
+                }
+
+
+
+
                 <div onDragStart={onDragStart}
                      draggable
-                     className= {attributeClass}
+                     className= {innerAttributeClass}
 
                 >
 

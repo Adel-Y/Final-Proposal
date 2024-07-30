@@ -23,6 +23,8 @@ const Sidebar = ({ node, updateNode }) => {
 
     const [dataType,setDataType]=useState('')
 
+    const [dataSize,setDataSize]=useState(99)
+
 
     const [nodeData, setNodeData] = useState([]);
 
@@ -71,6 +73,10 @@ const Sidebar = ({ node, updateNode }) => {
 
     const updateDataType =(value)=>{
         setDataType(value)
+    }
+
+    const updateDataSize =(value)=>{
+        setDataSize(value)
     }
 
     const renderSwitch=()=> {
@@ -212,6 +218,12 @@ const Sidebar = ({ node, updateNode }) => {
                                 <option value="TIMESTAMP">TIMESTAMP</option>
                             </optgroup>
                         </select>
+
+                    </label>
+                    <br></br>
+                    <label>
+                        Data Size:
+                        <input style={{width:'45px'}} type="number" placeholder={'eg. 99'} defaultValue={node[0]?.data.dataSize}  onChange={(e) => updateDataSize(e.target.value)}/>
                     </label>
                     <br></br>
                     <label>
@@ -302,6 +314,7 @@ const Sidebar = ({ node, updateNode }) => {
                     primaryKey: isPrimaryKey,
                     attributeType: attributeType,
                     dataType: dataType,
+                    dataSize:dataSize,
                     color: color
                 };
             };
@@ -315,16 +328,9 @@ const Sidebar = ({ node, updateNode }) => {
                 data = {
                     label: node[0]?.data.label,
                     name: name,
+                    color: color
                 };
             };
-            // const data =
-            //     {
-            //         label: node[0]?.data.label,
-            //         name: name,
-            //         weak: isWeak,
-            //         color: color
-            //     }
-            //     // console.log({data:data,color:color})
 
 
             return data;

@@ -156,6 +156,8 @@ const DnDFlow = () => {
 
             const sourceNode = nodes.find(node => node.id === source);
 
+            const targetNode = nodes.find(node => node.id === target);
+
             console.log(sourceNode)
 
             if(sourceNode.type==='Attribute'){
@@ -166,8 +168,8 @@ const DnDFlow = () => {
                 const edge = { ...connection, type: 'hierarchy-edge', data: {cardinality : 'one-to-many'} };
                 setEdges((eds) => addEdge(edge, eds));
             }
-            if(sourceNode.type==='Interface'){
-                const edge = { ...connection, type: 'straight', data: {cardinality : 'one-to-many'} };
+            if(sourceNode.type==='Interface' && (targetNode.type==='Entity' || targetNode.type ==='Interface')){
+                const edge = { ...connection, type: 'hierarchy-edge', data: {cardinality : 'one-to-many'} };
                 setEdges((eds) => addEdge(edge, eds));
             }
             else {
@@ -261,6 +263,7 @@ const DnDFlow = () => {
                                 primaryKey: false,
                                 attributeType: 'single-value',
                                 dataType: 'VARCHAR',
+                                dataSize: 99,
                                 color: colorChooser(type)
                             },
                         };
