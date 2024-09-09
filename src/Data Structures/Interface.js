@@ -28,7 +28,7 @@ const Interface = ({ data, isConnectable,onDragStart}) => {
                     {
                         width : '7px',
                         height: '7px',
-                        // backgroundColor: 'red'
+                        backgroundColor: 'darkred'
                     }
                 }
                         type="target" position={Position.Top} id="c" isConnectable={isConnectable} />

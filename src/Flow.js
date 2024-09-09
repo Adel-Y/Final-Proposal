@@ -330,9 +330,9 @@ const DnDFlow = () => {
                     <MiniMap/>
                     <Panel position="top-left">
                        <div className="fontTheme">
-                           <button onClick={()=> setBackground(BackgroundVariant.Dots)}>Dots</button>
-                           <button onClick={()=>setBackground(BackgroundVariant.Lines)}>Lines</button>
-                           <button onClick={()=>setBackground(BackgroundVariant.Cross)}>Cross</button>
+                           <button className='panel-button' onClick={()=> setBackground(BackgroundVariant.Dots)}>Dots</button>
+                           <button className='panel-button' onClick={()=>setBackground(BackgroundVariant.Lines)}>Lines</button>
+                           <button className='panel-button' onClick={()=>setBackground(BackgroundVariant.Cross)}>Cross</button>
                        </div>
                     </Panel>
                     {/*<ControlButton/>*/}

@@ -167,7 +167,7 @@ const Sidebar = ({ node, updateNode }) => {
                     <br></br>
 
                     <label>Attribute Type:
-                        <select defaultValue={node[0]?.data.attributeType} onChange={(e)=>updateAttributeType(e.target.value)}  >
+                        <select className='fontTheme custom-select' defaultValue={node[0]?.data.attributeType} onChange={(e)=>updateAttributeType(e.target.value)}  >
                             <option value='single-value'>Single Value</option>
                             <option value='multi-value'>Multi-Value</option>
                             <option value='derived-attribute'>Derived Attribute</option>
@@ -176,7 +176,7 @@ const Sidebar = ({ node, updateNode }) => {
                     </label>
                     <br></br>
                     <label>Data Type:
-                        <select defaultValue={node[0]?.data.dataType} onChange={(e)=>updateDataType(e.target.value)}  >
+                        <select className='fontTheme custom-select' defaultValue={node[0]?.data.dataType} onChange={(e)=>updateDataType(e.target.value)}  >
                             <optgroup label="Numeric Data Types">
                                 <option value="BIGINT">BIGINT</option>
                                 <option value="BIT">BIT</option>

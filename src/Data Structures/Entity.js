@@ -27,7 +27,8 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
             <Handle style={
                 {
                     width : '7px',
-                    height: '7px'
+                    height: '7px',
+                    backgroundColor: 'darkred'
                 }
             }
                     type="target" position={Position.Top} id="c" isConnectable={isConnectable} />
@@ -47,7 +48,8 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
             <Handle style={
                 {
                     width : '7px',
-                    height: '7px'
+                    height: '7px',
+                    backgroundColor: 'darkred'
                 }
             }  type="target" position={Position.Bottom} id="b" isConnectable={isConnectable} />
 

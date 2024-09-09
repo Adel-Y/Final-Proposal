@@ -375,7 +375,7 @@ html, body, #root {
 }
 
 .sd-button {
-  background-color: black;
+  background-color: #38444d;
   border: none;
   border-radius: 20px;
   color: white;
@@ -465,4 +465,45 @@ border-radius: 6px;
 
 .fontTheme{
   font-family: "Poppins";
+}
+
+.panel-button{
+  font-family: "Poppins";
+  font-size: 15px;
+  background-color: #38444d;
+  color: white;
+  border-radius: 8px;
+}
+
+.panel-button:hover{
+  font-family: "Poppins";
+  font-size: 15px;
+  background-color: grey;
+  cursor: pointer;
+
+}
+
+.custom-select{
+
+  font-size: 12px;
+
+  /*background-color: lightgrey;*/
+
+}
+
+.custom-select option{
+
+  font-size: 12px;
+
+  background-color: lightgrey;
+
+}
+
+
+.custom-select option:hover{
+
+color: #38444d;
+  background-color: #38444d;
+  font-size: 20px;
+
 }

@@ -30,7 +30,8 @@ const Relationship = ({ data, isConnectable,onDragStart}) => {
                     {
                         width : '7px',
                         height: '7px',
-                        marginLeft: '35px'
+                        marginLeft: '35px',
+                        backgroundColor: 'darkred'
                     }
                 }
                         type="target" position={Position.Top} id="c" isConnectable={isConnectable} />
@@ -39,7 +40,8 @@ const Relationship = ({ data, isConnectable,onDragStart}) => {
                     {
                         width : '7px',
                         height: '7px',
-                        marginTop: '-35px'
+                        marginTop: '-35px',
+                        backgroundColor: 'darkred'
                     }
                 }
                         type="target"
@@ -52,7 +54,8 @@ const Relationship = ({ data, isConnectable,onDragStart}) => {
                     {
                         width : '7px',
                         height: '7px',
-                        marginLeft: '-35px'
+                        marginLeft: '-35px',
+                        backgroundColor: 'darkred'
                     }
                 }  type="target" position={Position.Bottom} id="b" isConnectable={isConnectable} />
 
@@ -60,7 +63,8 @@ const Relationship = ({ data, isConnectable,onDragStart}) => {
                     {
                         width : '7px',
                         height: '7px',
-                        marginTop: '35px'
+                        marginTop: '35px',
+                        backgroundColor: 'darkred'
                     }
                 }  type="target" position={Position.Right} id="d" isConnectable={isConnectable} />
                 <div onDragStart={onDragStart}
