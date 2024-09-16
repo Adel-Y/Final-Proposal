@@ -15,6 +15,7 @@ import ReactFlow, {
     ReactFlowProvider,
     useOnSelectionChange, StraightEdge, StepEdge, ControlButton, Panel, BackgroundVariant
 } from 'reactflow';
+import axios from 'axios';
 import 'reactflow/dist/style.css';
 import { useState, useCallback } from 'react';
 import CustomEdge from "./CustomEdge";
@@ -55,6 +56,27 @@ const DnDFlow = () => {
         }),
         [],
     );
+    // backend connection
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        axios.get('/api/users')
+            .then(response => {
+                console.log(response)
+                setData(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setError(error);
+                setLoading(false);
+            });
+    }, []);
+    //end
+
+
+
     const reactFlowWrapper = useRef(null);
 
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
