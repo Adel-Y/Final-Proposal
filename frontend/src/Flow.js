@@ -316,6 +316,17 @@ const DnDFlow = () => {
                     };
 
 
+        // posting to the database
+                axios.post('/test/nodes',newNode)
+                    .then(response => {
+                        console.log(response)
+                        setData(response.data);
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        setError(error);
+                        setLoading(false);
+                    });
 
 
             setNodes( (nds)=>nds.concat(newNode));

@@ -14,6 +14,7 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
 
 
                 <button onClick={() => {
+                    
                     setNodes((es) => es.filter((e) => e.id !==id ));}}>
                     delete</button>
 
