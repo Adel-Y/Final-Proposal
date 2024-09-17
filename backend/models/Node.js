@@ -13,7 +13,8 @@ const nodeSchema = new mongoose.Schema({
     
     data:{
         color:{
-        type : String
+        type : String,
+        required:true
         },
 
         label: {
@@ -27,10 +28,22 @@ const nodeSchema = new mongoose.Schema({
             required:true
         }, 
 
-        weak:{
+        weak:{ // for entities and relationships
             type : Boolean,
-            required:true
-        } 
+            
+        },
+        primaryKey:{ // for attributes
+            type: Boolean,
+        },
+        attributeType:{ // for attributes
+            type:String,
+        },
+        dataType:{ // for attributes
+            type:String,
+        },
+        dataSize:{ // for attributes
+            type:Number,
+        }
 
     },
 

@@ -28,7 +28,7 @@ mongoose.connect('mongodb://localhost:27017/Test', {
   
   app.use('/api', userRoutes);
 
-  // app.use('/test', nodeRoutes);
+   app.use('/test', nodeRoutes);
 
 //regular comment
 
