@@ -62,11 +62,13 @@ const DnDFlow = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('/api/users')
+        axios.get('/test/nodes')
             .then(response => {
                 console.log(response)
                 setData(response.data);
                 setLoading(false);
+                console.log(response.data)
+                setNodes(response.data)
             })
             .catch(error => {
                 setError(error);

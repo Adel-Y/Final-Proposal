@@ -1,5 +1,6 @@
 import React, {useCallback,useState,useEffect} from 'react';
 import {Handle, Position, NodeToolbar, useNodesState, Panel, useReactFlow, useNodeId, addEdge} from "reactflow";
+import axios from "axios";
 
 const Attribute = ({ data, isConnectable,onDragStart}) => {
 
@@ -22,12 +23,27 @@ const Attribute = ({ data, isConnectable,onDragStart}) => {
 
     const { setNodes } = useReactFlow();
 
+    const [backData, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     return (
         <>
             <NodeToolbar >
 
 
                 <button onClick={() => {
+
+                    axios.delete(`/test/nodes/${id}`)
+                        .then(response => {
+                            console.log(response)
+                            setData(response.data);
+                            setLoading(false);
+                        })
+                        .catch(error => {
+                            setError(error);
+                            setLoading(false);
+                        });
                     setNodes((es) => es.filter((e) => e.id !==id ));}}>
                     delete</button>
 
