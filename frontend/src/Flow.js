@@ -91,7 +91,7 @@ const DnDFlow = () => {
 
     const [selectedBackground, setSelectedBackground]= useState(BackgroundVariant.Dots);
 
-
+    const [positionUpdate,setPositionUpdate]=useState([]);
 
 
 
@@ -100,22 +100,65 @@ const DnDFlow = () => {
     const [selectedEdges, setSelectedEdges] = useState([]);
 
     // the passed handler has to be memoized, otherwise the hook will not work correctly
-    const onChange = useCallback(({ nodes, edges }) => {
+    const onChange =
+        useCallback(
+        ({ nodes, edges }) => {
+        console.log(nodes)
 
         if(nodes.length !==0) {
+            console.log("Hello ")
             setSelectedElements(nodes.map((node) => node));
+            console.log("change is happening here")
         }
        // console.log(selectedNodes)
         else {
             setSelectedElements(edges.map((edge) => edge));
+            console.log("change is happening here")
         }
-    }, [])
+    }
+    , [])
     // console.log(selectedNodes)
     useOnSelectionChange({
         onChange
 
     });
 
+
+    const updateNodePosition = async (updatedNodes) => {
+        axios.put(`/test/nodes/position/${updatedNodes[0].id}`, updatedNodes)
+            .then(response => {
+                console.log(response)
+                setData(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setError(error);
+                setLoading(false);
+            });
+
+    };
+
+
+    const handleNodesChange = (changes) => {
+        onNodesChange(changes);
+
+        // Extract only the nodes that have actually been updated
+        const updatedNodes = nodes.filter((node) => {
+            const change = changes.find(change => change.id === node.id && change.position);
+            return change && (
+                change.position.x !== node.position.x || change.position.y !== node.position.y
+            );
+        }).map(node => ({
+            id: node.id,
+            position: node.position, // Capture the updated position
+        }));
+
+        // Call the updateNodePosition method only if there are changes
+        if (updatedNodes.length > 0) {
+            updateNodePosition(updatedNodes);
+            // console.log(updatedNodes)
+        }
+    };
 
     function updateNode(victim, data,color) {
         console.log(color)
@@ -354,7 +397,7 @@ const DnDFlow = () => {
                     edges={edges}
                     nodeTypes={nodeTypes}
                     edgeTypes={edgeTypes}
-                    onNodesChange={onNodesChange}
+                    onNodesChange={handleNodesChange}
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
                     onDrop={onDrop}

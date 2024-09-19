@@ -41,6 +41,7 @@ router.get('/nodes/:id', async (req, res) => {
 // PUT route to update a user by ID
 router.put('/nodes/:id', async (req, res) => {
   try {
+    // Node.deleteOne({"id":req.params.id})
     const node = await Node.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -54,10 +55,29 @@ router.put('/nodes/:id', async (req, res) => {
   }
 });
 
+router.put('/nodes/position/:id', async (req, res) => {
+  // console.log(req.body)
+  try {
+
+    // Node.deleteOne({"id":req.params.id})
+    const node = await Node.updateOne({"id":req.params.id}, req.body[0], {
+      new: true,
+      runValidators: true,
+    });
+    if (!node) {
+      return res.status(404).send('User not found');
+    }
+    res.send(node);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+
 // DELETE route to remove a user by ID
 router.delete('/nodes/:id', async (req, res) => {
   try {
-    const node = await Node.findByIdAndDelete(req.params.id);
+    const node = await Node.deleteOne({"id":req.params.id});
     if (!node) {
       return res.status(404).send('User not found');
     }
