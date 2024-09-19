@@ -55,12 +55,37 @@ router.put('/nodes/:id', async (req, res) => {
   }
 });
 
+
+router.put('/nodes/data/:id', async (req, res) => {
+  console.log(req.body)
+
+  const {id,data}=req.body[0]
+
+
+  console.log(id,data);
+  try {
+
+    // Node.deleteOne({"id":req.params.id})
+    const node = await Node.updateOne({"id":req.params.id},{$set:{'data':req.body[0].data}}, {
+      new: true,
+      runValidators: true,
+    });
+    if (!node) {
+      return res.status(404).send('User not found');
+    }
+    res.send(node);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+
 router.put('/nodes/position/:id', async (req, res) => {
   // console.log(req.body)
   try {
 
     // Node.deleteOne({"id":req.params.id})
-    const node = await Node.updateOne({"id":req.params.id}, req.body[0], {
+    const node = await Node.updateOne({"id":req.params.id}, {$set:{'position':req.body[0].position}}, {
       new: true,
       runValidators: true,
     });

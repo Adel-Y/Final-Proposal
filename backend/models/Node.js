@@ -14,18 +14,18 @@ const nodeSchema = new mongoose.Schema({
     data:{
         color:{
         type : String,
-        required:true
+        //required:true
         },
 
         label: {
 
         type : String,
-        required:true
+        //required:true
 
         },
         name:{
             type : String,
-            required:true
+           // required:true
         }, 
 
         weak:{ // for entities and relationships

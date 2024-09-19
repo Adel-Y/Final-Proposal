@@ -106,9 +106,7 @@ const DnDFlow = () => {
         console.log(nodes)
 
         if(nodes.length !==0) {
-            console.log("Hello ")
             setSelectedElements(nodes.map((node) => node));
-            console.log("change is happening here")
         }
        // console.log(selectedNodes)
         else {
@@ -126,6 +124,22 @@ const DnDFlow = () => {
 
     const updateNodePosition = async (updatedNodes) => {
         axios.put(`/test/nodes/position/${updatedNodes[0].id}`, updatedNodes)
+            .then(response => {
+                console.log(response)
+                setData(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setError(error);
+                setLoading(false);
+            });
+
+    };
+
+    const updateNodeData = async (node) => {
+        console.log(node[0].id)
+
+        axios.put(`/test/nodes/data/${node[0].id}`, node)
             .then(response => {
                 console.log(response)
                 setData(response.data);
@@ -162,7 +176,7 @@ const DnDFlow = () => {
 
     function updateNode(victim, data,color) {
         console.log(color)
-
+        // console.log(nodes.find(victim[0].id===))
         if(victim[0].type ==='custom-edge') {
 
             setEdges((eds) =>
@@ -186,24 +200,56 @@ const DnDFlow = () => {
         }
         else{
 
-            setNodes((nds) =>
-                nds.map((node) => {
 
-                    if (node.id === victim[0].id) {
-                        console.log('I entered')
-                        // it's important that you create a new node object
-                        // in order to notify react flow about the change
-                        return {
-                            ...node,
-                            // style: {backgroundColor: data.color},
-                            data: data,
-
-                        };
+            const updateNode = nodes.map((node)=>{
+                if (node.id===victim[0].id){
+                    return{
+                        ...node,
+                        data:data
                     }
+                }
+            }).filter((node)=>node?.id===victim[0].id)
+            // const sent = updateNode.filter((node)=>node?.id===victim[0].id)
+            console.log(updateNode)
+            updateNodeData(updateNode);
 
-                    return node;
-                }),
-            );
+            // Call the updateNodePosition method only if there are changes
+            // if (updateNode) {
+            //     updateNodeData(updateNode);
+            //
+            //     // console.log(updatedNodes)
+            // }
+
+
+
+
+
+            // setNodes((nds) =>
+            //     nds.map((node) => {
+            //
+            //         if (node.id === victim[0].id) {
+            //             console.log('I entered')
+            //             // it's important that you create a new node object
+            //             // in order to notify react flow about the change
+            //             return {
+            //                 ...node,
+            //                 // style: {backgroundColor: data.color},
+            //                 data: data,
+            //
+            //             };
+            //         }
+            //
+            //         return node;
+            //     }),
+            // );
+
+            // const update = nodes.filter((node)=>{
+            //     if (node.id===victim[0].id){
+            //         return node
+            //     }
+            // })
+            // updateNodeData(update)
+            // console.log(update)
 
         }
 
