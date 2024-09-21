@@ -137,6 +137,9 @@ const Attribute = ({ data, isConnectable,onDragStart}) => {
                 <div onDragStart={onDragStart}
                      draggable
                      className= {innerAttributeClass}
+                     style={{
+                         backgroundColor: data?.color
+                     }}
 
                 >
 

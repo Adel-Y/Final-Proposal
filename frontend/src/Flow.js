@@ -209,47 +209,26 @@ const DnDFlow = () => {
                     }
                 }
             }).filter((node)=>node?.id===victim[0].id)
-            // const sent = updateNode.filter((node)=>node?.id===victim[0].id)
             console.log(updateNode)
+
+            setNodes((nds) =>
+                nds.map((node) => {
+
+                    if (node.id === victim[0].id) {
+                        console.log('I entered')
+                        // it's important that you create a new node object
+                        // in order to notify react flow about the change
+                        return {
+                            ...node,
+                            data: data,
+                        };
+                    }
+
+                    return node;
+                }),
+            );
             updateNodeData(updateNode);
-
-            // Call the updateNodePosition method only if there are changes
-            // if (updateNode) {
-            //     updateNodeData(updateNode);
-            //
-            //     // console.log(updatedNodes)
-            // }
-
-
-
-
-
-            // setNodes((nds) =>
-            //     nds.map((node) => {
-            //
-            //         if (node.id === victim[0].id) {
-            //             console.log('I entered')
-            //             // it's important that you create a new node object
-            //             // in order to notify react flow about the change
-            //             return {
-            //                 ...node,
-            //                 // style: {backgroundColor: data.color},
-            //                 data: data,
-            //
-            //             };
-            //         }
-            //
-            //         return node;
-            //     }),
-            // );
-
-            // const update = nodes.filter((node)=>{
-            //     if (node.id===victim[0].id){
-            //         return node
-            //     }
-            // })
-            // updateNodeData(update)
-            // console.log(update)
+            
 
         }
 
