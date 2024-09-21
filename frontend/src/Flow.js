@@ -31,8 +31,8 @@ import Interface from "./Data Structures/Interface";
 const initialNodes = [];
 
 
-let id = 0;
-const getId = () => `id-${id++}`;
+let id = 1;
+const getId = () => `id-${id++ * Date.now()}`;
 
 const DnDFlow = () => {
 
@@ -76,7 +76,6 @@ const DnDFlow = () => {
             });
     }, []);
     //end
-//regular comment
 
 
     const reactFlowWrapper = useRef(null);
@@ -228,7 +227,7 @@ const DnDFlow = () => {
                 }),
             );
             updateNodeData(updateNode);
-            
+
 
         }
 
