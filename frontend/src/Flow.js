@@ -105,6 +105,20 @@ const DnDFlow = () => {
         console.log(nodes)
 
         if(nodes.length !==0) {
+            // console.log(nodes[0])
+            // axios.get(`/test/oneNode/${nodes[0]?.id}`)
+            //     .then(response => {
+            //         console.log(response)
+            //         setData(response.data);
+            //         setLoading(false);
+            //         console.log(response.data)
+            //         // setNodes(response.data)
+            //         setSelectedElements(response.data);
+            //     })
+            //     .catch(error => {
+            //         setError(error);
+            //         setLoading(false);
+            //     });
             setSelectedElements(nodes.map((node) => node));
         }
        // console.log(selectedNodes)
@@ -284,13 +298,13 @@ const DnDFlow = () => {
     const colorChooser =(type)=>{
         switch (type){
             case 'Entity':
-                return 'lightyellow';
+                return '#FFFFC5';
             case 'Relationship':
-                return 'lightgreen';
+                return '#90EE90';
             case 'Attribute':
-                return 'lightsalmon';
+                return '#FFA07A';
             case 'Interface':
-                return 'deepskyblue';
+                return '#00bfff';
 
     }
     }

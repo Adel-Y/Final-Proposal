@@ -25,10 +25,14 @@ router.get('/nodes', async (req, res) => {
   }
 });
 
-// GET route to fetch a single user by ID
-router.get('/nodes/:id', async (req, res) => {
+
+
+
+// POST route to fetch a single user by ID
+router.get('/oneNode/:id', async (req, res) => {
+  console.log(req.params)
   try {
-    const node = await Node.findById(req.params.id);
+    const node = await Node.findOne({"id":req.params.id});
     if (!node) {
       return res.status(404).send('Node not found');
     }
@@ -57,7 +61,7 @@ router.put('/nodes/:id', async (req, res) => {
 
 
 router.put('/nodes/data/:id', async (req, res) => {
-  console.log(req.body)
+  //console.log(req.body)
 
   const {id,data}=req.body[0]
 

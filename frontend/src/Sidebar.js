@@ -2,12 +2,14 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import './App.css';
 import {useReactFlow} from "reactflow";
+import axios from "axios";
+import {wait} from "@testing-library/user-event/dist/utils";
 
 
 const Sidebar = ({ node, updateNode }) => {
     const [name, setName] = useState('');
 
-    const [color, setColor] = useState('');
+    const [color, setColor] = useState(node[0]?.color);
 
 
     const [selectedNode, setSelectedNode] = useState(false);
@@ -30,14 +32,55 @@ const Sidebar = ({ node, updateNode }) => {
 
     const [edgeCardinality, setEdgeCardinality]=useState('');
 
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    //console.log(node)
+    // useEffect(()=>{
+    //     console.log(node)
+    //     setName(node[0]?.name)
+    //     setIsWeak(node[0]?.weak)
+    //     setPrimaryKey(node[0]?.primaryKey)
+    //     setAttributeType(node[0]?.attributeType)
+    //     setDataType(node[0]?.dataType)
+    //     setDataSize( node[0]?.dataSize )
+    //     setColor( node[0]?.color)
+    //
+    //     console.log(name,isWeak,isPrimaryKey,attributeType,dataType,dataSize,color)
+    // },[node])
 
-    useCallback(()=>{
-        setNodeData(node[0]?.data)
-        console.log('set')
+
+    useEffect(()=>{
+        if (node.length!==0) {
+            axios.get(`/test/oneNode/${node[0]?.id}`)
+                .then(response => {
+                    console.log(response)
+                    setData(response.data);
+                    setLoading(false);
+                    console.log(response.data.data)
+                    // setTimeout(()=>{
+                        setName(response.data.data.name)
+                        setIsWeak(response.data.data?.weak)
+                        setPrimaryKey(response.data.data?.primaryKey)
+                        setAttributeType(response.data.data?.attributeType)
+                        setDataType(response.data.data?.dataType)
+                        setDataSize( response.data.data?.dataSize )
+                        setColor( response.data.data.color)
+                        console.log(name,isWeak,isPrimaryKey,attributeType,dataType,dataSize,color)
+
+                    // },1000)
+
+                    //setNodeData(response.data)
+                })
+                .catch(error => {
+                    setError(error);
+                    setLoading(false);
+                });
+        }
+        // setNodeData(node[0]?.data)
+        // console.log('set')
     },[node])
-    // setNodeData(node[0]?.data)
-    console.log(node[0])
-    console.log(nodeData)
+
 
 
     useEffect(() => {
@@ -50,12 +93,12 @@ const Sidebar = ({ node, updateNode }) => {
     });
 
 
-    const setNodeWeak =()=>{
-        setIsWeak(!isWeak)
+    const setNodeWeak =(value)=>{
+        setIsWeak(value)
 
     }
-    const primaryKey =()=>{
-        setPrimaryKey(!isPrimaryKey)
+    const primaryKey =(value)=>{
+        setPrimaryKey(value)
 
     }
     const changeColor =(value) =>{
@@ -84,18 +127,18 @@ const Sidebar = ({ node, updateNode }) => {
             case 'Entity':
                 return <div className='sidebar-elements'>
                 <label>
-                    Name:
+                 Name:
                     <input name="entity-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
                 </label>
                     <br></br>
                     <label>
                         Weak Entity:
-                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.weak ? true : false} onClick={(e)=>  setNodeWeak()} />
+                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.weak ? true : false} onChange={(e)=>  setNodeWeak(e.target.checked)} />
                     </label>
                     <br></br>
                     <label>
                         Color:
-                        <input type="color" defaultValue={node[0]?.color}   onChange={(e)=> changeColor(e.target.value)}/>
+                        <input type="color" defaultValue={color}   onChange={(e)=> changeColor(e.target.value)}/>
                     </label>
                     <br></br>
 
@@ -117,12 +160,12 @@ const Sidebar = ({ node, updateNode }) => {
                     <br></br>
                     <label>
                         Weak Relationship:
-                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.weak ? true : false} onClick={(e)=>  setNodeWeak()} />
+                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.weak ? true : false} onChange={(e)=>  setNodeWeak(e.target.checked)} />
                     </label>
                     <br></br>
                     <label>
                         Color:
-                        <input type="color" defaultValue={node[0]?.color}   onChange={(e)=> changeColor(e.target.value)}/>
+                        <input type="color" defaultValue={color}   onChange={(e)=> changeColor(e.target.value)}/>
                     </label>
                     <br></br>
 
@@ -162,7 +205,7 @@ const Sidebar = ({ node, updateNode }) => {
                     <br></br>
                     <label>
                         Primary Key:
-                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.primaryKey ? true : false} onClick={(e)=>  primaryKey() }/>
+                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.primaryKey ? true : false} onChange={(e)=>  primaryKey(e.target.checked)}/>
                     </label>
                     <br></br>
 
@@ -228,7 +271,7 @@ const Sidebar = ({ node, updateNode }) => {
                     <br></br>
                     <label>
                         Color:
-                        <input type="color" defaultValue={node[0]?.color}   onChange={(e)=> changeColor(e.target.value)}/>
+                        <input type="color" defaultValue={color}   onChange={(e)=> changeColor(e.target.value)}/>
                     </label>
                     <br></br>
                     <label>Related to:
@@ -262,7 +305,7 @@ const Sidebar = ({ node, updateNode }) => {
                     <br></br>
                     <label>
                         Color:
-                        <input type="color" defaultValue={node[0]?.color}   onChange={(e)=> changeColor(e.target.value)}/>
+                        <input type="color" defaultValue={color}   onChange={(e)=> changeColor(e.target.value)}/>
                     </label>
                     <br></br>
 
@@ -340,8 +383,8 @@ const Sidebar = ({ node, updateNode }) => {
 
 
 
-    const handleUpdate = () => {
-
+    const handleUpdate = async (e) => {
+        e.preventDefault()
         if (node) {
             updateNode(node, updateData());
         }
@@ -350,7 +393,7 @@ const Sidebar = ({ node, updateNode }) => {
     return (
         <div className={`sidebar ${selectedNode ? 'open' : ''} fontTheme`}>
             <h2>Update Node: {node[0]?.id}</h2>
-            {/*<form action={handleUpdate()}>*/}
+            {/*<form onSubmit={handleUpdate}>*/}
             <div>
 
                 {renderSwitch()}
