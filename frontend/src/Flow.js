@@ -287,6 +287,7 @@ const DnDFlow = () => {
     //     [setEdges],
     // );
     useEffect(()=> console.log(nodes),[nodes]);
+    useEffect(()=> console.log(edges),[edges]);
 
 
 

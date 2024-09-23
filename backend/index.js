@@ -6,7 +6,8 @@ const app = express();
 //const User = require('./models/User');
 //const router = express.Router();
 const userRoutes = require('./routes/userRoutes'); // Import the user routes
-const nodeRoutes = require('./routes/nodeRoutes'); // Import the user routes
+const nodeRoutes = require('./routes/nodeRoutes'); // Import the node routes
+const edgeRoutes = require('./routes/edgeRoutes'); // Import the edge routes
 // const port = 4000;
 
 app.use(cors({
@@ -28,7 +29,9 @@ mongoose.connect('mongodb://localhost:27017/Test', {
   
   app.use('/api', userRoutes);
 
-   app.use('/test', nodeRoutes);
+  app.use('/test', nodeRoutes);
+
+  app.use('/connect', edgeRoutes);
 
 //regular comment
 
