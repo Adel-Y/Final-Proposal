@@ -32,6 +32,9 @@ const edgeSchema = new mongoose.Schema({
   type:{
     type:String
   },
+  tag:{
+    type:String
+  }
 
 });
 

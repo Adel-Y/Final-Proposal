@@ -54,6 +54,9 @@ const nodeSchema = new mongoose.Schema({
   type:{
     type:String
   },
+  tag:{
+    type:String
+  }
 
 });
 

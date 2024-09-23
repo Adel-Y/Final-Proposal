@@ -35,23 +35,12 @@ const Sidebar = ({ node, updateNode }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    //console.log(node)
-    // useEffect(()=>{
-    //     console.log(node)
-    //     setName(node[0]?.name)
-    //     setIsWeak(node[0]?.weak)
-    //     setPrimaryKey(node[0]?.primaryKey)
-    //     setAttributeType(node[0]?.attributeType)
-    //     setDataType(node[0]?.dataType)
-    //     setDataSize( node[0]?.dataSize )
-    //     setColor( node[0]?.color)
-    //
-    //     console.log(name,isWeak,isPrimaryKey,attributeType,dataType,dataSize,color)
-    // },[node])
+    console.log(node)
+
 
 
     useEffect(()=>{
-        if (node.length!==0) {
+        if (node.length!==0 && node[0]?.tag === 'node') {
             axios.get(`/test/oneNode/${node[0]?.id}`)
                 .then(response => {
                     console.log(response)
@@ -68,6 +57,28 @@ const Sidebar = ({ node, updateNode }) => {
                         setColor( response.data.data.color)
                         console.log(name,isWeak,isPrimaryKey,attributeType,dataType,dataSize,color)
 
+                    // },1000)
+
+                    //setNodeData(response.data)
+                })
+                .catch(error => {
+                    setError(error);
+                    setLoading(false);
+                });
+        }
+
+        if (node.length!==0 && node[0]?.tag === 'edge') {
+            axios.get(`/connect/oneEdge/${node[0]?.id}`)
+                .then(response => {
+                    console.log(response)
+                    setData(response.data);
+                    setLoading(false);
+                    console.log(response.data.data)
+                    // setTimeout(()=>{
+                    if(node[0]?.type==='custom-edge') {
+                        setEdgeCardinality(response.data.data.cardinality)
+                        console.log(edgeCardinality)
+                    }
                     // },1000)
 
                     //setNodeData(response.data)

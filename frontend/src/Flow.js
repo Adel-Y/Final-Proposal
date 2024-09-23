@@ -121,20 +121,7 @@ const DnDFlow = () => {
         console.log(nodes)
 
         if(nodes.length !==0) {
-            // console.log(nodes[0])
-            // axios.get(`/test/oneNode/${nodes[0]?.id}`)
-            //     .then(response => {
-            //         console.log(response)
-            //         setData(response.data);
-            //         setLoading(false);
-            //         console.log(response.data)
-            //         // setNodes(response.data)
-            //         setSelectedElements(response.data);
-            //     })
-            //     .catch(error => {
-            //         setError(error);
-            //         setLoading(false);
-            //     });
+
             setSelectedElements(nodes.map((node) => node));
         }
        // console.log(selectedNodes)
@@ -181,6 +168,22 @@ const DnDFlow = () => {
 
     };
 
+    const updateEdgeData = async (edge) => {
+        console.log(edge[0].id)
+
+        axios.put(`/connect/edges/data/${edge[0].id}`, edge)
+            .then(response => {
+                console.log(response)
+                setData(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setError(error);
+                setLoading(false);
+            });
+
+    };
+
 
     const handleNodesChange = (changes) => {
         onNodesChange(changes);
@@ -208,6 +211,17 @@ const DnDFlow = () => {
         // console.log(nodes.find(victim[0].id===))
         if(victim[0].type ==='custom-edge') {
 
+            const updateEdge = edges.map((edge)=>{
+                if (edge.id===victim[0].id){
+                    return{
+                        ...edge,
+                        data:data
+                    }
+                }
+            }).filter((node)=>node?.id===victim[0].id)
+            console.log(updateEdge)
+
+
             setEdges((eds) =>
                 eds.map((edge) => {
 
@@ -224,7 +238,7 @@ const DnDFlow = () => {
                     return edge;
                 }),
             );
-
+            updateEdgeData(updateEdge);
 
         }
         else{
@@ -282,19 +296,19 @@ const DnDFlow = () => {
             console.log(sourceNode.type)
             let newEdge = {};
             if(sourceNode.type ==='Attribute' && targetNode.type==='Entity'){
-                 newEdge = { ...connection, id:newID , type: 'straight-edge', data: {cardinality : 'one-to-many'} };
+                 newEdge = { ...connection, id:newID , type: 'straight-edge', tag:'edge' ,data: {cardinality : 'one-to-many'} };
                 //setEdges((eds) => addEdge(newEdge, eds));
             }
             if(sourceNode.type==='Hierarchy'){
-                newEdge = { ...connection, id:newID , type: 'hierarchy-edge', data: {cardinality : 'one-to-many'} };
+                newEdge = { ...connection, id:newID , type: 'hierarchy-edge', tag:'edge' , data: {cardinality : 'one-to-many'} };
                 //setEdges((eds) => addEdge(newEdge, eds));
             }
             if(sourceNode.type==='Interface' && (targetNode.type==='Entity' || targetNode.type ==='Interface')){
-                newEdge = { ...connection, id:newID , type: 'hierarchy-edge', data: {cardinality : 'one-to-many'} };
+                newEdge = { ...connection, id:newID , type: 'hierarchy-edge', tag:'edge' , data: {cardinality : 'one-to-many'} };
                 //setEdges((eds) => addEdge(newEdge, eds));
             }
             else if(sourceNode.type==='Entity' && targetNode.type==='Relationship' ) {
-                newEdge = {...connection, id:newID , type: 'custom-edge', data: {cardinality: 'one-to-many'}};
+                newEdge = {...connection, id:newID , type: 'custom-edge', tag:'edge' , data: {cardinality: 'one-to-many'}};
                 //setEdges((eds) => addEdge(newEdge, eds));
             }
             // posting to the database
@@ -365,6 +379,7 @@ const DnDFlow = () => {
                             id: getId(),
                             type,
                             position,
+                            tag:'node',
                             data: {
                                 label: `${type} node`,
                                 name: `${type}`,
@@ -378,6 +393,7 @@ const DnDFlow = () => {
                             id: getId(),
                             type,
                             position,
+                            tag:'node',
                             data: {
                                 label: `${type} node`,
                                 name: `${type}`,
@@ -391,6 +407,7 @@ const DnDFlow = () => {
                             id: getId(),
                             type,
                             position,
+                            tag:'node',
                             data: {
                                 label: `${type} node`,
                                 name: `${type}`,
@@ -407,6 +424,7 @@ const DnDFlow = () => {
                             id: getId(),
                             type,
                             position,
+                            tag:'node',
                             data: {
                                 label: `${type} node`,
                                 name: `${type}`,
@@ -419,6 +437,7 @@ const DnDFlow = () => {
                             id: getId(),
                             type,
                             position,
+                            tag:'node',
                             data: {
                                 label: `${type} node`,
                                 name: `${type}`,
