@@ -5,9 +5,14 @@ import {
     useReactFlow,
 } from 'reactflow';
 import {useState} from "react";
+import axios from "axios";
 
 export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, data }) {
     const [isLabelVisible, setIsLabelVisible] = useState(false);
+
+    const [apiData, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const { setEdges } = useReactFlow();
     const [edgePath, labelX, labelY] = getSmoothStepPath({
@@ -64,6 +69,16 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
                                     cursor:'pointer'
                                 }}
                                 onClick={() => {
+                                    axios.delete(`/connect/edges/${id}`)
+                                        .then(response => {
+                                            console.log(response)
+                                            setData(response.data);
+                                            setLoading(false);
+                                        })
+                                        .catch(error => {
+                                            setError(error);
+                                            setLoading(false);
+                                        });
                                     setEdges((es) => es.filter((e) => e.id !== id));
                                 }}
                             >

@@ -7,7 +7,7 @@ const edgeSchema = new mongoose.Schema({
     
     id:{
         type : String,
-        required:true
+        //required:true
     },
     
     

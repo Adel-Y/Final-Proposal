@@ -1,6 +1,6 @@
 import {
     BaseEdge,
-    EdgeLabelRenderer,
+    EdgeLabelRenderer, getBezierPath, getSmoothStepPath,
     getStraightPath,
     useReactFlow,
 } from 'reactflow';
@@ -52,8 +52,7 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
                 strokeWidth={25}
                 onMouseOver={handleEdgeClick}
                 onMouseLeave={handleEdgeBlur}
-                onMouse
-                className="interaction-path" on
+                className="interaction-path"
             >
 
 
@@ -65,26 +64,26 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
                         cursor:'pointer'
                     }} className="nodrag nopan">
                         {isLabelVisible && (
-                    <button
-                            style={{
-                                cursor:'pointer'
-                            }}
-                        onClick={() => {
-                            axios.delete(`/connect/edges/${id}`)
-                                .then(response => {
-                                    console.log(response)
-                                    setData(response.data);
-                                    setLoading(false);
-                                })
-                                .catch(error => {
-                                    setError(error);
-                                    setLoading(false);
-                                });
-                            setEdges((es) => es.filter((e) => e.id !== id));
-                        }}
-                    >
-                        delete
-                    </button>
+                            <button
+                                style={{
+                                    cursor:'pointer'
+                                }}
+                                onClick={() => {
+                                    axios.delete(`/connect/edges/${id}`)
+                                        .then(response => {
+                                            console.log(response)
+                                            setData(response.data);
+                                            setLoading(false);
+                                        })
+                                        .catch(error => {
+                                            setError(error);
+                                            setLoading(false);
+                                        });
+                                    setEdges((es) => es.filter((e) => e.id !== id));
+                                }}
+                            >
+                                delete
+                            </button>
 
                         )
                         }
@@ -95,23 +94,11 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
 
             <path
                 id={id}
-                className="custom-edge-path"
+                className="hierarchial-edge-path"
                 d={edgePath}
+                fill='none'
                 // markerEnd={markerEnd}
             />
-            <EdgeLabelRenderer>
-                <div                         style={{
-                    position: 'absolute',
-                    transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-                    pointerEvents: 'all',
-                    cursor:'pointer'
-                }} className="nodrag nopan">
-                    <div style={{
-                        marginTop:'-30px'
-                    }}><span> {cardinalityRenderer()}</span></div>
-
-                </div>
-            </EdgeLabelRenderer>
 
 
         </>

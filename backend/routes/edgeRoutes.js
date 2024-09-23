@@ -6,6 +6,7 @@ const router = express.Router();
 
 // POST route to create a new user
 router.post('/edges', async (req, res) => {
+    console.log(req.body)
   try {
     const edge = new Edge(req.body);
     await edge.save();

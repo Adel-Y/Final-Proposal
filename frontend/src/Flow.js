@@ -13,12 +13,13 @@ import ReactFlow, {
     useEdgesState,
     useReactFlow,
     ReactFlowProvider,
-    useOnSelectionChange, StraightEdge, StepEdge, ControlButton, Panel, BackgroundVariant
+    useOnSelectionChange, StepEdge, ControlButton, Panel, BackgroundVariant
 } from 'reactflow';
 import axios from 'axios';
 import 'reactflow/dist/style.css';
 import { useState, useCallback } from 'react';
 import CustomEdge from "./CustomEdge";
+import StraightEdge from "./StraightEdge";
 import HierarchialEdge from "./HierarchialEdge";
 import './index.css';
 import Entity from "./Data Structures/Entity";
@@ -39,7 +40,7 @@ const DnDFlow = () => {
     const edgeTypes = useMemo(
         () => ({
             'custom-edge': CustomEdge,
-            'straight':StraightEdge,
+            'straight-edge':StraightEdge,
             'hierarchy-edge': HierarchialEdge,
             'stair-edge': StepEdge
         }),
@@ -69,6 +70,21 @@ const DnDFlow = () => {
                 setLoading(false);
                 console.log(response.data)
                 setNodes(response.data)
+            })
+            .catch(error => {
+                setError(error);
+                setLoading(false);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios.get('/connect/edges')
+            .then(response => {
+                console.log(response)
+                setData(response.data);
+                setLoading(false);
+                console.log(response.data)
+                setEdges(response.data)
             })
             .catch(error => {
                 setError(error);
@@ -262,25 +278,37 @@ const DnDFlow = () => {
             const sourceNode = nodes.find(node => node.id === source);
 
             const targetNode = nodes.find(node => node.id === target);
-
-            console.log(sourceNode)
-
-            if(sourceNode.type==='Attribute'){
-                const edge = { ...connection, type: 'straight', data: {cardinality : 'one-to-many'} };
-                setEdges((eds) => addEdge(edge, eds));
+            const newID= source + "-to-"+target
+            console.log(sourceNode.type)
+            let newEdge = {};
+            if(sourceNode.type ==='Attribute' && targetNode.type==='Entity'){
+                 newEdge = { ...connection, id:newID , type: 'straight-edge', data: {cardinality : 'one-to-many'} };
+                //setEdges((eds) => addEdge(newEdge, eds));
             }
             if(sourceNode.type==='Hierarchy'){
-                const edge = { ...connection, type: 'hierarchy-edge', data: {cardinality : 'one-to-many'} };
-                setEdges((eds) => addEdge(edge, eds));
+                newEdge = { ...connection, id:newID , type: 'hierarchy-edge', data: {cardinality : 'one-to-many'} };
+                //setEdges((eds) => addEdge(newEdge, eds));
             }
             if(sourceNode.type==='Interface' && (targetNode.type==='Entity' || targetNode.type ==='Interface')){
-                const edge = { ...connection, type: 'hierarchy-edge', data: {cardinality : 'one-to-many'} };
-                setEdges((eds) => addEdge(edge, eds));
+                newEdge = { ...connection, id:newID , type: 'hierarchy-edge', data: {cardinality : 'one-to-many'} };
+                //setEdges((eds) => addEdge(newEdge, eds));
             }
-            else {
-                const edge = {...connection, type: 'custom-edge', data: {cardinality: 'one-to-many'}};
-                setEdges((eds) => addEdge(edge, eds));
+            else if(sourceNode.type==='Entity' && targetNode.type==='Relationship' ) {
+                newEdge = {...connection, id:newID , type: 'custom-edge', data: {cardinality: 'one-to-many'}};
+                //setEdges((eds) => addEdge(newEdge, eds));
             }
+            // posting to the database
+            axios.post('/connect/edges',newEdge)
+                .then(response => {
+                    console.log(response)
+                    setData(response.data);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    setError(error);
+                    setLoading(false);
+                });
+            setEdges((eds) => addEdge(newEdge, eds));
 
         }
     //     ,
