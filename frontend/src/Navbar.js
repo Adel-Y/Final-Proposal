@@ -1,17 +1,21 @@
 
 import './navbar.css';
 import React from "react";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Flow from "./Pages/Flow";
+import Relational from "./Pages/Relational";
+import App from "./App";
+import Home from "./Pages/Home";
 
 function Navbar(){
     return(
-
-
-
         <>
+        <BrowserRouter>
+
             <ul className='list'>
-                <li className='listItem nameTag'>Project Name</li>
-                <li className='listItem'><a href="#home">Link 1</a></li>
-                <li className='listItem'><a href="#news">Link 2</a></li>
+                <li className='listItem nameTag'> <a href="/">Project Name</a></li>
+                <li className='listItem'><a href="/relational">Link 1</a></li>
+                <li className='listItem'><a href="/relational">Link 2</a></li>
                 <li className="dropdown listItem">
                     <a href="javascript:void(0)" className="dropbtn">Dropdown</a>
                     <div className="dropdown-content">
@@ -21,6 +25,17 @@ function Navbar(){
                     </div>
                 </li>
             </ul>
+            <Routes>
+                <Route  path="/" element={<Home/>}/>
+                    {/*<Route index element={<Flow/>} />*/}
+                <Route path="relational" element={<Relational/>} />
+
+
+            </Routes>
+        </BrowserRouter>
+
+
+
 
 
         </>

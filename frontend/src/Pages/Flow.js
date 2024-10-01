@@ -18,16 +18,16 @@ import ReactFlow, {
 import axios from 'axios';
 import 'reactflow/dist/style.css';
 import { useState, useCallback } from 'react';
-import CustomEdge from "./CustomEdge";
-import StraightEdge from "./StraightEdge";
-import HierarchialEdge from "./HierarchialEdge";
-import './index.css';
-import Entity from "./Data Structures/Entity";
-import Sidebar from "./Sidebar";
-import Relationship from "./Data Structures/Relationship";
-import Attribute from "./Data Structures/Attribute";
-import Hierarchy from "./Data Structures/Hierarchy";
-import Interface from "./Data Structures/Interface";
+import CustomEdge from "../CustomEdge";
+import StraightEdge from "../StraightEdge";
+import HierarchialEdge from "../HierarchialEdge";
+import '../index.css';
+import Entity from "../Data Structures/Entity";
+import Sidebar from "../Sidebar";
+import Relationship from "../Data Structures/Relationship";
+import Attribute from "../Data Structures/Attribute";
+import Hierarchy from "../Data Structures/Hierarchy";
+import Interface from "../Data Structures/Interface";
 
 const initialNodes = [];
 
