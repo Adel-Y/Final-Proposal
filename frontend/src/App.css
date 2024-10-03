@@ -507,3 +507,11 @@ color: #38444d;
   font-size: 20px;
 
 }
+
+.query-display{
+
+  display: flex;
+
+
+  justify-content: center;
+}

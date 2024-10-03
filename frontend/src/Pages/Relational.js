@@ -2,69 +2,9 @@
 import '../App.css';
 import React, {useCallback, useEffect, useState} from "react";
 
-import Navbar from "../Navbar";
-import Flow from "./Flow";
-
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
 
-// Sample JSON data
-const jsonData = {
-    tables: [
-        {
-            name: "Buys",
-            columns: [
-                {
-                    name: "User_id",
-                    foreignKey: true
-                },
-                {
-                    name: "Item_id",
-                    foreignKey: true
-                }
-            ]
-        },
-        {
-            name: "Address",
-            columns: [
-                {
-                    name: "Building",
-                    primaryKey: false,
-                    type: "single-value",
-                    dataType: "DOUBLE",
-                    dataSize: 99
-                },
-                {
-                    name: "Street",
-                    primaryKey: false,
-                    type: "single-value",
-                    dataType: "VARCHAR",
-                    dataSize: 99
-                },
-                {
-                    name: "City",
-                    primaryKey: false,
-                    type: "single-value",
-                    dataType: "VARCHAR",
-                    dataSize: 99
-                },
-                {
-                    name: "ID",
-                    primaryKey: true,
-                    type: "single-value",
-                    dataType: "VARCHAR",
-                    dataSize: 99
-                },
-                {
-                    name: "User_id",
-                    foreignKey: true
-                }
-            ]
-        }
-    ]
-};
 
 // Table component that handles table rendering
 const Table = ({ name, columns }) => {
@@ -105,7 +45,6 @@ const Relational = () => {
                 setData(response.data);
                 setLoading(false);
                 console.log(response.data)
-                console.log(jsonData)
                 setDatabase(response.data)
             })
             .catch(error => {
@@ -116,7 +55,7 @@ const Relational = () => {
 
 
     if (!database || !database.tables || database.tables.length === 0) {
-        return <div>No data available</div>; // Display message if no data
+        return <div>Loading...</div>; // Display message if no data
     }
 
     return (

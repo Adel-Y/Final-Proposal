@@ -5,7 +5,7 @@ const Node = require('../models/Node');
 const Edge = require('../models/Edge');
 
 
-
+let codeData=[];
 
 const cardinalityRenderer =(value)=>{
 
@@ -57,6 +57,7 @@ const tablesRenderer = (relationships,tables)=>{
             }).filter(attr=>attr)[0];
 
             const foreignKey={
+                foreignTable:tables.filter((table)=>table.id===rel.entity2)[0].name,
                 name: tables.filter((table)=>table.id===rel.entity2)[0].name+"_id",
                 foreignKey: true,
                 dataType: foreignAttributes.dataType,
@@ -70,7 +71,7 @@ const tablesRenderer = (relationships,tables)=>{
                     return attr[0]
                 }
             })
-            //console.log(attributes)
+
             attributes.push(foreignKey)
             const model ={name:target[0].name,columns:attributes}
 
@@ -86,6 +87,7 @@ const tablesRenderer = (relationships,tables)=>{
         }).filter(attr=>attr)[0];
 
             const foreignKey={
+                foreignTable:tables.filter((table)=>table.id===rel.entity1)[0].name,
                 name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
                 foreignKey: true,
                 dataType: foreignAttributes.dataType,
@@ -117,8 +119,9 @@ const tablesRenderer = (relationships,tables)=>{
                }
            }).filter(attr=>attr)[0]
 
-           console.log(attributes1)
+
             const foreignKey1= {
+                foreignTable:tables.filter((table)=>table.id===rel.entity1)[0].name,
                 name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
                 foreignKey: true,
                 dataType: attributes1.dataType,
@@ -134,6 +137,7 @@ const tablesRenderer = (relationships,tables)=>{
            }).filter(attr=>attr)[0]
 
             const foreignKey2= {
+                foreignTable:tables.filter((table)=>table.id===rel.entity2)[0].name,
                 name: tables.filter((table)=>table.id===rel.entity2)[0].name+"_id",
                 foreignKey: true,
                 dataType: attributes2.dataType,
@@ -157,6 +161,7 @@ const tablesRenderer = (relationships,tables)=>{
                 }).filter(attr=>attr)[0];
         
                     const foreignKey={
+                        foreignTable:tables.filter((table)=>table.id===rel.entity1)[0].name,
                         name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
                         foreignKey: true,
                         dataType: foreignAttributes.dataType,
@@ -170,7 +175,7 @@ const tablesRenderer = (relationships,tables)=>{
                         return attr[0]
                     }
                 })
-                //console.log(attributes)
+
                 attributes.push(foreignKey)
                 const model ={name:target[0].name,columns:attributes}
                return model
@@ -187,7 +192,8 @@ const tablesRenderer = (relationships,tables)=>{
                 }).filter(attr=>attr)[0];
         
                     const foreignKey={
-                        name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
+                        foreignTable:tables.filter((table)=>table.id===rel.entity2)[0].name,
+                        name: tables.filter((table)=>table.id===rel.entity2)[0].name+"_id",
                         foreignKey: true,
                         dataType: foreignAttributes.dataType,
                         dataSize: foreignAttributes.dataSize
@@ -200,7 +206,7 @@ const tablesRenderer = (relationships,tables)=>{
                         return attr[0]
                     }
                 })
-                //console.log(attributes)
+
                 attributes.push(foreignKey)
                 const model ={name:target[0].name,columns:attributes}
                return model
@@ -218,7 +224,7 @@ const tablesRenderer = (relationships,tables)=>{
 router.get('/testerQuery', async (req, res) => {
     try {
       const relationshipNodes = await Node.where("type").equals("Relationship");
-      //console.log(relationshipNodes)
+
 
       const relationshipEdges = await Edge.where("type").equals("custom-edge");
 
@@ -229,11 +235,11 @@ router.get('/testerQuery', async (req, res) => {
       const attributesEdges = await Edge.where("type").equals("straight-edge");
 
     const relationships =relationshipNodes.map((node)=>{
-        // console.log(node)
+   
         let rel ={id:node.id,name:node.data.name};
         let i=1;
         relationshipEdges.map((edge)=>{
-                // console.log(edge)
+                
                 if(node.id === edge.target){
                     rel['entity'+i]=edge.source
                     rel['cardinality'+i]=  cardinalityRenderer(edge.data.cardinality)
@@ -244,7 +250,7 @@ router.get('/testerQuery', async (req, res) => {
             return rel;
         })
       
-    //   console.log(relationships)
+
 
 
 
@@ -275,6 +281,8 @@ router.get('/testerQuery', async (req, res) => {
 
     const result =tablesRenderer(relationships,tables)
 
+    codeData = result;
+
 
       res.send(result);
     } catch (err) {
@@ -282,6 +290,18 @@ router.get('/testerQuery', async (req, res) => {
     }
   });
 
- 
+ console.log(codeData)
+
+
+ router.post('/sqlCode', async (req, res) => {
+    try {
+        codeData =req.body
+    //   const node = new Node(req.body);
+    //   await node.save();
+      res.status(201).json(codeData);
+    } catch (err) {
+      res.status(400).json(err.message);
+    }
+  });
 
   module.exports = router;

@@ -36,31 +36,6 @@ mongoose.connect('mongodb://localhost:27017/Test', {
 
   app.use('/retrieve', queryRoutes);
 
-//regular comment
-
-
-
-// CRUD FUNCTIONS TO BE USED
-app.get('/', (req, res) => {
-  res.json('YA ZAHRAA!');
-});
-
-app.get('/two', (req, res) => {
-    res.json('Hello World!')
-  })
-
-app.post('/three', (req, res) => {
-    res.send('Got a POST request')
-  })
-
-app.put('/four', (req, res) => {
-    res.send('Got a PUT request at /user')
-  })
-
-app.delete('/five', (req, res) => {
-    res.send('Got a DELETE request at /user')
-  })
-//
 
 
   const PORT = process.env.PORT || 5000;
