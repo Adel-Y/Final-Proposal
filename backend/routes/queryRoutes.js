@@ -46,47 +46,102 @@ function flipCoin() {
 
 const tablesRenderer = (relationships,tables)=>{
 
-    const relationalModels = relationships.map((rel)=>{
+    const relationalModels = {tables: relationships.map((rel)=>{
 
         if(rel.cardinality1 ==="one" && rel.cardinality2==="many"){
 
-            const foreignKey= tables.filter((table)=>table.id===rel.entity2)[0].name+"_id"
+            const  foreignAttributes = tables.filter((table)=>table.id===rel.entity2)[0].attributes.map((attr)=>{
+                if(attr[0].primaryKey === true){
+                    return attr[0]
+                }
+            }).filter(attr=>attr)[0];
+
+            const foreignKey={
+                name: tables.filter((table)=>table.id===rel.entity2)[0].name+"_id",
+                foreignKey: true,
+                dataType: foreignAttributes.dataType,
+                dataSize: foreignAttributes.dataSize
+            
+            } 
 
             const target=tables.filter((table)=>table.id===rel.entity1 )
-            target[0].attributes.push({foreignKey:foreignKey})
-            const model ={name:target[0].name,id:'id'}
-            let i =0;
-            target[0].attributes.map((att)=>{
-                model["attribute"+i]=att
-                i++
+            const attributes =   target[0].attributes.map((attr)=>{
+                if(attr){
+                    return attr[0]
+                }
             })
+            //console.log(attributes)
+            attributes.push(foreignKey)
+            const model ={name:target[0].name,columns:attributes}
 
            return model
         }
 
         if(rel.cardinality1 ==="many" && rel.cardinality2==="one"){
 
-            const foreignKey= tables.filter((table)=>table.id===rel.entity1)[0].name+"_id"
+           const  foreignAttributes = tables.filter((table)=>table.id===rel.entity1)[0].attributes.map((attr)=>{
+            if(attr[0].primaryKey === true){
+                return attr[0]
+            }
+        }).filter(attr=>attr)[0];
+
+            const foreignKey={
+                name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
+                foreignKey: true,
+                dataType: foreignAttributes.dataType,
+                dataSize: foreignAttributes.dataSize
+            
+            } 
 
              const target=tables.filter((table)=>table.id===rel.entity2 )
-             target[0].attributes.push({foreignKey:foreignKey})
-             const model ={name:target[0].name,id:'id'}
-             let i =0;
-             target[0].attributes.map((att)=>{
-                 model["attribute"+i]=att
-                 i++
-             })
+             const attributes =   target[0].attributes.map((attr)=>{
+                if(attr){
+                    return attr[0]
+                }
+            })
+            //console.log(attributes)
+            attributes.push(foreignKey)
+            const model ={name:target[0].name,columns:attributes}
             return model
         }
 
 
         if(rel.cardinality1 ==="many" && rel.cardinality2==="many"){
 
-            const foreignKey1= tables.filter((table)=>table.id===rel.entity1)[0].name+"_id"
+            //console.log(tables.filter((table)=>table.id===rel.entity1)[0].attributes[2][0])
 
-            const foreignKey2= tables.filter((table)=>table.id===rel.entity2)[0].name+"_id"
+            const target1=tables.filter((table)=>table.id===rel.entity2 )
+            const attributes1 =   target1[0].attributes.map((attr)=>{
+               if(attr[0].primaryKey === true){
+                   return attr[0]
+               }
+           }).filter(attr=>attr)[0]
 
-             const model={name:rel.name,id:"id",key1:foreignKey1,key2:foreignKey2}
+           console.log(attributes1)
+            const foreignKey1= {
+                name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
+                foreignKey: true,
+                dataType: attributes1.dataType,
+                dataSize: attributes1.dataSize
+            
+            } 
+
+            const target2=tables.filter((table)=>table.id===rel.entity2 )
+            const attributes2 =   target2[0].attributes.map((attr)=>{
+               if(attr[0].primaryKey === true){
+                   return attr[0]
+               }
+           }).filter(attr=>attr)[0]
+
+            const foreignKey2= {
+                name: tables.filter((table)=>table.id===rel.entity2)[0].name+"_id",
+                foreignKey: true,
+                dataType: attributes2.dataType,
+                dataSize: attributes2.dataSize
+            
+            } 
+
+             const model={name:rel.name,columns:[foreignKey1,foreignKey2]}
             return model
         }
         if(rel.cardinality1 ==="one" && rel.cardinality2==="one"){
@@ -95,16 +150,29 @@ const tablesRenderer = (relationships,tables)=>{
 
             if(flip===0){
 
-                const foreignKey= tables.filter((table)=>table.id===rel.entity1)[0].name+"_id"
+                const  foreignAttributes = tables.filter((table)=>table.id===rel.entity1)[0].attributes.map((attr)=>{
+                    if(attr[0].primaryKey === true){
+                        return attr[0]
+                    }
+                }).filter(attr=>attr)[0];
+        
+                    const foreignKey={
+                        name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
+                        foreignKey: true,
+                        dataType: foreignAttributes.dataType,
+                        dataSize: foreignAttributes.dataSize
+                    
+                    } 
 
                 const target=tables.filter((table)=>table.id===rel.entity2 )
-                target[0].attributes.push({foreignKey:foreignKey})
-                const model ={name:target[0].name,id:'id'}
-                let i =0;
-                target[0].attributes.map((att)=>{
-                    model["attribute"+i]=att
-                    i++
+                const attributes =   target[0].attributes.map((attr)=>{
+                    if(attr){
+                        return attr[0]
+                    }
                 })
+                //console.log(attributes)
+                attributes.push(foreignKey)
+                const model ={name:target[0].name,columns:attributes}
                return model
 
             }
@@ -112,22 +180,35 @@ const tablesRenderer = (relationships,tables)=>{
             else if(flip===1){
 
 
-                const foreignKey= tables.filter((table)=>table.id===rel.entity2)[0].name+"_id"
+                const  foreignAttributes = tables.filter((table)=>table.id===rel.entity2)[0].attributes.map((attr)=>{
+                    if(attr[0].primaryKey === true){
+                        return attr[0]
+                    }
+                }).filter(attr=>attr)[0];
+        
+                    const foreignKey={
+                        name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
+                        foreignKey: true,
+                        dataType: foreignAttributes.dataType,
+                        dataSize: foreignAttributes.dataSize
+                    
+                    } 
 
                 const target=tables.filter((table)=>table.id===rel.entity1 )
-                target[0].attributes.push({foreignKey:foreignKey})
-                const model ={name:target[0].name,id:'id'}
-                let i =0;
-                target[0].attributes.map((att)=>{
-                    model["attribute"+i]=att
-                    i++
+                const attributes =   target[0].attributes.map((attr)=>{
+                    if(attr){
+                        return attr[0]
+                    }
                 })
+                //console.log(attributes)
+                attributes.push(foreignKey)
+                const model ={name:target[0].name,columns:attributes}
                return model
             }
 
 
         }
-    })
+    }) }
 
     return relationalModels
 
@@ -180,8 +261,8 @@ router.get('/testerQuery', async (req, res) => {
                                 name:node.data.name, 
                                 primaryKey:node.data.primaryKey,
                                 type:node.data.attributeType,
-                                dataFormat:node.data.dataType,
-                                size:node.data.dataSize
+                                dataType:node.data.dataType,
+                                dataSize:node.data.dataSize
                             }
                         }
                     }).filter((node)=>node)) 
@@ -201,55 +282,6 @@ router.get('/testerQuery', async (req, res) => {
     }
   });
 
-  router.get('/testerQuery2', async (req, res) => {
-    
-    try {
-
-      const relationships = await Edge.aggregate([
-        {   $match:{ 
-                type: "custom-edge"
-            }
-
-        },
-        {
-            $lookup:{
-
-                from : "nodes",
-                localField : "target",
-                foreignField: "id",
-                as:"commonTarget"
-
-            },
-
-            // $lookup:{
-
-            //     from : "edges",
-            //     localField : "id",
-            //     foreignField: "target",
-            //     as:"commonTarget"
-
-            // },
-        },
-        // {
-        //     $unwind : "$commonTarget"
-        // },
-
-        // {
-        //     $replaceRoot: { newRoot: { $mergeObjects: [ { $arrayElemAt: [ "$commonTarget", 0 ] }, "$$ROOT" ] } }
-        //  },
-
-            {
-            $project:{
-                commonTarget:1
-                // source: "$commonTarget.source"
-            }
-            
-        },
-      ]);
-      res.send(relationships);
-    } catch (err) {
-      res.status(500).send(err.message);
-    }
-  });
+ 
 
   module.exports = router;

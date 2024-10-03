@@ -16,17 +16,6 @@ import Relational from "./Pages/Relational";
 
     <Navbar/>
 
-    {/*<div className='page'>*/}
-    {/*    <Pallet/>*/}
-    {/*    <div>*/}
-    {/*    <h4 className='fontTheme'>Drop Zone</h4>*/}
-    {/*      <div className='zone'>*/}
-    {/*            <Flow/>*/}
-    {/*      </div>*/}
-    {/*    </div>*/}
-    {/*</div>*/}
-
-
     </>
 
 );
