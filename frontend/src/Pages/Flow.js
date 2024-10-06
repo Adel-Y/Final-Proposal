@@ -28,6 +28,7 @@ import Relationship from "../Data Structures/Relationship";
 import Attribute from "../Data Structures/Attribute";
 import Hierarchy from "../Data Structures/Hierarchy";
 import Interface from "../Data Structures/Interface";
+import AttributeEdge from "../AttributeEdge";
 
 const initialNodes = [];
 
@@ -42,7 +43,8 @@ const DnDFlow = () => {
             'custom-edge': CustomEdge,
             'straight-edge':StraightEdge,
             'hierarchy-edge': HierarchialEdge,
-            'stair-edge': StepEdge
+            'stair-edge': StepEdge,
+            'attribute-edge': AttributeEdge
         }),
         [],
     );
@@ -299,6 +301,11 @@ const DnDFlow = () => {
                  newEdge = { ...connection, id:newID , type: 'straight-edge', tag:'edge' ,data: {cardinality : 'one-to-many'} };
                 //setEdges((eds) => addEdge(newEdge, eds));
             }
+            if(sourceNode.type ==='Attribute' && targetNode.type==='Attribute'){
+                newEdge = { ...connection, id:newID , type: 'attribute-edge', tag:'edge' ,data: {cardinality : 'N/A'} };
+                //setEdges((eds) => addEdge(newEdge, eds));
+            }
+
             if(sourceNode.type==='Hierarchy'){
                 newEdge = { ...connection, id:newID , type: 'hierarchy-edge', tag:'edge' , data: {cardinality : 'one-to-many'} };
                 //setEdges((eds) => addEdge(newEdge, eds));
@@ -414,7 +421,7 @@ const DnDFlow = () => {
                                 primaryKey: false,
                                 attributeType: 'single-value',
                                 dataType: 'VARCHAR',
-                                dataSize: 99,
+                                dataSize: 255,
                                 color: colorChooser(type)
                             },
                         };

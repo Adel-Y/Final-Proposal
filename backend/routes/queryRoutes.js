@@ -234,6 +234,8 @@ router.get('/testerQuery', async (req, res) => {
   
       const attributesEdges = await Edge.where("type").equals("straight-edge");
 
+      const compAttributeEdges = await Edge.where("type").equals("attribute-edge");
+
     const relationships =relationshipNodes.map((node)=>{
    
         let rel ={id:node.id,name:node.data.name};
@@ -254,23 +256,60 @@ router.get('/testerQuery', async (req, res) => {
 
 
 
-    const tables =entityNodes.map((node)=>{
+    const tables =entityNodes.map((entityNode)=>{
 
-        let tab ={id:node.id,name:node.data.name,attributes:[]};
+        let tab ={id:entityNode.id,name:entityNode.data.name,attributes:[]};
 
         attributesEdges.map((edge)=>{
-                if(node.id === edge.target){
+
+
+                if(entityNode.id === edge.target){
 
                     tab.attributes.push(attributeNodes.map((node)=>{
-                        if(node.id===edge.source){
+
+                           
+                        if(node.id===edge.source && node.data.attributeType!=="composite"){
+
                             return {
                                 name:node.data.name, 
                                 primaryKey:node.data.primaryKey,
-                                type:node.data.attributeType,
+                                // type:node.data.attributeType,
                                 dataType:node.data.dataType,
                                 dataSize:node.data.dataSize
                             }
                         }
+
+                      else  if(node.id===edge.source && node.data.attributeType==="composite"){
+
+
+                            compAttributeEdges.map((tedge)=>{
+
+                                if(tedge.target ===node.id){
+
+                                        attributeNodes.map((xnode)=>{
+
+                                            if(xnode.id===tedge.source){
+                                                return {
+                                                    name:xnode.data.name, 
+                                                    primaryKey:xnode.data.primaryKey,
+                                                    // type:xnode.attributeType,
+                                                    dataType:xnode.data.dataType,
+                                                    dataSize:xnode.data.dataSize
+                                                
+                                                }
+                                            }
+
+                                        })
+
+
+
+
+                                }})
+
+                        }
+
+
+
                     }).filter((node)=>node)) 
                 }
 
@@ -278,6 +317,7 @@ router.get('/testerQuery', async (req, res) => {
             return tab;
         })
 
+        console.log(tables)
 
     const result =tablesRenderer(relationships,tables)
 
