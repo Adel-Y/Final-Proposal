@@ -252,72 +252,86 @@ router.get('/testerQuery', async (req, res) => {
             return rel;
         })
       
+            const temp=(item)=>{
+                console.log(item)
+                console.log("returned")
+                return item
+            }
 
-
-
-
-    const tables =entityNodes.map((entityNode)=>{
-
-        let tab ={id:entityNode.id,name:entityNode.data.name,attributes:[]};
-
-        attributesEdges.map((edge)=>{
-
-
-                if(entityNode.id === edge.target){
-
-                    tab.attributes.push(attributeNodes.map((node)=>{
-
-                           
-                        if(node.id===edge.source && node.data.attributeType!=="composite"){
-
-                            return {
-                                name:node.data.name, 
-                                primaryKey:node.data.primaryKey,
-                                // type:node.data.attributeType,
-                                dataType:node.data.dataType,
-                                dataSize:node.data.dataSize
+        const tables = entityNodes.map((entityNode) => {
+            let tab = { id: entityNode.id, name: entityNode.data.name, attributes: [] };
+          
+            attributesEdges.map((edge) => {
+              if (entityNode.id === edge.target) {
+                tab.attributes.push(
+                  attributeNodes
+                    .map((node) => {
+                      // Non-composite attribute case
+                      if (node.id === edge.source && node.data.attributeType !== "composite") {
+                        return {
+                          name: node.data.name,
+                          primaryKey: node.data.primaryKey,
+                          dataType: node.data.dataType,
+                          dataSize: node.data.dataSize,
+                        };
+                      }
+          
+                      // Composite attribute case
+                      else if (node.id === edge.source && node.data.attributeType === "composite") {
+                        // Return results of compAttributeEdges.map
+                        return compAttributeEdges
+                          .map((tedge) => {
+                            if (tedge.target === node.id) {
+                              return attributeNodes
+                                .map((xnode) => {
+                                  if (xnode.id === tedge.source) {
+                                    return {
+                                      name: xnode.data.name,
+                                      primaryKey: xnode.data.primaryKey,
+                                      dataType: xnode.data.dataType,
+                                      dataSize: xnode.data.dataSize,
+                                    };
+                                  }
+                                  return null; // Return null if no match, so filter can remove empty results
+                                })
+                                .filter((xnode) => xnode); // Filter out null results
                             }
-                        }
+                            return null; // Return null if no match, so filter can remove empty results
+                          })
+                          .flat() // Flatten the array to prevent nested arrays
+                          .filter((compositeNode) => compositeNode); // Filter out any null results
+                          
+                          console.log(x)
+                          
+                        //   for(j=0;j<x.length;j++){
+                        //   while(i<=x.length){
+                        //     console.log(x[i])
 
-                      else  if(node.id===edge.source && node.data.attributeType==="composite"){
+                        //     return x[i];
+                        //   }
+                        // }
+                          //x.forEach(temp)
 
+                          
+                      }
+          
+                      return null; // Default return for no match
+                    })
+                    .filter((node) => node) // Filter out null or undefined nodes
+                );
+              }
+            });
 
-                            compAttributeEdges.map((tedge)=>{
-
-                                if(tedge.target ===node.id){
-
-                                        attributeNodes.map((xnode)=>{
-
-                                            if(xnode.id===tedge.source){
-                                                return {
-                                                    name:xnode.data.name, 
-                                                    primaryKey:xnode.data.primaryKey,
-                                                    // type:xnode.attributeType,
-                                                    dataType:xnode.data.dataType,
-                                                    dataSize:xnode.data.dataSize
-                                                
-                                                }
-                                            }
-
-                                        })
-
-
-
-
-                                }})
-
-                        }
-
-
-
-                    }).filter((node)=>node)) 
-                }
-
-            })
             return tab;
-        })
+          });
+        
+  
+          
+          
+          
+            
 
-        console.log(tables)
+        // console.log(JSON.stringify(tables))
 
     const result =tablesRenderer(relationships,tables)
 
