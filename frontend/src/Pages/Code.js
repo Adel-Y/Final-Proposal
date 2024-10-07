@@ -1,27 +1,27 @@
-
 import '../App.css';
-import React, {useCallback, useEffect, useState} from "react";
-
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-
+// Function to flatten nested columns
+const flattenColumns = (columns) => {
+    return columns.flat(); // Flatten the array to remove nested arrays
+};
 
 function jsonToSQL(jsonData) {
-    const sqlQueries= jsonData.tables.map(table => {
+    const sqlQueries = jsonData.tables.map(table => {
         let tableSQL = `CREATE TABLE ${table.name} (\n`;
 
-        // Iterate over each column to construct the SQL for it
-        let columnsSQL = table.columns.map(col => {
+        // Flatten the columns and construct SQL for each column
+        const flattenedColumns = flattenColumns(table.columns);
+        const columnsSQL = flattenedColumns.map(col => {
             let columnSQL = `${col.name} `;
 
             // Handling type if it's provided
-            if (col.type) {
-                if (col.dataType) {
-                    columnSQL += `${col.dataType}`;
-                }
-                if (col.dataSize) {
-                    columnSQL += `(${col.dataSize})`;
-                }
+            if (col.dataType) {
+                columnSQL += `${col.dataType}`;
+            }
+            if (col.dataSize) {
+                columnSQL += `(${col.dataSize})`;
             }
 
             // Primary key
@@ -29,9 +29,9 @@ function jsonToSQL(jsonData) {
                 columnSQL += ` PRIMARY KEY`;
             }
 
-            // Foreign key (We'll assume the foreign key points to a `User_id` column in a related table)
+            // Foreign key
             if (col.foreignKey) {
-                columnSQL += ` FOREIGN KEY REFERENCES ${col.foreignTable}(${col.name})`; // Example reference to a Users table
+                columnSQL += ` FOREIGN KEY REFERENCES ${col.foreignTable}(${col.name})`; // Example reference to a foreign table
             }
 
             return columnSQL;
@@ -43,41 +43,44 @@ function jsonToSQL(jsonData) {
         return tableSQL;
     });
 
-    return sqlQueries
-};
-
+    return sqlQueries;
+}
 
 // Main component that renders all tables from the JSON data
 const Code = () => {
-    const [database,setDatabase]= useState([]);
-    const [data, setData] = useState(null);
+    const [database, setDatabase] = useState({ tables: [] });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         axios.get('/retrieve/testerQuery')
             .then(response => {
-                console.log(response)
-                setData(response.data);
+                console.log("Fetched Data:", response.data);
+                setDatabase(response.data);
                 setLoading(false);
-                console.log(response.data)
-                setDatabase(response.data)
             })
             .catch(error => {
+                console.error("Error fetching data:", error);
                 setError(error);
                 setLoading(false);
             });
     }, []);
 
-    if (!database || !database.tables || database.tables.length === 0) {
-        return <div>Loading...</div>; // Display message if no data
+    if (loading) {
+        return <div>Loading...</div>; // Display message while loading
     }
+
+    if (error) {
+        return <div>Error fetching data: {error.message}</div>; // Display error message
+    }
+
+    if (!Array.isArray(database.tables) || database.tables.length === 0) {
+        return <div>No tables found.</div>; // Display message if no tables are found
+    }
+
     const sqlArray = jsonToSQL(database);
 
-    // console.log(sql)
-
     return (
-
         <div>
             <h1>Generated SQL Tables</h1>
             {sqlArray.map((sql, index) => (
@@ -90,9 +93,4 @@ const Code = () => {
     );
 };
 
-
-
 export default Code;
-
-
-

@@ -35,30 +35,6 @@ const Table = ({ name, columns }) => {
         </table>
     );
 };
-// Table component that handles table rendering
-// const Table = ({ name, columns }) => {
-//     return (
-//         <table style={tableStyle}>
-//             <caption>{name}</caption>
-//             <thead>
-//             <tr>
-//                 {columns.map((col, index) => (
-//                     <th key={index} style={(col.primaryKey||col.foreignKey) ? keyCellStyle : cellStyle}>{col.name}</th>
-//                 ))}
-//             </tr>
-//             </thead>
-//             <tbody>
-//             <tr>
-//                 {columns.map((col, index) => (
-//                     <td key={index} style={cellStyle}>
-//                         {`${col.dataType+'('+col.dataSize+')'}`}
-//                     </td>
-//                 ))}
-//             </tr>
-//             </tbody>
-//         </table>
-//     );
-// };
 
 // Main component that renders all tables from the JSON data
 const Relational = () => {
