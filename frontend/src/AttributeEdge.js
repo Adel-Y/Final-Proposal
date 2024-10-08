@@ -81,7 +81,7 @@ export default function AttributeEdge({ id, sourceX, sourceY, targetX, targetY, 
 
             <path
                 id={id}
-                className="hierarchial-edge-path"
+                className="attribute-edge-path"
                 d={edgePath}
                 fill='none'
                 // markerEnd={markerEnd}

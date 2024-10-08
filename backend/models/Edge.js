@@ -12,10 +12,29 @@ const edgeSchema = new mongoose.Schema({
     
     
     data:{
-        cardinality: String,
+        cardinality: {type:String},
         //required : true
 
+
     },
+
+    markerStart:{
+      type:{type:String},
+      width:{type:String},
+      height:{type:String},
+      color:{type:String}
+               },
+
+   //  markerEnd:{
+   //    type:{
+   //       type:String
+   //    },
+
+   //    color:{
+   //       type:String
+   //    }
+
+   //  },
 
     source:{
        type: String,

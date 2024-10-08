@@ -43,6 +43,10 @@ const nodeSchema = new mongoose.Schema({
         },
         dataSize:{ // for attributes
             type:Number,
+        },
+
+        collapseType:{
+            type:String
         }
 
     },

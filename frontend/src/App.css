@@ -399,11 +399,21 @@ html, body, #root {
 }
 
 .hierarchial-edge-path {
+  stroke: #B90E0A;
+  stroke-width: 2px;
+  cursor: pointer;
+  width: 1px;
+  height: 1px;
+
+}
+
+.attribute-edge-path {
   stroke: #222;
   stroke-width: 2px;
   cursor: pointer;
   width: 1px;
   height: 1px;
+
 }
 .hierarchy {
   width: 0;

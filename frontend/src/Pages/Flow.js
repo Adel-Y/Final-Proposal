@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useRef} from 'react';
-import { useNodesData } from '@xyflow/react';
+import { useNodesData,MarkerType } from '@xyflow/react';
 import ReactFlow, {
     Background,
     Controls,
@@ -31,7 +31,7 @@ import Interface from "../Data Structures/Interface";
 import AttributeEdge from "../AttributeEdge";
 
 const initialNodes = [];
-
+// console.log(typeof MarkerType.ArrowClosed)
 
 let id = 1;
 const getId = () => `id-${id++ * Date.now()}`;
@@ -297,8 +297,8 @@ const DnDFlow = () => {
             const newID= source + "-to-"+target
             console.log(sourceNode.type)
             let newEdge = {};
-            if(sourceNode.type ==='Attribute' && targetNode.type==='Entity'){
-                 newEdge = { ...connection, id:newID , type: 'straight-edge', tag:'edge' ,data: {cardinality : 'one-to-many'} };
+            if(sourceNode.type ==='Attribute' && (targetNode.type==='Entity' || targetNode.type==='Interface')){
+                 newEdge = { ...connection, id:newID , type: 'straight-edge', tag:'edge' ,data: {cardinality : 'one-to-many'}};
                 //setEdges((eds) => addEdge(newEdge, eds));
             }
             if(sourceNode.type ==='Attribute' && targetNode.type==='Attribute'){
@@ -311,7 +311,18 @@ const DnDFlow = () => {
                 //setEdges((eds) => addEdge(newEdge, eds));
             }
             if(sourceNode.type==='Interface' && (targetNode.type==='Entity' || targetNode.type ==='Interface')){
-                newEdge = { ...connection, id:newID , type: 'hierarchy-edge', tag:'edge' , data: {cardinality : 'one-to-many'} };
+                newEdge = { ...connection, id:newID , type: 'hierarchy-edge', tag:'edge' , data: {cardinality : 'one-to-many'},
+                    markerStart: {
+                        type: MarkerType.ArrowClosed,
+                        width: 3,
+                        height: 3,
+                        color: '#B90E0A',
+                    }
+                        };
+                //setEdges((eds) => addEdge(newEdge, eds));
+            }
+            if(sourceNode.type==='Interface' && targetNode.type==='Relationship'){
+                newEdge = { ...connection, id:newID , type: 'custom-edge', tag:'edge' , data: {cardinality : 'one-to-many'} };
                 //setEdges((eds) => addEdge(newEdge, eds));
             }
             else if(sourceNode.type==='Entity' && targetNode.type==='Relationship' ) {
@@ -448,7 +459,8 @@ const DnDFlow = () => {
                             data: {
                                 label: `${type} node`,
                                 name: `${type}`,
-                                color: colorChooser(type)
+                                color: colorChooser(type),
+                                collapseType: 'downwards'
                             },
                         };
                     };

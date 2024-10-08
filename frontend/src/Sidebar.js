@@ -32,6 +32,8 @@ const Sidebar = ({ node, updateNode }) => {
 
     const [edgeCardinality, setEdgeCardinality]=useState('');
 
+    const [collapseType, setCollapseType]=useState('');
+
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -122,6 +124,10 @@ const Sidebar = ({ node, updateNode }) => {
 
     const updateAttributeType =(value)=>{
         setAttributeType(value)
+    }
+
+    const updateCollapseType =(value)=>{
+        setCollapseType(value)
     }
 
 
@@ -312,7 +318,13 @@ const Sidebar = ({ node, updateNode }) => {
                         <input name="entity-name" type="text" placeholder={'Enter Name Here'} defaultValue={node[0]?.data.name}  onChange={(e) => setName(e.target.value)} />
                     </label>
                     <br></br>
-
+                    <label>
+                        Collapse:
+                        <select name="collapse-type" className='fontTheme custom-select' defaultValue={node[0]?.data.collapseType} onChange={(e)=>updateCollapseType(e.target.value)}  >
+                            <option value='downwards'>Downwards</option>
+                            <option value='upwards'>Upwards</option>
+                        </select>
+                    </label>
                     <br></br>
                     <label>
                         Color:
@@ -382,7 +394,8 @@ const Sidebar = ({ node, updateNode }) => {
                 data = {
                     label: node[0]?.data.label,
                     name: name,
-                    color: color
+                    color: color,
+                    collapseType: collapseType
                 };
             };
 
