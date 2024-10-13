@@ -1,6 +1,17 @@
 import React, {useCallback,useState,useEffect} from 'react';
-import {Handle, Position, NodeToolbar, useNodesState, Panel, useReactFlow, useNodeId, addEdge} from "reactflow";
+import {
+    Handle,
+    Position,
+    NodeToolbar,
+    useNodesState,
+    Panel,
+    useReactFlow,
+    useNodeId,
+    addEdge,
+    ReactFlowProvider
+} from "reactflow";
 import axios from "axios";
+import {NodeResizer} from "@xyflow/react";
 
 const Entity = ({ data, isConnectable,onDragStart}) => {
 
@@ -14,7 +25,10 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
     const [error, setError] = useState(null);
 
     return (
+        <ReactFlowProvider>
         <>
+
+            {/*<NodeResizer />*/}
             <NodeToolbar >
 
 
@@ -90,6 +104,7 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
         </div>
 
         </>
+        </ReactFlowProvider>
     );
 };
 

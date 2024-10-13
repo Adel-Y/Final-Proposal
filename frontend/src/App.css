@@ -477,6 +477,24 @@ border-radius: 6px;
   font-family: "Poppins";
 }
 
+.legend-panel{
+  font-family: "Poppins";
+  font-size: 10px;
+  /*display: flex;*/
+  display: inline-block;
+
+
+}
+
+.legend-panel-title{
+  margin-top: 0px;
+  margin-left: 4px;
+}
+.legend-panel-list{
+margin-top: -12px;
+  margin-left: -20px;
+}
+
 .panel-button{
   font-family: "Poppins";
   font-size: 15px;
@@ -524,4 +542,15 @@ color: #38444d;
 
 
   justify-content: center;
+}
+
+.decider-display{
+
+  margin: 10px;
+}
+.handle-legend{
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+  /*float: left;*/
 }

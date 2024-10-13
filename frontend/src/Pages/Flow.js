@@ -511,6 +511,35 @@ const DnDFlow = () => {
                 >
                     <Background variant={selectedBackground}/>
                     <MiniMap/>
+
+                    <Panel position="top-right" style={{marginTop:'0px',marginRight:'0px'}}>
+                        <div className="legend-panel" style={{backgroundColor:"white", width:"170px",height:"90px",border:'2px solid #ccc'}}>
+                            <h4 className="legend-panel-title">Legend:</h4>
+                            <ul className="legend-panel-list">
+                                <li>The connection direction is always from
+                                    <span className="handle-legend" style={{
+                                        display: 'inline-block',
+                                        width: '8px',   // Width of the circle
+                                        height: '8px',  // Height of the circle
+                                        backgroundColor: 'black',
+                                        borderRadius: '50%', // Make it circular
+                                        marginLeft: '4px',
+                                        marginRight: '4px'
+                                    }}>
+                    </span>to<span className="handle-legend" style={{
+                                        display: 'inline-block',
+                                        width: '8px',   // Width of the circle
+                                        height: '8px',  // Height of the circle
+                                        backgroundColor: 'darkred',
+                                        borderRadius: '50%', // Make it circular
+                                        marginLeft: '4px',
+                                        marginRight: '4px'
+                                    }}>
+                    </span> in nodes</li>
+                                <li>Always remember to convert to relational before SQL</li>
+                            </ul>
+                        </div>
+                    </Panel>
                     <Panel position="top-left">
                        <div className="fontTheme">
                            <button className='panel-button' onClick={()=> setBackground(BackgroundVariant.Dots)}>Dots</button>

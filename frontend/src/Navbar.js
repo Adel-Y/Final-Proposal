@@ -1,12 +1,13 @@
 
 import './navbar.css';
 import React from "react";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes,Navigate} from "react-router-dom";
 import Flow from "./Pages/Flow";
 import Relational from "./Pages/Relational";
 import App from "./App";
 import Home from "./Pages/Home";
 import Code from "./Pages/Code";
+import Decider from "./Pages/Decider";
 
 function Navbar(){
     return(
@@ -15,7 +16,7 @@ function Navbar(){
 
             <ul className='list'>
                 <li className='listItem nameTag'> <a href="/"><span style={{color:"red",fontSize:"16px"}}>DB</span><span>Playground</span></a></li>
-                <li className='listItem'><a href="/relational">Relational</a></li>
+                <li className='listItem'><a href="/decider">Relational</a></li>
                 <li className='listItem'><a href="/code">SQL</a></li>
                 <li className="dropdown listItem">
                     <a href="javascript:void(0)" className="dropbtn">Dropdown</a>
@@ -28,7 +29,8 @@ function Navbar(){
             </ul>
             <Routes>
                 <Route  path="/" element={<Home/>}/>
-                    {/*<Route index element={<Flow/>} />*/}
+
+                <Route path="decider" element={<Decider/>} />
                 <Route path="relational" element={<Relational/>} />
                 <Route path="code" element={<Code/>} />
 

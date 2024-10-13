@@ -9,6 +9,23 @@ let tables=[];
 let codeData=[];
 let finalTables={tables:[]};
 
+let relationalModels =[];
+
+let relationshipNodes = [];
+
+let relationshipEdges = [];
+
+let attributeNodes = [];
+
+let entityNodes= [];
+
+let attributesEdges = [];
+
+let compAttributeEdges = [];
+
+let decisionsToSend =[];
+
+let decisionsReceived=[];
 
 const cardinalityRenderer =(value)=>{
 
@@ -44,18 +61,18 @@ const cardinalityRenderer =(value)=>{
 
 
 async function relationshipMatcher  ()  {
-    const relationshipNodes = await Node.where("type").equals("Relationship");
+     relationshipNodes = await Node.where("type").equals("Relationship");
 
 
-    const relationshipEdges = await Edge.where("type").equals("custom-edge");
+     relationshipEdges = await Edge.where("type").equals("custom-edge");
 
-    const attributeNodes = await Node.where("type").equals("Attribute");
+     attributeNodes = await Node.where("type").equals("Attribute");
 
-    const entityNodes= await Node.where("type").equals("Entity");
+     entityNodes= await Node.where("type").equals("Entity");
 
-    const attributesEdges = await Edge.where("type").equals("straight-edge");
+     attributesEdges = await Edge.where("type").equals("straight-edge");
 
-    const compAttributeEdges = await Edge.where("type").equals("attribute-edge");
+     compAttributeEdges = await Edge.where("type").equals("attribute-edge");
 
       relationships =relationshipNodes.map((node)=>{
  
@@ -178,14 +195,11 @@ function removeDuplicates(data) {
 
 
 
-function flipCoin() {
-    const randomIndex = Math.floor(Math.random() * 2); // Randomly returns 0 or 1
-    return randomIndex === 0 ? 0 : 1;
-  }
-
 const tablesRenderer = (relationships,tables)=>{
 
-    const relationalModels = {tables: relationships.map((rel)=>{
+    finalTables={tables:[]} 
+
+     relationalModels = {tables: relationships.map((rel)=>{
 
         if(rel.cardinality1 ==="one" && rel.cardinality2==="many"){
 
@@ -224,7 +238,7 @@ const tablesRenderer = (relationships,tables)=>{
             const model ={name:target[0].name,columns:attributes}
 
             finalTables.tables.push(model,table2)
-        //    return [model,table2]
+            return [model,table2]
         }
 
         if(rel.cardinality1 ==="many" && rel.cardinality2==="one"){
@@ -264,7 +278,7 @@ const tablesRenderer = (relationships,tables)=>{
             const model ={name:target[0].name,columns:attributes}
 
             finalTables.tables.push(model,table1)
-            // return model,table1
+            return [model,table1]
         }
 
 
@@ -319,13 +333,19 @@ const tablesRenderer = (relationships,tables)=>{
 
              const model={name:rel.name,columns:[foreignKey1,foreignKey2]}
              finalTables.tables.push(model,table1,table2)
-            // return model
+             return [model,table1,table2]
         }
         if(rel.cardinality1 ==="one" && rel.cardinality2==="one"){
 
-            const flip = flipCoin();
+            const owner =decisionsReceived.map( (r)=>{
+                //console.log(r)
+                if(r.relationship === rel.id){
+                    return r.owner
+                }
+            }).filter(x=>x)[0]
+            console.log(owner + " relationship "+rel.name)
 
-            if(flip===0){
+            if(owner===rel.entity2){
 
                 const entity1 = tables.filter((table)=>table.id===rel.entity1)[0]
 
@@ -358,11 +378,11 @@ const tablesRenderer = (relationships,tables)=>{
                 attributes.push(foreignKey)
                 const model ={name:target[0].name,columns:attributes}
                 finalTables.tables.push(model,table1)
-            //    return model
+               return [model,table1]
 
             }
             
-            else if(flip===1){
+            if(owner===rel.entity1){
 
                 const entity2 = tables.filter((table)=>table.id===rel.entity2)[0]
 
@@ -394,14 +414,68 @@ const tablesRenderer = (relationships,tables)=>{
                 attributes.push(foreignKey)
                 const model ={name:target[0].name,columns:attributes}
                 finalTables.tables.push(model,table2)
-            //    return model
+                return [model,table2]
+            }
+
+            else if(owner===rel.id){
+                console.log(rel + "testing")
+                const entity1 = tables.filter((table)=>table.id===rel.entity1)[0]
+
+                const table1={name:entity1.name,columns:entity1.attributes.map((attr)=>{
+                    return attr[0]
+                })}
+    
+                const entity2 = tables.filter((table)=>table.id===rel.entity2)[0]
+    
+                const table2={name:entity2.name,columns:entity2.attributes.map((attr)=>{
+                    return attr[0]
+                })}
+    
+                const target1=tables.filter((table)=>table.id===rel.entity2 )
+                const attributes1 =   target1[0].attributes.map((attr)=>{
+                   if(attr[0].primaryKey === true){
+                       return attr[0]
+                   }
+               }).filter(attr=>attr)[0]
+    
+    
+                const foreignKey1= {
+                    foreignTable:tables.filter((table)=>table.id===rel.entity1)[0].name,
+                    name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
+                    foreignKey: true,
+                    dataType: attributes1.dataType,
+                    dataSize: attributes1.dataSize
+                
+                } 
+    
+                const target2=tables.filter((table)=>table.id===rel.entity2 )
+                const attributes2 =   target2[0].attributes.map((attr)=>{
+                   if(attr[0].primaryKey === true){
+                       return attr[0]
+                   }
+               }).filter(attr=>attr)[0]
+    
+                const foreignKey2= {
+                    foreignTable:tables.filter((table)=>table.id===rel.entity2)[0].name,
+                    name: tables.filter((table)=>table.id===rel.entity2)[0].name+"_id",
+                    foreignKey: true,
+                    dataType: attributes2.dataType,
+                    dataSize: attributes2.dataSize
+                
+                } 
+    
+                 const model={name:rel.name,columns:[foreignKey1,foreignKey2]}
+                 finalTables.tables.push(model,table1,table2)
+                 return [model,table1,table2]
             }
 
 
         }
     }) }
-
-    return relationalModels
+    // relationalModels=[...finalTables]
+    //return relationalModels
+    //relationalModels.flat()
+    //removeDuplicates(finalTables)
 
 }
 
@@ -414,19 +488,15 @@ router.get('/testerQuery', async (req, res) => {
         
         await relationshipMatcher(); 
           
-          
-          
-            
-
-        // console.log(JSON.stringify(tables)) 
 
         tablesRenderer(relationships,tables)
 
-
+        
+console.log(JSON.stringify(relationalModels))
 
     const result = removeDuplicates(finalTables)
     
-        res.send(result);
+        res.send(finalTables);
     } catch (err) {
       res.status(500).send(err.message);
     }
@@ -441,8 +511,24 @@ router.get('/testerQuery', async (req, res) => {
 
         await relationshipMatcher(); 
 
+         decisionsToSend= relationships.map((rel)=>{
+            if(rel.cardinality1==="one"&& rel.cardinality2==="one"){
+               const couple= entityNodes.map((entity)=>{
+                
+                if(rel.entity1===entity.id || rel.entity2===entity.id){
+                    //console.log(entity)
+                    return {name:entity.data.name,id:entity.id}
+                }
+               }).filter(x=>x)
+               return   {
+                name:`Owner Between ${couple[0].name} and ${couple[1].name}`,
+                options:[couple,{name:rel.name,id:rel.id}].flat(),
+                default:couple[0].id, 
+                relationship:rel.id}
+            }
+        }).filter((x)=>x)
 
-        res.send({relationships:relationships,tables:tables});
+        res.send(decisionsToSend);
 
     } catch (err) {
       res.status(400).json(err.message);
@@ -453,12 +539,20 @@ router.get('/testerQuery', async (req, res) => {
 
 
 
- router.post('/sqlCode', async (req, res) => {
+ router.post('/decisions', async (req, res) => {
     try {
-        codeData =req.body
+
+        
+
+        decisionsReceived = req.body
+
+        console.log(decisionsReceived)
+
+            // await relationshipMatcher()
+
     //   const node = new Node(req.body);
     //   await node.save();
-      res.status(201).json(codeData);
+      res.status(201).json(decisionsReceived);
     } catch (err) {
       res.status(400).json(err.message);
     }

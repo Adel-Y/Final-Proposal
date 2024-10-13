@@ -7,11 +7,12 @@ import Pallet from "../Pallet";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Relational from "./Relational";
+import {ReactFlowProvider} from "reactflow";
 function Home(){
 
 
     return(
-
+        <ReactFlowProvider>
         <>
 
 
@@ -27,7 +28,7 @@ function Home(){
 
 
         </>
-
+        </ReactFlowProvider>
     );
 
 }
