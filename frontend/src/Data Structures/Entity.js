@@ -25,7 +25,7 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
     const [error, setError] = useState(null);
 
     return (
-        <ReactFlowProvider>
+
         <>
 
             {/*<NodeResizer />*/}
@@ -104,7 +104,7 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
         </div>
 
         </>
-        </ReactFlowProvider>
+
     );
 };
 

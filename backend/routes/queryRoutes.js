@@ -496,7 +496,7 @@ console.log(JSON.stringify(relationalModels))
 
     const result = removeDuplicates(finalTables)
     
-        res.send(finalTables);
+        res.send(result);
     } catch (err) {
       res.status(500).send(err.message);
     }
