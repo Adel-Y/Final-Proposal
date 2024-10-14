@@ -1,6 +1,18 @@
 import React, {useState} from 'react';
 
-import {Handle, Position, NodeToolbar, useNodesState, Panel, useReactFlow, useNodeId, addEdge} from "reactflow";
+import {
+    Handle,
+    Position,
+    NodeToolbar,
+    useNodesState,
+    Panel,
+    useReactFlow,
+    useNodeId,
+    addEdge,
+    ReactFlowProvider
+} from "@xyflow/react";
+import '@xyflow/react/dist/style.css';
+import '@xyflow/react/dist/base.css';
 import axios from "axios";
 const Relationship = ({ data, isConnectable,onDragStart}) => {
 
@@ -104,4 +116,4 @@ const Relationship = ({ data, isConnectable,onDragStart}) => {
     );
 };
 
-export default Relationship;
+export default Relationship

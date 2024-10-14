@@ -1,13 +1,15 @@
 import {
     BaseEdge,
     EdgeLabelRenderer,
-    getStraightPath,
+    getStraightPath, ReactFlowProvider,
     useReactFlow,
-} from 'reactflow';
-import {useState} from "react";
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+import '@xyflow/react/dist/base.css';
+import React, {useState} from "react";
 import axios from "axios";
 
-export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, data }) {
+const CustomEdge =({ id, sourceX, sourceY, targetX, targetY, data })=> {
     const [isLabelVisible, setIsLabelVisible] = useState(false);
 
     const [apiData, setData] = useState(null);
@@ -44,6 +46,7 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
 
     return (
         <>
+
             <path
                 id={`${id}-interaction`}
                 d={edgePath}
@@ -113,7 +116,7 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
                 </div>
             </EdgeLabelRenderer>
 
-
         </>
     );
 }
+export default CustomEdge

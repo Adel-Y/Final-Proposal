@@ -3,11 +3,14 @@ import {
     EdgeLabelRenderer, getBezierPath, getSmoothStepPath,
     getStraightPath,
     useReactFlow,
-} from 'reactflow';
-import {useState} from "react";
+} from '@xyflow/react';
+import React, {useState} from "react";
+import '@xyflow/react/dist/style.css';
+import '@xyflow/react/dist/base.css';
 import axios from "axios";
+import {ReactFlowProvider} from "@xyflow/react";
 
-export default function AttributeEdge({ id, sourceX, sourceY, targetX, targetY, data }) {
+const  AttributeEdge=({ id, sourceX, sourceY, targetX, targetY, data })=> {
     const [isLabelVisible, setIsLabelVisible] = useState(false);
 
     const [apiData, setData] = useState(null);
@@ -91,3 +94,4 @@ export default function AttributeEdge({ id, sourceX, sourceY, targetX, targetY, 
         </>
     );
 }
+export default AttributeEdge

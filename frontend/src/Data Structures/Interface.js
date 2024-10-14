@@ -1,7 +1,8 @@
 import React, {useCallback,useState,useEffect} from 'react';
-import {Handle, Position, NodeToolbar, useNodesState, Panel, useReactFlow, useNodeId, addEdge} from "reactflow";
+import {Handle, Position, NodeToolbar, useNodesState, Panel, useReactFlow, useNodeId, addEdge,ReactFlowProvider} from "@xyflow/react";
 import axios from "axios";
-
+import '@xyflow/react/dist/style.css';
+import '@xyflow/react/dist/base.css';
 const Interface = ({ data, isConnectable,onDragStart}) => {
 
 
@@ -91,4 +92,4 @@ const Interface = ({ data, isConnectable,onDragStart}) => {
     );
 };
 
-export default Interface;
+export default Interface

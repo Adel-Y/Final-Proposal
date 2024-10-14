@@ -7,7 +7,7 @@ import Pallet from "./Pallet";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Relational from "./Pages/Relational";
-import {ReactFlowProvider} from "reactflow";
+import {ReactFlowProvider} from "@xyflow/react";
  function App(){
 
 
@@ -23,6 +23,6 @@ import {ReactFlowProvider} from "reactflow";
 
  }
 
-export default App;
+export default App
 
 

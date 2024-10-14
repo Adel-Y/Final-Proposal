@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css'
 import 'reactflow/dist/style.css';
+import '@xyflow/react/dist/style.css';
 import Entity from "./Data Structures/Entity";
-import {ReactFlowProvider} from "reactflow";
+import {ReactFlowProvider} from "@xyflow/react";
 import Relationship from "./Data Structures/Relationship";
 import Attribute from "./Data Structures/Attribute";
 import Hierarchy from "./Data Structures/Hierarchy";
@@ -14,7 +15,7 @@ const Pallet= () => {
     };
 
     return (
-        <ReactFlowProvider>
+
         <div className='pallet'>
             <h4 className='fontTheme'>Drag Items</h4>
 
@@ -38,7 +39,7 @@ const Pallet= () => {
             {/*    Output Node*/}
             {/*</div>*/}
         </div>
-        </ReactFlowProvider>
+
     );
 };
 

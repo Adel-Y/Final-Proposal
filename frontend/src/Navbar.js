@@ -8,6 +8,7 @@ import App from "./App";
 import Home from "./Pages/Home";
 import Code from "./Pages/Code";
 import Decider from "./Pages/Decider";
+import {ReactFlowProvider} from "@xyflow/react";
 
 function Navbar(){
     return(
@@ -48,6 +49,6 @@ function Navbar(){
 
 }
 
-export default Navbar;
+export default Navbar
 
 

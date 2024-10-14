@@ -1,9 +1,7 @@
 // src/Sidebar.js
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import './App.css';
-import {useReactFlow} from "reactflow";
 import axios from "axios";
-import {wait} from "@testing-library/user-event/dist/utils";
 
 
 const Sidebar = ({ node, updateNode }) => {
@@ -15,7 +13,7 @@ const Sidebar = ({ node, updateNode }) => {
     const [selectedNode, setSelectedNode] = useState(false);
 
 
-    const {setNodes} = useReactFlow()
+    // const {setNodes} = useReactFlow()
 
     const [isWeak,setIsWeak]=useState(false)
 

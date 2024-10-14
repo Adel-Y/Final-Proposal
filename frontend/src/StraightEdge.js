@@ -3,11 +3,13 @@ import {
     EdgeLabelRenderer, getBezierPath, getSmoothStepPath,
     getStraightPath,
     useReactFlow,
-} from 'reactflow';
-import {useState} from "react";
+} from '@xyflow/react';
+import React, {useState} from "react";
 import axios from "axios";
-
-export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, data }) {
+import {ReactFlowProvider} from "@xyflow/react";
+import '@xyflow/react/dist/style.css';
+import '@xyflow/react/dist/base.css';
+const StraightEdge=({ id, sourceX, sourceY, targetX, targetY, data })=> {
     const [isLabelVisible, setIsLabelVisible] = useState(false);
 
     const [apiData, setData] = useState(null);
@@ -104,3 +106,4 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
         </>
     );
 }
+export default StraightEdge

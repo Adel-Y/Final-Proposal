@@ -1,7 +1,9 @@
 import React, {useCallback,useState,useEffect} from 'react';
-import {Handle, Position, NodeToolbar, useNodesState, Panel, useReactFlow, useNodeId, addEdge} from "reactflow";
+import {Handle, Position, NodeToolbar, useNodesState, Panel, useReactFlow, useNodeId, addEdge} from "@xyflow/react";
 import axios from "axios";
-
+import {ReactFlowProvider} from "@xyflow/react";
+import '@xyflow/react/dist/style.css';
+import '@xyflow/react/dist/base.css';
 const Attribute = ({ data, isConnectable,onDragStart}) => {
 
 
@@ -154,4 +156,4 @@ const Attribute = ({ data, isConnectable,onDragStart}) => {
     );
 };
 
-export default Attribute;
+export default Attribute

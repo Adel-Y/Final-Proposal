@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useRef} from 'react';
-import { useNodesData,MarkerType } from '@xyflow/react';
-import ReactFlow, {
+import {ReactFlow, MarkerType, useStoreApi} from '@xyflow/react';
+import {
     Background,
     Controls,
     applyEdgeChanges,
@@ -14,9 +14,11 @@ import ReactFlow, {
     useReactFlow,
     ReactFlowProvider,
     useOnSelectionChange, StepEdge, ControlButton, Panel, BackgroundVariant
-} from 'reactflow';
+} from '@xyflow/react';
 import axios from 'axios';
-import 'reactflow/dist/style.css';
+// import 'reactflow/dist/style.css';
+//import '@xyflow/react/dist/base.css';
+import '@xyflow/react/dist/style.css';
 import { useState, useCallback } from 'react';
 import CustomEdge from "../CustomEdge";
 import StraightEdge from "../StraightEdge";
@@ -32,6 +34,8 @@ import AttributeEdge from "../AttributeEdge";
 
 const initialNodes = [];
 // console.log(typeof MarkerType.ArrowClosed)
+
+const MIN_DISTANCE = 150;
 
 let id = 1;
 const getId = () => `id-${id++ * Date.now()}`;
@@ -54,7 +58,6 @@ const DnDFlow = () => {
             Entity: Entity,
             Relationship: Relationship,
             Attribute: Attribute,
-            Hierarchy: Hierarchy,
             Interface: Interface
         }),
         [],
@@ -111,10 +114,106 @@ const DnDFlow = () => {
     const [positionUpdate,setPositionUpdate]=useState([]);
 
 
-
-
     const [selectedElements, setSelectedElements] = useState([]);
     const [selectedEdges, setSelectedEdges] = useState([]);
+
+
+    // proximity constants
+    //const store = useStoreApi();
+   // const { getInternalNode } = useReactFlow();
+
+    // const getClosestEdge = useCallback((node) => {
+    //     const { nodeLookup } = store.getState();
+    //     const internalNode = getInternalNode(node.id);
+    //
+    //     const closestNode = Array.from(nodeLookup.values()).reduce(
+    //         (res, n) => {
+    //             if (n.id !== internalNode.id) {
+    //                 const dx =
+    //                     n.internals.positionAbsolute.x -
+    //                     internalNode.internals.positionAbsolute.x;
+    //                 const dy =
+    //                     n.internals.positionAbsolute.y -
+    //                     internalNode.internals.positionAbsolute.y;
+    //                 const d = Math.sqrt(dx * dx + dy * dy);
+    //
+    //                 if (d < res.distance && d < MIN_DISTANCE) {
+    //                     res.distance = d;
+    //                     res.node = n;
+    //                 }
+    //             }
+    //
+    //             return res;
+    //         },
+    //         {
+    //             distance: Number.MAX_VALUE,
+    //             node: null,
+    //         },
+    //     );
+    //
+    //     if (!closestNode.node) {
+    //         return null;
+    //     }
+    //
+    //     const closeNodeIsSource =
+    //         closestNode.node.internals.positionAbsolute.x <
+    //         internalNode.internals.positionAbsolute.x;
+    //
+    //     return {
+    //         id: closeNodeIsSource
+    //             ? `${closestNode.node.id}-${node.id}`
+    //             : `${node.id}-${closestNode.node.id}`,
+    //         source: closeNodeIsSource ? closestNode.node.id : node.id,
+    //         target: closeNodeIsSource ? node.id : closestNode.node.id,
+    //     };
+    // }, []);
+    //
+    // const onNodeDrag = useCallback(
+    //     (_, node) => {
+    //         const closeEdge = getClosestEdge(node);
+    //
+    //         setEdges((es) => {
+    //             const nextEdges = es.filter((e) => e.className !== 'temp');
+    //
+    //             if (
+    //                 closeEdge &&
+    //                 !nextEdges.find(
+    //                     (ne) =>
+    //                         ne.source === closeEdge.source && ne.target === closeEdge.target,
+    //                 )
+    //             ) {
+    //                 closeEdge.className = 'temp';
+    //                 nextEdges.push(closeEdge);
+    //             }
+    //
+    //             return nextEdges;
+    //         });
+    //     },
+    //     [getClosestEdge, setEdges],
+    // );
+    // const onNodeDragStop = useCallback(
+    //     (_, node) => {
+    //         const closeEdge = getClosestEdge(node);
+    //
+    //         setEdges((es) => {
+    //             const nextEdges = es.filter((e) => e.className !== 'temp');
+    //
+    //             if (
+    //                 closeEdge &&
+    //                 !nextEdges.find(
+    //                     (ne) =>
+    //                         ne.source === closeEdge.source && ne.target === closeEdge.target,
+    //                 )
+    //             ) {
+    //                 nextEdges.push(closeEdge);
+    //             }
+    //
+    //             return nextEdges;
+    //         });
+    //     },
+    //     [getClosestEdge],
+    // );
+
 
     // the passed handler has to be memoized, otherwise the hook will not work correctly
     const onChange =
@@ -187,7 +286,9 @@ const DnDFlow = () => {
     };
 
 
-    const handleNodesChange = (changes) => {
+    const handleNodesChange =
+       // useCallback(
+            (changes) => {
         onNodesChange(changes);
 
         // Extract only the nodes that have actually been updated
@@ -206,7 +307,8 @@ const DnDFlow = () => {
             updateNodePosition(updatedNodes);
             // console.log(updatedNodes)
         }
-    };
+    }
+    //, [onNodesChange]);
 
     function updateNode(victim, data,color) {
         console.log(color)
@@ -284,7 +386,7 @@ const DnDFlow = () => {
 
 
     const onConnect =
-        // useCallback(
+        //useCallback(
         (connection) => {
             const { source, target } = connection;
             console.log(source)
@@ -343,8 +445,8 @@ const DnDFlow = () => {
             setEdges((eds) => addEdge(newEdge, eds));
 
         }
-    //     ,
-    //     [setEdges],
+       // ,
+         //[setEdges],
     // );
     useEffect(()=> console.log(nodes),[nodes]);
     useEffect(()=> console.log(edges),[edges]);
@@ -508,6 +610,9 @@ const DnDFlow = () => {
                     onDrop={onDrop}
                     onDragOver={onDragOver}
 
+                    // onNodeDragStop={onNodeDragStop}
+                    // onNodeDrag={onNodeDrag}
+
                 >
                     <Background variant={selectedBackground}/>
                     <MiniMap/>
@@ -561,7 +666,7 @@ const DnDFlow = () => {
 };
 
 export default () => (
-    <ReactFlowProvider>
+
         <DnDFlow />
-    </ReactFlowProvider>
+
 );

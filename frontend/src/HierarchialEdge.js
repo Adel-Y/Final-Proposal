@@ -3,11 +3,13 @@ import {
     EdgeLabelRenderer, getBezierPath, getSmoothStepPath,
     getStraightPath,
     useReactFlow,
-} from 'reactflow';
-import {useState} from "react";
+} from '@xyflow/react';
+import React, {useState} from "react";
 import axios from "axios";
-import { useNodesData,MarkerType } from '@xyflow/react';
-export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, data ,markerStart}) {
+import '@xyflow/react/dist/style.css';
+import '@xyflow/react/dist/base.css';
+import {useNodesData, MarkerType, ReactFlowProvider} from '@xyflow/react';
+const HierarchialEdge=({ id, sourceX, sourceY, targetX, targetY, data ,markerStart}) =>{
     const [isLabelVisible, setIsLabelVisible] = useState(false);
 
     const [apiData, setData] = useState(null);
@@ -96,3 +98,4 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY, dat
         </>
     );
 }
+export default HierarchialEdge

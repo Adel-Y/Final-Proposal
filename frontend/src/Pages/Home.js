@@ -1,18 +1,16 @@
 
 import '../App.css';
 import React from "react";
-import Navbar from "../Navbar";
 import Flow from "./Flow";
 import Pallet from "../Pallet";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Relational from "./Relational";
-import {ReactFlowProvider} from "reactflow";
+import {ReactFlowProvider} from "@xyflow/react";
+import {DnDProvider} from "../DnDContext";
+
 function Home(){
 
 
     return(
-        <ReactFlowProvider>
+        // <ReactFlowProvider>
         <>
 
 
@@ -28,11 +26,19 @@ function Home(){
 
 
         </>
-        </ReactFlowProvider>
+        // </ReactFlowProvider>
     );
 
 }
 
-export default Home;
+// export default Home
+
+export default () => (
+    <ReactFlowProvider>
+        <DnDProvider>
+            <Home />
+        </DnDProvider>
+    </ReactFlowProvider>
+);
 
 

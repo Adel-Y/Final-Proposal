@@ -9,8 +9,10 @@ import {
     useNodeId,
     addEdge,
     ReactFlowProvider
-} from "reactflow";
+} from "@xyflow/react";
 import axios from "axios";
+import '@xyflow/react/dist/style.css';
+import '@xyflow/react/dist/base.css';
 import {NodeResizer} from "@xyflow/react";
 
 const Entity = ({ data, isConnectable,onDragStart}) => {
@@ -108,4 +110,4 @@ const Entity = ({ data, isConnectable,onDragStart}) => {
     );
 };
 
-export default Entity;
+export default Entity
