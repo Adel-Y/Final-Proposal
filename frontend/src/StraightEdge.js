@@ -31,19 +31,14 @@ const StraightEdge=({ id, sourceX, sourceY, targetX, targetY, data })=> {
         setIsLabelVisible(false);
     };
 
-    const cardinalityRenderer =()=>{
-        switch (data?.cardinality){
-            case 'zero-to-one':
+    const requirementRenderer =()=>{
+        switch (data?.required){
+            case false:
                 return '(0,1)';
-            case 'one-to-one':
-                return '(1,1)';
-            case 'zero-to-many':
-                return '(0,N)';
-            case 'one-to-many':
-                return '(1,N)';
+            case true:
+                return '';
         }
     }
-
     return (
         <>
             <path
@@ -102,7 +97,19 @@ const StraightEdge=({ id, sourceX, sourceY, targetX, targetY, data })=> {
                 // markerEnd={markerEnd}
             />
 
+            <EdgeLabelRenderer>
+                <div                         style={{
+                    position: 'absolute',
+                    transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+                    pointerEvents: 'all',
+                    cursor:'pointer'
+                }} className="nodrag nopan">
+                    <div style={{
+                        marginTop:'-30px'
+                    }}><span> {requirementRenderer()}</span></div>
 
+                </div>
+            </EdgeLabelRenderer>
         </>
     );
 }

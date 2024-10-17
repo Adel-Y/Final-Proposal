@@ -32,6 +32,8 @@ const Sidebar = ({ node, updateNode }) => {
 
     const [edgeProperty, setEdgeProperty]=useState('');
 
+    const [edgeAttReq, setEdgeAttReq]=useState(true);
+
     const [collapseType, setCollapseType]=useState('');
 
     const [data, setData] = useState(null);
@@ -86,6 +88,10 @@ const Sidebar = ({ node, updateNode }) => {
                         setEdgeProperty(response.data.data.property)
                         console.log(edgeProperty)
                     }
+                    if(node[0]?.type==='straight-edge') {
+                        setEdgeAttReq(response.data.data.required)
+                        console.log(edgeAttReq)
+                    }
                     // },1000)
 
                     //setNodeData(response.data)
@@ -130,7 +136,9 @@ const Sidebar = ({ node, updateNode }) => {
     const updateProperty =(value)=>{
         setEdgeProperty(value)
     }
-
+    const updateAttReq =(value)=>{
+        setEdgeAttReq(value)
+    }
     const updateAttributeType =(value)=>{
         setAttributeType(value)
     }
@@ -230,6 +238,13 @@ const Sidebar = ({ node, updateNode }) => {
                             <option value='partial-exclusive'>(p,e)</option>
                             <option value='partial-overlapping'>(p,o)</option>
                         </select>
+                    </label>
+                </div>
+                    ;
+            case 'straight-edge':
+                return <div className='sidebar-elements'>
+                    <label>Attribute Required:
+                        <input type="checkbox" value='hello' defaultChecked={node[0]?.data.required ? true : false} onChange={(e)=>  setEdgeAttReq(e.target.checked)} />
                     </label>
                 </div>
                     ;
@@ -381,6 +396,15 @@ const Sidebar = ({ node, updateNode }) => {
                 const data =
                     {
                         property: edgeProperty,
+                    }
+                return data;
+            }
+
+            if (node[0]?.type === 'straight-edge') {
+
+                const data =
+                    {
+                        required: edgeAttReq,
                     }
                 return data;
             }

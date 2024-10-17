@@ -106,6 +106,7 @@ async function relationshipMatcher  ()  {
                         primaryKey: node.data.primaryKey,
                         dataType: node.data.dataType,
                         dataSize: node.data.dataSize,
+                        required:edge.data.required
                       };
                     }
         
@@ -492,7 +493,7 @@ router.get('/testerQuery', async (req, res) => {
         tablesRenderer(relationships,tables)
 
         
-console.log(JSON.stringify(relationalModels))
+console.log(JSON.stringify(tables))
 
     const result = removeDuplicates(finalTables)
     

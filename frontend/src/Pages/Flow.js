@@ -348,6 +348,13 @@ const DnDFlow = () => {
                             };
                         }
 
+                        if(edge.type==='straight-edge'){
+                            return {
+                                ...edge,
+                                data: {required: data.required},
+                            };
+                        }
+
                     }
 
                     return edge;
@@ -412,7 +419,7 @@ const DnDFlow = () => {
             console.log(sourceNode.type)
             let newEdge = {};
             if(sourceNode.type ==='Attribute' && (targetNode.type==='Entity' || targetNode.type==='Interface')){
-                 newEdge = { ...connection, id:newID , type: 'straight-edge', tag:'edge' ,data: {cardinality : 'one-to-many'}};
+                 newEdge = { ...connection, id:newID , type: 'straight-edge', tag:'edge' ,data: {required : true}};
                 //setEdges((eds) => addEdge(newEdge, eds));
             }
             if(sourceNode.type ==='Attribute' && targetNode.type==='Attribute'){
