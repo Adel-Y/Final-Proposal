@@ -271,9 +271,9 @@ const DnDFlow = () => {
     };
 
     const updateEdgeData = async (edge) => {
-        console.log(edge[0].id)
+        console.log(edge[0]?.id)
 
-        axios.put(`/connect/edges/data/${edge[0].id}`, edge)
+        axios.put(`/connect/edges/data/${edge[0]?.id}`, edge)
             .then(response => {
                 console.log(response)
                 setData(response.data);
@@ -314,7 +314,7 @@ const DnDFlow = () => {
     function updateNode(victim, data,color) {
         console.log(color)
         // console.log(nodes.find(victim[0].id===))
-        if(victim[0].type ==='custom-edge') {
+        if(victim[0].tag ==='edge') {
 
             const updateEdge = edges.map((edge)=>{
                 if (edge.id===victim[0].id){
@@ -334,10 +334,20 @@ const DnDFlow = () => {
                         console.log('I entered')
                         // it's important that you create a new node object
                         // in order to notify react flow about the change
-                        return {
-                            ...edge,
-                            data: {cardinality: data.cardinality},
-                        };
+                        if(edge.type==='custom-edge'){
+                            return {
+                                ...edge,
+                                data: {cardinality: data.cardinality},
+                            };
+                        }
+
+                        if(edge.type==='hierarchy-edge'){
+                            return {
+                                ...edge,
+                                data: {property: data.property},
+                            };
+                        }
+
                     }
 
                     return edge;
@@ -346,6 +356,7 @@ const DnDFlow = () => {
             updateEdgeData(updateEdge);
 
         }
+
         else{
 
 
@@ -414,7 +425,7 @@ const DnDFlow = () => {
                 //setEdges((eds) => addEdge(newEdge, eds));
             }
             if(sourceNode.type==='Interface' && (targetNode.type==='Entity' || targetNode.type ==='Interface')){
-                newEdge = { ...connection, id:newID , type: 'hierarchy-edge', tag:'edge' , data: {cardinality : 'one-to-many'},
+                newEdge = { ...connection, id:newID , type: 'hierarchy-edge', tag:'edge' , data: {property : 'total-exclusive'},
                     markerStart: {
                         type: MarkerType.ArrowClosed,
                         width: 3,

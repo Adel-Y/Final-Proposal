@@ -30,6 +30,8 @@ const Sidebar = ({ node, updateNode }) => {
 
     const [edgeCardinality, setEdgeCardinality]=useState('');
 
+    const [edgeProperty, setEdgeProperty]=useState('');
+
     const [collapseType, setCollapseType]=useState('');
 
     const [data, setData] = useState(null);
@@ -55,6 +57,7 @@ const Sidebar = ({ node, updateNode }) => {
                         setDataType(response.data.data?.dataType)
                         setDataSize( response.data.data?.dataSize )
                         setColor( response.data.data.color)
+                        setCollapseType(response.data.data?.collapseType)
                         console.log(name,isWeak,isPrimaryKey,attributeType,dataType,dataSize,color)
 
                     // },1000)
@@ -78,6 +81,10 @@ const Sidebar = ({ node, updateNode }) => {
                     if(node[0]?.type==='custom-edge') {
                         setEdgeCardinality(response.data.data.cardinality)
                         console.log(edgeCardinality)
+                    }
+                    if(node[0]?.type==='hierarchy-edge') {
+                        setEdgeProperty(response.data.data.property)
+                        console.log(edgeProperty)
                     }
                     // },1000)
 
@@ -118,6 +125,10 @@ const Sidebar = ({ node, updateNode }) => {
 
     const updateCardinality =(value)=>{
         setEdgeCardinality(value)
+    }
+
+    const updateProperty =(value)=>{
+        setEdgeProperty(value)
     }
 
     const updateAttributeType =(value)=>{
@@ -210,6 +221,18 @@ const Sidebar = ({ node, updateNode }) => {
                     </label>
                 </div>
                 ;
+            case 'hierarchy-edge':
+                return <div className='sidebar-elements'>
+                    <label>Hierarchy Property:
+                        <select defaultValue={node[0]?.data.property} onChange={(e)=>updateProperty(e.target.value)}>
+                            <option value='total-exclusive'>(t,e)</option>
+                            <option value='total-overlapping'>(t,o)</option>
+                            <option value='partial-exclusive'>(p,e)</option>
+                            <option value='partial-overlapping'>(p,o)</option>
+                        </select>
+                    </label>
+                </div>
+                    ;
 
             case 'Attribute':
                 return <div className='sidebar-elements'>
@@ -343,13 +366,24 @@ const Sidebar = ({ node, updateNode }) => {
         }
     }
     const updateData = () => {
-        if(node[0]?.type==='custom-edge') {
+        if (node[0].tag==="edge") {
+            if (node[0]?.type === 'custom-edge') {
 
-            const data =
-                {
-                    cardinality: edgeCardinality,
-                }
-            return data;
+                const data =
+                    {
+                        cardinality: edgeCardinality,
+                    }
+                return data;
+            }
+
+            if (node[0]?.type === 'hierarchy-edge') {
+
+                const data =
+                    {
+                        property: edgeProperty,
+                    }
+                return data;
+            }
         }
         else{
 

@@ -31,6 +31,18 @@ const HierarchialEdge=({ id, sourceX, sourceY, targetX, targetY, data ,markerSta
         setIsLabelVisible(false);
     };
 
+    const propertyRenderer =()=>{
+        switch (data?.property){
+            case 'total-exclusive':
+                return '(t,e)';
+            case 'total-overlapping':
+                return '(t,o)';
+            case 'partial-exclusive':
+                return '(p,e)';
+            case 'partial-overlapping':
+                return '(p,o)';
+        }
+    }
 
     return (
         <>
@@ -94,7 +106,19 @@ const HierarchialEdge=({ id, sourceX, sourceY, targetX, targetY, data ,markerSta
                markerStart={markerStart}
             />
 
+            <EdgeLabelRenderer>
+                <div                         style={{
+                    position: 'absolute',
+                    transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+                    pointerEvents: 'all',
+                    cursor:'pointer'
+                }} className="nodrag nopan">
+                    <div style={{
+                        marginTop:'-30px'
+                    }}><span> {propertyRenderer()}</span></div>
 
+                </div>
+            </EdgeLabelRenderer>
         </>
     );
 }

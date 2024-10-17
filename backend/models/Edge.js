@@ -13,6 +13,7 @@ const edgeSchema = new mongoose.Schema({
     
     data:{
         cardinality: {type:String},
+        property: {type:String},
         //required : true
 
 
