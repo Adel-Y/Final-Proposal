@@ -31,7 +31,7 @@ function jsonToSQL(jsonData) {
 
             // Foreign key
             if (col.foreignKey) {
-                columnSQL += ` FOREIGN KEY REFERENCES ${col.foreignTable}(${col.name})`; // Example reference to a foreign table
+                columnSQL += ` FOREIGN KEY REFERENCES ${col.foreignTable}(${col.name.split('_')[0]})`; // Example reference to a foreign table
             }
 
             return columnSQL;

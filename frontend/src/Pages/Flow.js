@@ -119,100 +119,101 @@ const DnDFlow = () => {
 
 
     // proximity constants
-    //const store = useStoreApi();
-   // const { getInternalNode } = useReactFlow();
+    const store = useStoreApi();
+   const { getInternalNode } = useReactFlow();
 
-    // const getClosestEdge = useCallback((node) => {
-    //     const { nodeLookup } = store.getState();
-    //     const internalNode = getInternalNode(node.id);
-    //
-    //     const closestNode = Array.from(nodeLookup.values()).reduce(
-    //         (res, n) => {
-    //             if (n.id !== internalNode.id) {
-    //                 const dx =
-    //                     n.internals.positionAbsolute.x -
-    //                     internalNode.internals.positionAbsolute.x;
-    //                 const dy =
-    //                     n.internals.positionAbsolute.y -
-    //                     internalNode.internals.positionAbsolute.y;
-    //                 const d = Math.sqrt(dx * dx + dy * dy);
-    //
-    //                 if (d < res.distance && d < MIN_DISTANCE) {
-    //                     res.distance = d;
-    //                     res.node = n;
-    //                 }
-    //             }
-    //
-    //             return res;
-    //         },
-    //         {
-    //             distance: Number.MAX_VALUE,
-    //             node: null,
-    //         },
-    //     );
-    //
-    //     if (!closestNode.node) {
-    //         return null;
-    //     }
-    //
-    //     const closeNodeIsSource =
-    //         closestNode.node.internals.positionAbsolute.x <
-    //         internalNode.internals.positionAbsolute.x;
-    //
-    //     return {
-    //         id: closeNodeIsSource
-    //             ? `${closestNode.node.id}-${node.id}`
-    //             : `${node.id}-${closestNode.node.id}`,
-    //         source: closeNodeIsSource ? closestNode.node.id : node.id,
-    //         target: closeNodeIsSource ? node.id : closestNode.node.id,
-    //     };
-    // }, []);
-    //
-    // const onNodeDrag = useCallback(
-    //     (_, node) => {
-    //         const closeEdge = getClosestEdge(node);
-    //
-    //         setEdges((es) => {
-    //             const nextEdges = es.filter((e) => e.className !== 'temp');
-    //
-    //             if (
-    //                 closeEdge &&
-    //                 !nextEdges.find(
-    //                     (ne) =>
-    //                         ne.source === closeEdge.source && ne.target === closeEdge.target,
-    //                 )
-    //             ) {
-    //                 closeEdge.className = 'temp';
-    //                 nextEdges.push(closeEdge);
-    //             }
-    //
-    //             return nextEdges;
-    //         });
-    //     },
-    //     [getClosestEdge, setEdges],
-    // );
-    // const onNodeDragStop = useCallback(
-    //     (_, node) => {
-    //         const closeEdge = getClosestEdge(node);
-    //
-    //         setEdges((es) => {
-    //             const nextEdges = es.filter((e) => e.className !== 'temp');
-    //
-    //             if (
-    //                 closeEdge &&
-    //                 !nextEdges.find(
-    //                     (ne) =>
-    //                         ne.source === closeEdge.source && ne.target === closeEdge.target,
-    //                 )
-    //             ) {
-    //                 nextEdges.push(closeEdge);
-    //             }
-    //
-    //             return nextEdges;
-    //         });
-    //     },
-    //     [getClosestEdge],
-    // );
+    const getClosestEdge =
+        //useCallback(
+        (node) => {
+        const { nodeLookup } = store.getState();
+        const internalNode = getInternalNode(node.id);
+
+        const closestNode = Array.from(nodeLookup.values()).reduce(
+            (res, n) => {
+                if (n.id !== internalNode.id) {
+                    const dx =
+                        n.internals.positionAbsolute.x -
+                        internalNode.internals.positionAbsolute.x;
+                    const dy =
+                        n.internals.positionAbsolute.y -
+                        internalNode.internals.positionAbsolute.y;
+                    const d = Math.sqrt(dx * dx + dy * dy);
+
+                    if (d < res.distance && d < MIN_DISTANCE) {
+                        res.distance = d;
+                        res.node = n;
+                    }
+                }
+
+                return res;
+            },
+            {
+                distance: Number.MAX_VALUE,
+                node: null,
+            },
+        );
+
+        if (!closestNode.node) {
+            return null;
+        }
+
+        const closeNodeIsSource =
+            closestNode.node.internals.positionAbsolute.x <
+            internalNode.internals.positionAbsolute.x;
+
+        return {
+            id: closeNodeIsSource
+                ? `${closestNode.node.id}-${node.id}`
+                : `${node.id}-${closestNode.node.id}`,
+            source: closeNodeIsSource ? closestNode.node.id : node.id,
+            target: closeNodeIsSource ? node.id : closestNode.node.id,
+        };
+    }
+    //, []);
+
+    const onNodeDrag = //useCallback(
+        (_, node) => {
+            const closeEdge = getClosestEdge(node);
+
+            setEdges((es) => {
+                const nextEdges = es.filter((e) => e.className !== 'temp');
+
+                if (
+                    closeEdge &&
+                    !nextEdges.find(
+                        (ne) =>
+                            ne.source === closeEdge.source && ne.target === closeEdge.target,
+                    )
+                ) {
+                    closeEdge.className = 'temp';
+                    nextEdges.push(closeEdge);
+                }
+                console.log(nextEdges)
+                return nextEdges;
+            });
+        }
+        //, [getClosestEdge, setEdges],);
+    const onNodeDragStop = //useCallback(
+        (_, node) => {
+            const closeEdge = getClosestEdge(node);
+
+            setEdges((es) => {
+                const nextEdges = es.filter((e) => e.className !== 'temp');
+
+                if (
+                    closeEdge &&
+                    !nextEdges.find(
+                        (ne) =>
+                            ne.source === closeEdge.source && ne.target === closeEdge.target,
+                    )
+                ) {
+                    nextEdges.push(closeEdge);
+                }
+                console.log(nextEdges)
+                return nextEdges;
+            });
+        }
+        //, [getClosestEdge], );
 
 
     // the passed handler has to be memoized, otherwise the hook will not work correctly
@@ -287,7 +288,7 @@ const DnDFlow = () => {
 
 
     const handleNodesChange =
-       // useCallback(
+        //useCallback(
             (changes) => {
         onNodesChange(changes);
 
@@ -308,7 +309,7 @@ const DnDFlow = () => {
             // console.log(updatedNodes)
         }
     }
-    //, [onNodesChange]);
+   // , [onNodesChange]);
 
     function updateNode(victim, data,color) {
         console.log(color)
@@ -386,7 +387,7 @@ const DnDFlow = () => {
 
 
     const onConnect =
-        //useCallback(
+       // useCallback(
         (connection) => {
             const { source, target } = connection;
             console.log(source)
@@ -446,7 +447,7 @@ const DnDFlow = () => {
 
         }
        // ,
-         //[setEdges],
+     //    [setEdges],
     // );
     useEffect(()=> console.log(nodes),[nodes]);
     useEffect(()=> console.log(edges),[edges]);
@@ -610,8 +611,8 @@ const DnDFlow = () => {
                     onDrop={onDrop}
                     onDragOver={onDragOver}
 
-                    // onNodeDragStop={onNodeDragStop}
-                    // onNodeDrag={onNodeDrag}
+                    onNodeDragStop={onNodeDragStop}
+                    onNodeDrag={onNodeDrag}
 
                 >
                     <Background variant={selectedBackground}/>

@@ -219,7 +219,7 @@ const Sidebar = ({ node, updateNode }) => {
                     </label>
                     <br></br>
                     <label>
-                        Primary Key:
+                        Identifier:
                         <input type="checkbox" value='hello' defaultChecked={node[0]?.data.primaryKey ? true : false} onChange={(e)=>  primaryKey(e.target.checked)}/>
                     </label>
                     <br></br>

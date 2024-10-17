@@ -554,3 +554,12 @@ color: #38444d;
   border-radius: 5px;
   /*float: left;*/
 }
+.react-flow__edge-path {
+  stroke: #333;
+  stroke-width: 2;
+}
+
+.temp .react-flow__edge-path {
+  stroke: #bbb;
+  stroke-dasharray: 5 5;
+}

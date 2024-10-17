@@ -9,6 +9,8 @@ const flattenAttributes = (attributes) => {
     return attributes.flat(); // Flatten the array to remove nested arrays
 };
 
+
+
 // Table component
 const Table = ({ name, columns }) => {
     return (
@@ -17,7 +19,7 @@ const Table = ({ name, columns }) => {
             <thead>
             <tr>
                 {columns.map((col, index) => (
-                    <th key={index} style={(col.primaryKey || col.foreignKey) ? keyCellStyle : cellStyle}>
+                    <th key={index} style={col.primaryKey ? keyCellStyle : col.foreignKey ? foreignKeyCellStyle : cellStyle}>
                         {col.name}
                     </th>
                 ))}
@@ -93,6 +95,13 @@ const keyCellStyle = {
     padding: '8px',
     textAlign: 'center',
     textDecoration:'underline'
+};
+
+const foreignKeyCellStyle = {
+    border: '1px solid black',
+    padding: '8px',
+    textAlign: 'center',
+    color:'red'
 };
 
 export default Relational;
