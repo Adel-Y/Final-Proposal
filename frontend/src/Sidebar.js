@@ -36,6 +36,8 @@ const Sidebar = ({ node, updateNode }) => {
 
     const [collapseType, setCollapseType]=useState('');
 
+    const [identifierType, setIdentifierType]=useState('');
+
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -60,6 +62,7 @@ const Sidebar = ({ node, updateNode }) => {
                         setDataSize( response.data.data?.dataSize )
                         setColor( response.data.data.color)
                         setCollapseType(response.data.data?.collapseType)
+                        setIdentifierType(response.data.data?.identifierType ? response.data.data?.identifierType : null)
                         console.log(name,isWeak,isPrimaryKey,attributeType,dataType,dataSize,color)
 
                     // },1000)
@@ -145,6 +148,10 @@ const Sidebar = ({ node, updateNode }) => {
 
     const updateCollapseType =(value)=>{
         setCollapseType(value)
+    }
+
+    const updateIdentifierType =(value)=>{
+        setIdentifierType(value)
     }
 
 
@@ -357,10 +364,20 @@ const Sidebar = ({ node, updateNode }) => {
                     <label>
                         Collapse:
                         <select name="collapse-type" className='fontTheme custom-select' defaultValue={node[0]?.data.collapseType} onChange={(e)=>updateCollapseType(e.target.value)}  >
-                            <option value='downwards'>Downwards</option>
-                            <option value='upwards'>Upwards</option>
+                            <option value='horizontal'>Horizontal</option>
+                            <option value='vertical'>Vertical</option>
                         </select>
                     </label>
+                    {collapseType ==='vertical' && (
+
+                        <label style={{marginTop:'6px'}}>
+                            Identifier:
+                            <select name="identifier-type" className='fontTheme custom-select' defaultValue={identifierType ? identifierType :null} onChange={(e)=>updateIdentifierType(e.target.value)}  >
+                                <option value='super'>Super Entity</option>
+                                <option value='sub'>Sub Entity</option>
+                            </select>
+                        </label>
+                            )}
                     <br></br>
                     <label>
                         Color:
@@ -451,7 +468,8 @@ const Sidebar = ({ node, updateNode }) => {
                     label: node[0]?.data.label,
                     name: name,
                     color: color,
-                    collapseType: collapseType
+                    collapseType: collapseType,
+                    identifierType:`${collapseType === "vertical" ? identifierType : null}`
                 };
             };
 

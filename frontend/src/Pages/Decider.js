@@ -150,7 +150,7 @@ const Decider = () => {
                                         }
                                     }
 
-)}
+                                            )}
                                 </select>
                             </div>
                         )}

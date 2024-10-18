@@ -47,6 +47,9 @@ const nodeSchema = new mongoose.Schema({
 
         collapseType:{
             type:String
+        },
+        identifierType:{
+            type:String
         }
 
     },
