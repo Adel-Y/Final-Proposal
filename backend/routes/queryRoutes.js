@@ -311,6 +311,7 @@ const tablesRenderer = (relationships,tables)=>{
                 foreignTable:tables.filter((table)=>table.id===rel.entity1)[0].name,
                 name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
                 foreignKey: true,
+                primaryKey:true,
                 dataType: attributes1.dataType,
                 dataSize: attributes1.dataSize
             
@@ -327,6 +328,7 @@ const tablesRenderer = (relationships,tables)=>{
                 foreignTable:tables.filter((table)=>table.id===rel.entity2)[0].name,
                 name: tables.filter((table)=>table.id===rel.entity2)[0].name+"_id",
                 foreignKey: true,
+                primaryKey:true,
                 dataType: attributes2.dataType,
                 dataSize: attributes2.dataSize
             
@@ -339,14 +341,14 @@ const tablesRenderer = (relationships,tables)=>{
         if(rel.cardinality1 ==="one" && rel.cardinality2==="one"){
 
             const owner =decisionsReceived.map( (r)=>{
-                //console.log(r)
+
                 if(r.relationship === rel.id){
-                    return r.owner
+                    return {owner:r.owner,primaryKey:r.primaryKey}
                 }
             }).filter(x=>x)[0]
-            console.log(owner + " relationship "+rel.name)
+            console.log(owner.owner + " relationship "+rel.name)
 
-            if(owner===rel.entity2){
+            if(owner.owner===rel.entity2){
 
                 const entity1 = tables.filter((table)=>table.id===rel.entity1)[0]
 
@@ -383,7 +385,7 @@ const tablesRenderer = (relationships,tables)=>{
 
             }
             
-            if(owner===rel.entity1){
+            if(owner.owner===rel.entity1){
 
                 const entity2 = tables.filter((table)=>table.id===rel.entity2)[0]
 
@@ -418,7 +420,7 @@ const tablesRenderer = (relationships,tables)=>{
                 return [model,table2]
             }
 
-            else if(owner===rel.id){
+            else if(owner.owner===rel.id){
                 console.log(rel + "testing")
                 const entity1 = tables.filter((table)=>table.id===rel.entity1)[0]
 
@@ -439,15 +441,7 @@ const tablesRenderer = (relationships,tables)=>{
                    }
                }).filter(attr=>attr)[0]
     
-    
-                const foreignKey1= {
-                    foreignTable:tables.filter((table)=>table.id===rel.entity1)[0].name,
-                    name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
-                    foreignKey: true,
-                    dataType: attributes1.dataType,
-                    dataSize: attributes1.dataSize
-                
-                } 
+
     
                 const target2=tables.filter((table)=>table.id===rel.entity2 )
                 const attributes2 =   target2[0].attributes.map((attr)=>{
@@ -456,15 +450,50 @@ const tablesRenderer = (relationships,tables)=>{
                    }
                }).filter(attr=>attr)[0]
     
-                const foreignKey2= {
-                    foreignTable:tables.filter((table)=>table.id===rel.entity2)[0].name,
-                    name: tables.filter((table)=>table.id===rel.entity2)[0].name+"_id",
-                    foreignKey: true,
-                    dataType: attributes2.dataType,
-                    dataSize: attributes2.dataSize
-                
-                } 
-    
+
+
+                let foreignKey1={};
+                let foreignKey2 ={};
+                console.log(owner)
+                console.log(rel.entity1,rel.entity2)
+                if(owner.primaryKey==rel.entity1){
+                    console.log("Entry1")
+                     foreignKey1= {
+                        foreignTable:tables.filter((table)=>table.id===rel.entity1)[0].name,
+                        name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
+                        primaryKey: true,
+                        dataType: attributes1.dataType,
+                        dataSize: attributes1.dataSize
+                    
+                    } 
+                     foreignKey2= {
+                        foreignTable:tables.filter((table)=>table.id===rel.entity2)[0].name,
+                        name: tables.filter((table)=>table.id===rel.entity2)[0].name+"_id",
+                        foreignKey: true,
+                        dataType: attributes2.dataType,
+                        dataSize: attributes2.dataSize
+                    
+                    } 
+
+                }else if(r.primaryKey===rel.entity2){
+                    console.log("Entry1")
+                     foreignKey1= {
+                        foreignTable:tables.filter((table)=>table.id===rel.entity1)[0].name,
+                        name: tables.filter((table)=>table.id===rel.entity1)[0].name+"_id",
+                        foreignKey: true,
+                        dataType: attributes1.dataType,
+                        dataSize: attributes1.dataSize
+                    
+                    } 
+                     foreignKey2= {
+                        foreignTable:tables.filter((table)=>table.id===rel.entity2)[0].name,
+                        name: tables.filter((table)=>table.id===rel.entity2)[0].name+"_id",
+                        primaryKey: true,
+                        dataType: attributes2.dataType,
+                        dataSize: attributes2.dataSize
+                    
+                    } 
+                }
                  const model={name:rel.name,columns:[foreignKey1,foreignKey2]}
                  finalTables.tables.push(model,table1,table2)
                  return [model,table1,table2]
@@ -493,7 +522,7 @@ router.get('/testerQuery', async (req, res) => {
         tablesRenderer(relationships,tables)
 
         
-console.log(JSON.stringify(tables))
+// console.log(JSON.stringify(tables))
 
     const result = removeDuplicates(finalTables)
     
@@ -523,9 +552,11 @@ console.log(JSON.stringify(tables))
                }).filter(x=>x)
                return   {
                 name:`Owner Between ${couple[0].name} and ${couple[1].name}`,
-                options:[couple,{name:rel.name,id:rel.id}].flat(),
+                options:[couple,{name:rel.name,id:"bridge"}].flat(),
                 default:couple[0].id, 
-                relationship:rel.id}
+                relationship:rel.id,
+                primaryKeys:[rel.id,couple[0].id,couple[1].id]
+            }
             }
         }).filter((x)=>x)
 

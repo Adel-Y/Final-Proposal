@@ -545,8 +545,32 @@ color: #38444d;
 }
 
 .decider-display{
+font-size: 20px;
+  margin: 20px;
+}
+.decider-select{
+  margin-left: 10px;
+  font-size: 15px;
+}
+.decider-button{
+  margin-left: 20px;
+  border-radius: 5px;
+  font-family: Poppins;
+  padding: 4px;
+  background-color: #38444d;
+  color: white;
+}
+
+.primary-key-selection{
 
   margin: 10px;
+}
+
+.decider-title{
+  font-family: Poppins;
+  justify-content: center;
+  align-content: center;
+  display: flex;
 }
 .handle-legend{
   width: 5px;
