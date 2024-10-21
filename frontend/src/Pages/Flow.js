@@ -40,7 +40,11 @@ const MIN_DISTANCE = 150;
 let id = 1;
 const getId = () => `id-${id++ * Date.now()}`;
 
-const DnDFlow = () => {
+const DnDFlow = ({initialNotation}) => {
+
+    useEffect(()=>{
+        console.log(initialNotation)
+    })
 
     const edgeTypes = useMemo(
         () => ({
@@ -684,8 +688,4 @@ const DnDFlow = () => {
     );
 };
 
-export default () => (
-
-        <DnDFlow />
-
-);
+export default DnDFlow

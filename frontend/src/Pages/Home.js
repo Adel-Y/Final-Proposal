@@ -1,6 +1,6 @@
 
 import '../App.css';
-import React from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Flow from "./Flow";
 import Pallet from "../Pallet";
 import {ReactFlowProvider} from "@xyflow/react";
@@ -8,6 +8,11 @@ import {DnDProvider} from "../DnDContext";
 
 function Home(){
 
+    const [notation,setNotation]=useState('chen')
+
+useEffect(()=>{
+    console.log(notation)
+},[notation])
 
     return(
         // <ReactFlowProvider>
@@ -15,11 +20,11 @@ function Home(){
 
 
             <div className='page'>
-                <Pallet/>
+                <Pallet setNotationStyle={setNotation} initialNotation={notation}/>
                 <div>
                     <h4 className='fontTheme'>Drop Zone</h4>
                     <div className='zone'>
-                        <Flow/>
+                        <Flow initialNotation={notation}/>
                     </div>
                 </div>
             </div>

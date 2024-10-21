@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css'
 import 'reactflow/dist/style.css';
 import '@xyflow/react/dist/style.css';
@@ -8,17 +8,40 @@ import Relationship from "./Data Structures/Relationship";
 import Attribute from "./Data Structures/Attribute";
 import Hierarchy from "./Data Structures/Hierarchy";
 import Interface from "./Data Structures/Interface";
-const Pallet= () => {
+
+const NodeSelector = ({ onChange }) => (
+    <select onChange={onChange}>
+        <option value="chen">Chen</option>
+        <option value="crow">Crow's Foot</option>
+    </select>
+);
+
+const Pallet= ({setNotationStyle,initialNotation}) => {
+
+    console.log(initialNotation)
+
+    // const [notation,setNotation]=useState('chen')
+
+    const handleSetChange = (event) => {
+        setNotationStyle(event.target.value)
+        // setNotation(event.target.value);
+
+    };
+
+
     const onDragStart = (event, nodeType) => {
         event.dataTransfer.setData('itemDropped', nodeType);
         event.dataTransfer.effectAllowed = 'move';
     };
 
+
     return (
 
         <div className='pallet'>
             <h4 className='fontTheme'>Drag Items</h4>
-
+            <label>Choose Node Set:
+            <NodeSelector onChange={handleSetChange} />
+            </label>
             <Entity onDragStart={(event) => onDragStart(event, 'Entity')} />
 
             <Relationship onDragStart={(event) => onDragStart(event, 'Relationship')} />
