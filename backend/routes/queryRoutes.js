@@ -339,14 +339,15 @@ const tablesRenderer = (relationships,tables)=>{
              return [model,table1,table2]
         }
         if(rel.cardinality1 ==="one" && rel.cardinality2==="one"){
-
+                 console.log(decisionsReceived)
             const owner =decisionsReceived.map( (r)=>{
-
+                console.log(JSON.stringify(r) + "  define")
+                if(r){
                 if(r.relationship === rel.id){
                     return {owner:r.owner,primaryKey:r.primaryKey}
-                }
+                }}
             }).filter(x=>x)[0]
-            console.log(owner.owner + " relationship "+rel.name)
+           // console.log(owner.owner + " relationship "+rel.name)
 
             if(owner.owner===rel.entity2){
 
@@ -421,7 +422,7 @@ const tablesRenderer = (relationships,tables)=>{
             }
 
             else if(owner.owner===rel.id){
-                console.log(rel + "testing")
+                //console.log(rel + "testing")
                 const entity1 = tables.filter((table)=>table.id===rel.entity1)[0]
 
                 const table1={name:entity1.name,columns:entity1.attributes.map((attr)=>{
@@ -475,7 +476,7 @@ const tablesRenderer = (relationships,tables)=>{
                     
                     } 
 
-                }else if(r.primaryKey===rel.entity2){
+                }else if(owner.primaryKey===rel.entity2){
                     console.log("Entry1")
                      foreignKey1= {
                         foreignTable:tables.filter((table)=>table.id===rel.entity1)[0].name,
