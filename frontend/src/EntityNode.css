@@ -1,0 +1,47 @@
+/* EntityNode.css */
+.entity-node {
+    border: 2px solid #333;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    width: fit-content;
+    max-width: 200px;
+    min-width: 150px;
+}
+
+.entity-title {
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.entity-attributes {
+    margin-top: 10px;
+}
+
+.attribute {
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.attribute:last-child {
+    border-bottom: none;
+}
+
+.add-attribute-button {
+    margin-top: 10px;
+    padding: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    width: 100%;
+}
+
+.add-attribute-button:hover {
+    background-color: #0056b3;
+}

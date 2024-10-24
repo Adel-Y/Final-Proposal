@@ -31,6 +31,7 @@ import Attribute from "../Data Structures/Attribute";
 import Hierarchy from "../Data Structures/Hierarchy";
 import Interface from "../Data Structures/Interface";
 import AttributeEdge from "../AttributeEdge";
+import EntityCrow from "../Data Structures/EntityCrow";
 
 const initialNodes = [];
 // console.log(typeof MarkerType.ArrowClosed)
@@ -44,9 +45,18 @@ const DnDFlow = ({initialNotation}) => {
 
     useEffect(()=>{
         console.log(initialNotation)
-    })
+    },[initialNotation])
 
-    const edgeTypes = useMemo(
+
+    const crowEdgeTypes =[];
+    const crowNodeTypes=useMemo(
+        () => ({
+            entityNode: EntityCrow,
+        }),
+        [],
+    );;
+
+    const chenEdgeTypes = useMemo(
         () => ({
             'custom-edge': CustomEdge,
             'straight-edge':StraightEdge,
@@ -57,7 +67,7 @@ const DnDFlow = ({initialNotation}) => {
         [],
     );
 
-    const nodeTypes = useMemo(
+    const chenNodeTypes = useMemo(
         () => ({
             Entity: Entity,
             Relationship: Relationship,
@@ -66,6 +76,11 @@ const DnDFlow = ({initialNotation}) => {
         }),
         [],
     );
+
+    let nodeTypes = initialNotation ==='chen' ? chenNodeTypes: crowNodeTypes;
+
+    let edgeTypes = initialNotation ==='chen' ? chenEdgeTypes: crowEdgeTypes;
+
     // backend connection
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -562,7 +577,7 @@ const DnDFlow = ({initialNotation}) => {
                             },
                         };
                     };
-                    if(type === 'Hierarchy') {
+                    if(type === 'entityNode') {
                         newNode = {
                             id: getId(),
                             type,
@@ -571,6 +586,7 @@ const DnDFlow = ({initialNotation}) => {
                             data: {
                                 label: `${type} node`,
                                 name: `${type}`,
+                                attributes: [],
 
                             },
                         };
@@ -589,6 +605,8 @@ const DnDFlow = ({initialNotation}) => {
                             },
                         };
                     };
+
+
 
 
         // posting to the database

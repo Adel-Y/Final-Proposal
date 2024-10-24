@@ -8,9 +8,10 @@ import Relationship from "./Data Structures/Relationship";
 import Attribute from "./Data Structures/Attribute";
 import Hierarchy from "./Data Structures/Hierarchy";
 import Interface from "./Data Structures/Interface";
+import EntityCrow from "./Data Structures/EntityCrow";
 
-const NodeSelector = ({ onChange }) => (
-    <select onChange={onChange}>
+const NodeSelector = ({ onChange,defaultValue }) => (
+    <select onChange={onChange} defaultValue={defaultValue}>
         <option value="chen">Chen</option>
         <option value="crow">Crow's Foot</option>
     </select>
@@ -36,19 +37,38 @@ const Pallet= ({setNotationStyle,initialNotation}) => {
 
 
     return (
-
+<>
         <div className='pallet'>
             <h4 className='fontTheme'>Drag Items</h4>
             <label>Choose Node Set:
-            <NodeSelector onChange={handleSetChange} />
+            <NodeSelector onChange={handleSetChange} defaultValue={initialNotation}/>
             </label>
-            <Entity onDragStart={(event) => onDragStart(event, 'Entity')} />
 
-            <Relationship onDragStart={(event) => onDragStart(event, 'Relationship')} />
+            {initialNotation==="chen" && (
+                <>
+                <Entity onDragStart={(event) => onDragStart(event, 'Entity')} />
 
-            <Attribute onDragStart={(event)=>onDragStart(event,'Attribute')} />
+                <Relationship onDragStart={(event) => onDragStart(event, 'Relationship')} />
 
-            <Interface onDragStart={(event)=>onDragStart(event,'Interface')} />
+                <Attribute onDragStart={(event)=>onDragStart(event,'Attribute')} />
+
+                <Interface onDragStart={(event)=>onDragStart(event,'Interface')} />
+                </>
+            )}
+            {initialNotation==="crow" && (
+                <>
+                    <EntityCrow onDragStart={(event)=>onDragStart(event,'entityNode')}/>
+                    {/*<div className="dndnode input" onDragStart={(event) => onDragStart(event, 'input')} draggable>*/}
+                    {/*    Input Node*/}
+                    {/*</div>*/}
+                    {/*<div className="dndnode" onDragStart={(event) => onDragStart(event, 'default')} draggable>*/}
+                    {/*    Default Node*/}
+                    {/*</div>*/}
+                    {/*<div className="dndnode output" onDragStart={(event) => onDragStart(event, 'output')} draggable>*/}
+                    {/*    Output Node*/}
+                    {/*</div>*/}
+                </>
+            )}
 
             {/*<Hierarchy onDragStart={(event)=>onDragStart(event,'Hierarchy')} />*/}
 
@@ -62,7 +82,7 @@ const Pallet= ({setNotationStyle,initialNotation}) => {
             {/*    Output Node*/}
             {/*</div>*/}
         </div>
-
+</>
     );
 };
 

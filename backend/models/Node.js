@@ -50,6 +50,10 @@ const nodeSchema = new mongoose.Schema({
         },
         identifierType:{
             type:String
+        },
+
+        attributes:{
+            type:Array
         }
 
     },
