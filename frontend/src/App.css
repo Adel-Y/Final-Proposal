@@ -98,21 +98,7 @@ html, body, #root {
   text-decoration: underline;
 }
 
-.single-value{
-  border: 1px solid black;
-}
 
-.multi-value{
-  border: 6px solid black;
-}
-
-.derived-attribute{
-  border: 2px dashed black;
-}
-
-.composite-attribute{
-/* to be added soon*/
-}
 
 /*.entity-button{*/
 /*border-radius: 100%;*/
@@ -126,25 +112,6 @@ html, body, #root {
   text-align: center;
 
 }
-
-
-/*.entity-drag-item {*/
-/*  background-color: lightyellow; !* Background color for the items *!*/
-/*  color: black; !* Text color *!*/
-/*  padding: 6px; !* Padding inside the items *!*/
-/*  width: 120px;*/
-/*  height: 70px;*/
-/*  border-radius: 5px; !* Rounded corners *!*/
-/*  display: flex;*/
-/*  justify-content: center; !* Center align the text horizontally *!*/
-/*  align-items: center; !* Center align the text vertically *!*/
-/*  text-align: center;*/
-/*  !*transition: transform 0.2s; !* Smooth transformation on hover *!*!*/
-/*}*/
-
-
-
-
 
 
 
@@ -185,9 +152,24 @@ html, body, #root {
   font-size: 12px;
   position: absolute;
   transform: rotate(-45deg);
+  text-align: center;
 
 }
+.single-value{
+  border: 1px solid black;
+}
 
+.multi-value{
+  border: 4px solid black;
+}
+
+.derived-attribute{
+  border: 2px dashed black;
+}
+
+.composite-attribute{
+  /* to be added soon*/
+}
 .attribute-background{
   /*border: 1px solid black;*/
   borderRadius: 5px;
@@ -198,7 +180,7 @@ html, body, #root {
   border-radius: 60px;
   position: relative;
   cursor: grab;
-  user-select: none;
+  /*user-select: none;*/
   /*transform: rotate(45deg);*/
   display: flex;
   justify-content: center;
@@ -208,26 +190,28 @@ html, body, #root {
 
 .attribute{
   /*border: 1px solid #ccc;*/
-  borderRadius: 5px;
+  /*borderRadius: 5px;*/
   background-color: lightsalmon;
   color: black;
   width: 80px;
-  height: 32px;
+  height: 30px;
   border-radius: 60px;
   position: relative;
   cursor: grab;
-  user-select: none;
+  padding: 4px;
+  /*user-select: none;*/
   /*transform: rotate(45deg);*/
   display: flex;
   justify-content: center;
   align-items: center;
+  elevation: above;
 
 }
 
 
 .attribute-text{
   font-size: 12px;
-  position: absolute;
+  text-align: center;
 
 }
 

@@ -13,6 +13,9 @@ const flattenAttributes = (attributes) => {
 
 // Table component
 const Table = ({ name, columns }) => {
+    // Define the data types that do not require a dataSize
+    const noDataSizeTypes = new Set(["DATE", "TINYINT", "BOOLEAN", "ENUM", "TIMESTAMP", "TIME", "YEAR"]);
+
     return (
         <table style={tableStyle}>
             <caption>{name}</caption>
@@ -29,7 +32,9 @@ const Table = ({ name, columns }) => {
             <tr>
                 {columns.map((col, index) => (
                     <td key={index} style={cellStyle}>
-                        {`${col.dataType} (${col.dataSize})`}
+                        {noDataSizeTypes.has(col.dataType)
+                            ? col.dataType
+                            : `${col.dataType} (${col.dataSize})`}
                     </td>
                 ))}
             </tr>
@@ -37,6 +42,7 @@ const Table = ({ name, columns }) => {
         </table>
     );
 };
+
 
 // Main component that renders all tables from the JSON data
 const Relational = () => {

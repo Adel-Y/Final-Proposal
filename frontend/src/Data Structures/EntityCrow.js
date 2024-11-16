@@ -1,21 +1,49 @@
 import React, { useCallback, useState } from 'react';
-import { Handle, Position, useNodeId, useReactFlow } from '@xyflow/react';
-import '../EntityNode.css'; // Custom styles for the entity node
+import {Handle, NodeToolbar, Position, useNodeId, useReactFlow} from '@xyflow/react';
+import '../EntityNode.css';
+import axios from "axios"; // Custom styles for the entity node
 
-const EntityCrow = ({ data = { label: "Default Label", attributes: [] }, isConnectable, onDragStart }) => {
+const EntityCrow = ({ data  , isConnectable, onDragStart }) => {
     // Provide default values to prevent errors
     const label = data?.label || "Default Label";
-    const [attributes, setAttributes] = useState(data?.attributes || []);
+    const [attributes, setAttributes] = useState(data?.attributes);
     const id = useNodeId();
-    const { setNodes } = useReactFlow();
+    const {nodes, setNodes } = useReactFlow();
+
+
+
+
+
+    const updateNodeAttributes = async (addedAttribute) => {
+        axios.put(`/test/nodes/attributes/${id}`, addedAttribute)
+            .then(response => {
+                console.log(response)
+                setData(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setError(error);
+                setLoading(false);
+            });
+
+    };
+
 
     // Add Attribute Function
     const addAttribute = useCallback(() => {
-        const newAttribute = 'Attribute';
-        setNodes((nds) =>
+        //const newAttribute = {attribute:'Attribute'};
+        const newAttribute = {attribute:{name:'Attribute'}};
+        let updatedAttributes =[]
+
+       setNodes((nds) =>
             nds.map((node) => {
                 if (node.id === id) {
-                    const updatedAttributes = [...node.data.attributes, newAttribute];
+                      updatedAttributes.push(newAttribute.attribute);
+                     // console.log(updatedAttributes)
+                    updateNodeAttributes(newAttribute)
+// updatedAttributes.push(newAttribute.attribute)
+                    setAttributes(updatedAttributes)
+                    console.log(attributes)
                     return {
                         ...node,
                         data: {
@@ -27,7 +55,13 @@ const EntityCrow = ({ data = { label: "Default Label", attributes: [] }, isConne
                 return node;
             })
         );
-    }, [setNodes, id]);
+        console.log(id)
+        //console.log(x)
+        console.log(updatedAttributes)
+        console.log(attributes)
+
+
+    }, [setNodes]);
 
     // Remove Attribute Function
     const handleRemoveAttribute = useCallback((nodeId, attrIndex) => {
@@ -52,24 +86,50 @@ const EntityCrow = ({ data = { label: "Default Label", attributes: [] }, isConne
 
     }, [setNodes]);
 
+    const [backData, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+
     return (
+        <>
+            <NodeToolbar >
+
+
+                <button onClick={() => {
+                    axios.delete(`/test/nodes/${id}`)
+                        .then(response => {
+                            console.log(response)
+                            setData(response.data);
+                            setLoading(false);
+                        })
+                        .catch(error => {
+                            setError(error);
+                            setLoading(false);
+                        });
+                    setNodes((es) => es.filter((e) => e.id !==id ));}}>
+                    delete</button>
+
+
+                <button >style</button>
+            </NodeToolbar>
         <div className="entity-node" onDragStart={onDragStart}>
             <div className="entity-title">
                 <strong>{label}</strong>
             </div>
             <div key={id} className="attribute-list">
-                {attributes.length > 0 && (
+                {data?.attributes?.length >0  ? (
                     <div>
-                        {attributes.map((attr, index) => (
+                        {data?.attributes.map((attr, index) => (
                             <div key={index} className="attribute-item">
-                                {attr}
+                                {attr.name}
                                 <button onClick={() => handleRemoveAttribute(id, index)} className="remove-attribute-button">
                                     Remove
                                 </button>
                             </div>
                         ))}
                     </div>
-                )}
+                ):(<div></div>)}
             </div>
             <button className="add-attribute-button" onClick={addAttribute}>
                 Add Attribute
@@ -78,6 +138,7 @@ const EntityCrow = ({ data = { label: "Default Label", attributes: [] }, isConne
             <Handle type="source" position={Position.Right} id="right" isConnectable={isConnectable} />
             <Handle type="target" position={Position.Left} id="left" isConnectable={isConnectable} />
         </div>
+        </>
     );
 };
 

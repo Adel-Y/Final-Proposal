@@ -8,6 +8,9 @@ const flattenColumns = (columns) => {
 };
 
 function jsonToSQL(jsonData) {
+    // Define the data types that do not require a dataSize
+    const noDataSizeTypes = new Set(["DATE", "TINYINT", "BOOLEAN", "ENUM", "TIMESTAMP", "TIME", "YEAR"]);
+
     const sqlQueries = jsonData.tables.map(table => {
         let tableSQL = `CREATE TABLE ${table.name} (\n`;
 
@@ -16,22 +19,24 @@ function jsonToSQL(jsonData) {
         const columnsSQL = flattenedColumns.map(col => {
             let columnSQL = `${col.name} `;
 
-            // Handling type if it's provided
+            // Append data type
             if (col.dataType) {
                 columnSQL += `${col.dataType}`;
             }
-            if (col.dataSize) {
+
+            // Conditionally append dataSize if the data type allows it
+            if (col.dataSize && !noDataSizeTypes.has(col.dataType)) {
                 columnSQL += `(${col.dataSize})`;
             }
 
-            // Primary key
+            // Add PRIMARY KEY if specified
             if (col.primaryKey) {
                 columnSQL += ` PRIMARY KEY`;
             }
 
-            // Foreign key
+            // Add FOREIGN KEY constraint if specified
             if (col.foreignKey) {
-                columnSQL += ` FOREIGN KEY REFERENCES ${col.foreignTable}(${col.name.split('_')[0]})`; // Example reference to a foreign table
+                columnSQL += ` REFERENCES ${col.foreignTable}(${col.name.split('_')[0]})`; // Example reference to a foreign table
             }
 
             return columnSQL;
@@ -45,6 +50,7 @@ function jsonToSQL(jsonData) {
 
     return sqlQueries;
 }
+
 
 // Main component that renders all tables from the JSON data
 const Code = () => {

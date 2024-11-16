@@ -116,4 +116,39 @@ router.delete('/nodes/:id', async (req, res) => {
   }
 });
 
+
+
+router.put('/nodes/attributes/:id', async (req, res) => {
+  //console.log(req.body.attribute)
+  const newAttribute = req.body.attribute
+  console.log(newAttribute)
+  try {
+
+    //Node.deleteOne({"id":req.params.id})
+    const node = await Node.updateOne({"id":req.params.id}, {$push:{'attributes': newAttribute }}, {
+      new: true,
+      runValidators: true,
+    });
+    if (!node) {
+      return res.status(404).send('User not found');
+    }
+    res.send(node);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+
+router.delete('/nodeAttr/:id', async (req, res) => {
+  try {
+    const node = await Node.deleteOne({"id":req.params.id});
+    if (!node) {
+      return res.status(404).send('User not found');
+    }
+    res.send(node);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 module.exports = router;

@@ -53,7 +53,12 @@ const nodeSchema = new mongoose.Schema({
         },
 
         attributes:{
-            type:Array
+         
+           // fields:{
+                name:{
+                    type:String
+                }
+            //}
         }
 
     },

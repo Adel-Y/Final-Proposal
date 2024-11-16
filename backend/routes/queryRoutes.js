@@ -154,44 +154,39 @@ async function relationshipMatcher  ()  {
 
 
 
-
 function removeDuplicates(data) {
-    const uniqueTables = [];
-    const seenTables = new Set();
-  
+    const tableMap = new Map();
+
     data.tables.forEach((table) => {
-      if (!seenTables.has(table.name)) {
-        const uniqueColumns = [];
-        const seenColumns = new Set();
-  
-        table.columns.forEach((column) => {
-          if (Array.isArray(column)) {
-            // Handle nested arrays of columns
-            column.forEach((subColumn) => {
-              if (!seenColumns.has(subColumn.name)) {
-                uniqueColumns.push(subColumn);
-                seenColumns.add(subColumn.name);
-              }
+        const tableName = table.name;
+
+        if (tableMap.has(tableName)) {
+            const existingTable = tableMap.get(tableName);
+            const existingColumns = existingTable.columns;
+            const seenColumns = new Set(existingColumns.map(col => col.name));
+
+            // Merge unique columns from the current table into the existing table
+            table.columns.forEach((column) => {
+                if (!seenColumns.has(column.name)) {
+                    existingColumns.push(column);
+                    seenColumns.add(column.name);
+                }
             });
-          } else {
-            // Handle single columns
-            if (!seenColumns.has(column.name)) {
-              uniqueColumns.push(column);
-              seenColumns.add(column.name);
-            }
-          }
-        });
-  
-        uniqueTables.push({
-          name: table.name,
-          columns: uniqueColumns,
-        });
-        seenTables.add(table.name);
-      }
+
+        } else {
+            // If the table with the same name doesn't exist, add it to the map
+            tableMap.set(tableName, {
+                name: tableName,
+                columns: [...table.columns] // Copy the columns to avoid mutation
+            });
+        }
     });
-  
-    return { tables: uniqueTables };
-  }
+
+    // Convert map values to an array and return
+    return { tables: Array.from(tableMap.values()) };
+}
+
+
   
 
 

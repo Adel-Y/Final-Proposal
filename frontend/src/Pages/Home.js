@@ -8,7 +8,7 @@ import {DnDProvider} from "../DnDContext";
 
 function Home(){
 
-    const [notation,setNotation]=useState('crow')
+    const [notation,setNotation]=useState('chen')
 
 useEffect(()=>{
     console.log(notation)
